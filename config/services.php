@@ -30,5 +30,23 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+     
+    'google' => [
+        'client_id' => env ( 'Google_CLIENT_ID' ),
+        'client_secret' => env ( 'Google_CLIENT_SECRET' ),
+        'redirect' => 'http://127.0.0.1:8000/auth/google/callback' 
+    ],
+
+    'github' => [
+        'client_id' => env ( 'Github_CLIENT_ID' ),
+        'client_secret' => env ( 'Github_CLIENT_SECRET' ),
+        'redirect' => 'http://127.0.0.1:8000/auth/github/callback' 
+    ],
+    
+    'linkedin' => [
+        'client_id' => env ( 'linkedin_CLIENT_ID' ),
+        'client_secret' => env ( 'linkedin_CLIENT_SECRET' ),
+        'redirect' => 'http://127.0.0.1:8000/auth/linkedin/callback' 
+    ],
 
 ];

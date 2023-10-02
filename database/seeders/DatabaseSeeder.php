@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +20,51 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        //// todo add one admin ////
+        $defAdmin = User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'Admin@Admin.rev',
+            'password' => Hash::make('admin'), 
+            'role' =>'1',
+            ]);
+        
+        //// todo add one customer ////
+        $defOwner = User::factory()->create([  
+            'name' => 'Owner',
+            'email' => 'owner@owner.rev',
+            'password' => Hash::make('owner'), 
+            'role' =>'2',
+        ]);
+
+        //// todo add one customer ////
+        $defCustomer = User::factory()->create([  
+            'name' => 'Customer',
+            'email' => 'customer@customer.rev',
+            'password' => Hash::make('customer'), 
+            'role' =>'3',
+        ]);
+    
+        //// todo add user admin ////
+        $admins = User::factory()
+        ->admin()
+        ->count(4)
+        ->create();
+        $admins->push($defAdmin);
+
+        //// todo add user customer ////
+        $owner = User::factory()
+        ->owner()
+        ->count(9)
+        ->create();
+        $owner->push($defOwner);
+
+        //// todo add user customer ////
+        $customer = User::factory()
+        ->customer()
+        ->count(19)
+        ->create();
+        $customer->push($defCustomer);
+        
     }
 }
