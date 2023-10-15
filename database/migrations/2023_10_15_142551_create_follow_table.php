@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comment', function (Blueprint $table) {
+        Schema::create('follow', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('following_id')->unsigned();
+            $table->bigInteger('followers_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comment');
+        Schema::dropIfExists('follow');
     }
 };

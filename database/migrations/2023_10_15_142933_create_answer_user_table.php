@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('soft_delete', function (Blueprint $table) {
+        Schema::create('answer_user', function (Blueprint $table) {
             $table->id();
+            $table->string("question")->nullable();
+            $table->string("answers")->nullable();
+
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('soft_delete');
+        Schema::dropIfExists('answer_user');
     }
 };

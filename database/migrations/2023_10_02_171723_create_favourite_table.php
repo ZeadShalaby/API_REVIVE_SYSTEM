@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('favourite', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('post_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
         });
     }
