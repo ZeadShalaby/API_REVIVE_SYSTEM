@@ -25,7 +25,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * todo Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
@@ -49,7 +49,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * todo Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
@@ -57,7 +57,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * todo Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {

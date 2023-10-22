@@ -43,7 +43,34 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+        'posts' => [
+            'driver' => 'local',
+            'root' => base_path('public/images/posts/'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'image' => [
+            'driver' => 'local',
+            'root' => base_path('public/images/image/'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'users' => [
+            'driver' => 'local',
+            'root' => base_path('public/images/users/'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'machine' => [
+            'driver' => 'local',
+            'root' => base_path('public/images/machine/'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
