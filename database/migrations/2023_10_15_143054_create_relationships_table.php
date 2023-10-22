@@ -40,6 +40,14 @@ return new class extends Migration
             $table->foreign('followers_id')->references('id')->on('users');
 
         });
+
+        Schema::table('revive', function (Blueprint $table) {
+
+            $table->foreign('user_id')->references('id')->on('users');
+
+        });
+
+        
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ReviveController extends Controller
+class FollowController extends Controller
 {
     //
      /**
@@ -17,17 +17,15 @@ class ReviveController extends Controller
     }
 
     /**
-     * todo Show the form for creating a new resource.
-     * ! only admin can add a new revive hardware
+     * Show the form for creating a new resource.
      */
-    public function newrevive()
+    public function create()
     {
         //
     }
 
     /**
-     *todo Store a newly created resource in storage.
-     * !hardware to do this insert 
+     * todo Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
@@ -35,7 +33,7 @@ class ReviveController extends Controller
     }
 
     /**
-     * todo Display the specified resource with date not id.
+     *  Display the specified resource.
      */
     public function show(string $id)
     {
@@ -51,7 +49,7 @@ class ReviveController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     *  Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
@@ -60,34 +58,24 @@ class ReviveController extends Controller
 
     /**
      * todo Remove the specified resource from storage.
-     * ! only admin can do this
      */
     public function destroy(string $id)
     {
         //
     }
 
-    
-    /**
-     * todo restore index the specified resource from storage.
-     */
-    public function restoreindex()
-    {
-       //
-    }
-
-     /**
-     * todo  restore the specified resource from storage.
-     */
-    public function restore()
-    {
-       //
-    }
-    
     /**
      * todo Autocomplete Search the specified resource from storage.
      */
     public function autocolmpletesearch()
+    {
+       //
+    }
+
+    /**
+     * todo go to profile followers the specified resource from storage.
+     */
+    public function profileinfo()
     {
        //
     }

@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('revive', function (Blueprint $table) {
             $table->id();
             $table->string("user_id");
-
             $table->timestamps();
         });
     }
-
+   
     /**
      * Reverse the migrations.
      */

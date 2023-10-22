@@ -19,7 +19,37 @@ class AuthController extends Controller
 {
     use ResponseTrait;
 
-     // todo Login USers
+   // todo Register to api natural user
+   public function register(Request $request){
+
+    $rules = [
+        'name' => 'required',
+        'email' => 'required|unique:users,email',
+        "password" => "required"
+    ];
+    // ! valditaion
+    $validator = Validator::make($request->all(),$rules);
+
+    if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+    
+    // todo Register New Account //    
+    $customer = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password'  => $request->password,
+        'role' => Role::CUSTOMER,
+     ]);
+
+     if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
+     else{return $this->returnError('R001','Some Thing Wrong .');}
+
+   }
+
+
+     // todo Login Users
      public function login(Request $request){
         try{
         $rules = [
@@ -52,6 +82,12 @@ class AuthController extends Controller
 
     }
 
+   // todo return users details
+   public function profile(Request $request){
+    $user = auth()->user();
+    return $this->returnData("user",$user);
+   }
+
 
     // todo Logout Users
     public function logout(Request $request){
@@ -75,41 +111,6 @@ class AuthController extends Controller
             return $this->returnError("T001","Some Thing Went Wrongs .");
         }
     }
-
-   // todo return users details
-   public function profile(Request $request){
-    $user = auth()->user();
-    return $this->returnData("user",$user);
-   }
-
-   // todo Register to api 
-   public function register(Request $request){
-
-    $rules = [
-        'name' => 'required',
-        'email' => 'required|unique:users,email',
-        "password" => "required"
-    ];
-    // ! valditaion
-    $validator = Validator::make($request->all(),$rules);
-
-    if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
-    
-    // todo Register New Account //    
-    $customer = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password'  => $request->password,
-        'role' => Role::CUSTOMER,
-     ]);
-
-     if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
-     else{return $this->returnError('R001','Some Thing Wrong .');}
-
-   }
 
 
 }
