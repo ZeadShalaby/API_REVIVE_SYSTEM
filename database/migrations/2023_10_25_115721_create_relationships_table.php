@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -33,7 +41,7 @@ return new class extends Migration
 
         });
 
-        Schema::table('follow', function (Blueprint $table) {
+        Schema::table('follows', function (Blueprint $table) {
 
             $table->foreign('following_id')->references('id')->on('users');
 
@@ -41,11 +49,24 @@ return new class extends Migration
 
         });
 
-        Schema::table('revive', function (Blueprint $table) {
+        Schema::table('revives', function (Blueprint $table) {
+
+            $table->foreign('owner_id')->references('id')->on('users');
+
+        });
+
+        Schema::table('tourisms', function (Blueprint $table) {
+
+            $table->foreign('owner_id')->references('id')->on('users');
+
+        });
+
+        Schema::table('filemachines', function (Blueprint $table) {
 
             $table->foreign('user_id')->references('id')->on('users');
 
         });
+
 
         
     }

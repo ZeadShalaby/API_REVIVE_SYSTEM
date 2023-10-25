@@ -18,15 +18,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('gmail')->nullable();
             $table->string('password');
-            $table->string('role');
-            $table->string('phone')->unique();
-            $table->string('social_id')->nullable();
+            $table->bigInteger('role')->unsigned();
+            $table->index('role');
+            $table->bigInteger('phone')->unique();
+            $table->index('phone');
             $table->string('social_type')->nullable();
+            $table->string('social_id')->nullable();
             $table->string('profile_photo');
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable();
         //  $table->rememberToken();
-
         });
     }
 

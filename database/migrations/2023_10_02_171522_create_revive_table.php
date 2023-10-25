@@ -11,9 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('revive', function (Blueprint $table) {
+        Schema::create('revives', function (Blueprint $table) {
             $table->id();
-            $table->string("user_id");
+            $table->string("name")->unique();
+            $table->bigInteger('owner_id')->unsigned();
+            $table->index('owner_id');
+            $table->string('location')->unique();
+            $table->bigInteger('co2')->unsigned();
+            $table->index('co2');
+            $table->bigInteger('o2')->unsigned();
+            $table->index('o2');
+            $table->bigInteger('degree')->unsigned();
+            $table->index('degree');
             $table->timestamps();
         });
     }
@@ -23,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('revive');
+        Schema::dropIfExists('revives');
     }
 };

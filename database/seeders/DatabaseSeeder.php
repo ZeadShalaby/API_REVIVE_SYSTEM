@@ -3,7 +3,15 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Post;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Follow;
+use App\Models\Revive;
+use App\Models\Comment;
+use App\Models\Tourism;
+use App\Models\Favourite;
+use App\Models\Filemachine;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -44,7 +52,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('customer'), 
             'role' =>'3',
         ]);
-    
+
         //// todo add user admin ////
         $admins = User::factory()
         ->admin()
@@ -66,5 +74,58 @@ class DatabaseSeeder extends Seeder
         ->create();
         $customer->push($defCustomer);
         
-    }
-}
+        //// todo add one admin ////
+        $defcoastal = Tourism::factory()->create([
+            'name' => "coastal",
+            'owner_id' => "2",
+            'location'=>"coastal",
+            'co2'=>"20",
+            'o2'=>"19",
+            'degree'=>"33",
+            'type'=>Role::COASTAL,
+            ]);
+
+        //// todo add one customer ////
+        $deftourism = Tourism::factory()->create([  
+            'name' => "Tourism",
+            'owner_id' => "2",
+            'location'=>"Tourism",
+            'co2'=>"20",
+            'o2'=>"19",
+            'degree'=>"33",
+            'type'=>Role::TOURISM,
+        ]);    
+
+    //// todo add user customer ////
+    $posts = Post::factory()->count(9)->create();
+
+    //// todo add user customer ////
+    $revive = Revive::factory()->count(9)->create();
+
+    //// todo add user customer ////
+    $follow = Follow::factory()->count(9)->create();
+
+    //// todo add user customer ////
+    $comment = Comment::factory()->count(9)->create();
+
+    //// todo add user customer ////
+    $favourite = Favourite::factory()->count(9)->create();
+
+    //// todo add user customer ////
+    $filemachine = Filemachine::factory()->count(9)->create();
+
+     //// todo add type coastal ////
+     $coastal = Tourism::factory()
+     ->coastal()
+     ->count(9)
+     ->create();
+     $coastal->push($defcoastal);
+
+     //// todo add user customer ////
+     $tourism = Tourism::factory()
+     ->tourism()
+     ->count(9)
+     ->create();
+     $tourism->push($deftourism);
+
+}}

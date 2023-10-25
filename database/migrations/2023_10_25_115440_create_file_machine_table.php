@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('soft_delete', function (Blueprint $table) {
+        Schema::create('filemachines', function (Blueprint $table) {
             $table->id();
+            $table->string('file');
+            $table->bigInteger('user_id')->unsigned();
+            $table->index('user_id');
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('soft_delete');
+        Schema::dropIfExists('filemachines');
     }
 };

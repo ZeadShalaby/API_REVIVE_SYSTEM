@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class FollowFactory extends Factory
      */
     public function definition(): array
     {
+        $followers = User::where('role', '>','1')->pluck('id')->toArray();
+        $following = User::where('role', '>','1')->pluck('id')->toArray();
+
         return [
-            //
+            'following_id' => $this->faker->randomElement($followers),          
+            'followers_id' => $this->faker->randomElement($following),
         ];
     }
 }

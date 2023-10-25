@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('favourite', function (Blueprint $table) {
+        Schema::create('favourites', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('posts_id')->unsigned();
+            $table->index('posts_id');
             $table->bigInteger('user_id')->unsigned();
+            $table->index('user_id');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('favourite');
+        Schema::dropIfExists('favourites');
     }
 };

@@ -11,4 +11,6 @@ class Role extends Model
     const ADMIN = "1" ;
     const OWNER = '2' ; 
     const CUSTOMER = "3" ;
+    const TOURISM = "4";
+    const COASTAL = "5";
 }

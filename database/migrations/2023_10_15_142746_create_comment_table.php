@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('posts_id')->unsigned();
+            $table->index('posts_id');
             $table->bigInteger('user_id')->unsigned();
-            $table->string('comment')->unsigned();
+            $table->index('user_id');
+            $table->string('comment');
             $table->timestamps();
         });
     }
@@ -28,3 +30,8 @@ return new class extends Migration
         Schema::dropIfExists('comment');
     }
 };
+
+
+
+
+

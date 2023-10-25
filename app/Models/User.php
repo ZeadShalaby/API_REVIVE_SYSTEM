@@ -45,6 +45,8 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    protected $dates =['delete_at'];
+
     // override two method
     /**
      * (1)
