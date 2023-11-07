@@ -41,6 +41,26 @@ trait ResponseTrait
         ]);
     }
 
+    
+    // todo return image users I Want it
+    public function returnimageusers($key , $value , $msg = "" )
+    {
+        return response()->download(public_path('images/users/'.$value),$key);
+    }
+
+    // todo return image filemachine I Want it
+    public function returnimagemachine($key , $value , $msg = "" )
+    {
+        return response()->download(public_path('images/machine/'.$value),$key);
+    }
+
+    // todo return image filemachine I Want it
+    public function returnimageposts($key , $value , $msg = "" )
+    {
+        return response()->download(public_path('images/posts/'.$value),$key);
+    }
+
+    
     public function profiles()
     {
 

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Follow;
 use App\Models\Revive;
 use App\Models\Comment;
+use App\Models\Machine;
 use App\Models\Tourism;
 use App\Models\Favourite;
 use App\Models\Filemachine;
@@ -74,33 +75,38 @@ class DatabaseSeeder extends Seeder
         ->create();
         $customer->push($defCustomer);
         
-        //// todo add one admin ////
-        $defcoastal = Tourism::factory()->create([
+        //// todo add one Owner ////
+        $defcoastal = Machine::factory()->create([
             'name' => "coastal",
             'owner_id' => "2",
             'location'=>"coastal",
-            'co2'=>"20",
-            'o2'=>"19",
-            'degree'=>"33",
             'type'=>Role::COASTAL,
             ]);
 
-        //// todo add one customer ////
-        $deftourism = Tourism::factory()->create([  
+        //// todo add one Owner ////
+        $deftourism = Machine::factory()->create([  
             'name' => "Tourism",
             'owner_id' => "2",
             'location'=>"Tourism",
-            'co2'=>"20",
-            'o2'=>"19",
-            'degree'=>"33",
             'type'=>Role::TOURISM,
-        ]);    
+        ]);  
+        //// todo add one Owner ////
+        $defrevive = Machine::factory()->create([  
+            'name' => "Revive",
+            'owner_id' => "2",
+            'location'=>"Revive",
+            'type'=>Role::REVIVE,
+        ]); 
+
 
     //// todo add user customer ////
     $posts = Post::factory()->count(9)->create();
 
     //// todo add user customer ////
     $revive = Revive::factory()->count(9)->create();
+
+    //// todo add tourism machine ////
+    $tourism = Tourism::factory()->count(9)->create();
 
     //// todo add user customer ////
     $follow = Follow::factory()->count(9)->create();
@@ -114,18 +120,25 @@ class DatabaseSeeder extends Seeder
     //// todo add user customer ////
     $filemachine = Filemachine::factory()->count(9)->create();
 
-     //// todo add type coastal ////
-     $coastal = Tourism::factory()
-     ->coastal()
-     ->count(9)
-     ->create();
-     $coastal->push($defcoastal);
 
-     //// todo add user customer ////
-     $tourism = Tourism::factory()
-     ->tourism()
-     ->count(9)
-     ->create();
-     $tourism->push($deftourism);
+    //// todo add  machine coastal ////
+    $machinecoastal = MAchine::factory()
+    ->coastal()
+    ->count(5)
+    ->create();
+    $machinecoastal->push($defcoastal);
 
+    //// todo add machine tourism ////
+    $machinetourism = MAchine::factory()
+    ->tourism()
+    ->count(5)
+    ->create();
+    $machinetourism->push($deftourism);
+
+    //// todo add machine revive ////
+    $machinerevive = MAchine::factory()
+    ->revive()
+    ->count(5)
+    ->create();
+    $machinerevive->push($defrevive);
 }}

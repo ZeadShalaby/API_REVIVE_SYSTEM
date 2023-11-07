@@ -8,16 +8,18 @@ use Exception;
 use Validator;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Symfony\Component\Console\Input\Input;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait,ImageTrait;
 
    // todo Register to api natural user
    public function register(Request $request){
@@ -48,6 +50,7 @@ class AuthController extends Controller
 
    }
 
+   ////! ////////////////////////////////////////
 
      // todo Login Users
      public function login(Request $request){
@@ -82,12 +85,68 @@ class AuthController extends Controller
 
     }
 
+
+ ////! ///////////////////////////////////////////////
+
+
    // todo return users details
    public function profile(Request $request){
     $user = auth()->user();
     return $this->returnData("user",$user);
    }
 
+    // todo POST image
+    public function profileimage(Request $request){
+    //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());
+    $folder = 'images/users';
+    $image_name = time().'.'.$request->file->extension();
+    $images = $request->file->move(public_path($folder),$image_name) ;
+    return $this->returnData('file name',$image_name);
+   }
+
+   // todo POST image
+   public function postsimage(Request $request){
+    $folder = 'images/posts';
+    $image_name = time().'.'.$request->file->extension();
+    $images = $request->file->move(public_path($folder),$image_name) ;
+    return $this->returnData('file name',$image_name);
+   }
+
+   // todo POST image
+   public function machineimage(Request $request){
+    $folder = 'images/machine';
+    $image_name = time().'.'.$request->file->extension();
+    $images = $request->file->move(public_path($folder),$image_name) ;
+    return $this->returnData('file name',$image_name);
+   }
+
+//! ////////////////////////////////////////////////////////////
+
+    // todo return users image
+    public function imagesuser(Request $request,$user){
+        if(isset($user)){
+          return $this->returnimageusers($user,$user);}
+        else {return 'null';}
+
+    }
+
+    // todo return users image
+    public function imagesposts(Request $request,$post){
+        if(isset($post)){
+          return $this->returnimageposts($post,$post);}
+        else {return 'null';}
+
+    }
+
+    // todo return users image
+    public function imagesmachine(Request $request,$machine){
+        if(isset($machine)){
+          return $this->returnimagemachine($machine,$machine);}
+        else {return 'null';}
+
+    }
+
+   ////! ////////////////////////////////////////
 
     // todo Logout Users
     public function logout(Request $request){

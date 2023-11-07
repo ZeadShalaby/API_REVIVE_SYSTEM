@@ -28,3 +28,5 @@ class CommentFactory extends Factory
         ];
     }
 }
+
+/*${APP_NAME} */

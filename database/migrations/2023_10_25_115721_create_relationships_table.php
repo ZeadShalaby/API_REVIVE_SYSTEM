@@ -49,15 +49,21 @@ return new class extends Migration
 
         });
 
-        Schema::table('revives', function (Blueprint $table) {
+        Schema::table('machines', function (Blueprint $table) {
 
             $table->foreign('owner_id')->references('id')->on('users');
 
         });
 
+        Schema::table('revives', function (Blueprint $table) {
+
+            $table->foreign('machine_id')->references('id')->on('machines');
+
+        });
+
         Schema::table('tourisms', function (Blueprint $table) {
 
-            $table->foreign('owner_id')->references('id')->on('users');
+            $table->foreign('machine_id')->references('id')->on('machines');
 
         });
 
