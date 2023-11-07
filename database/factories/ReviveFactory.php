@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Machine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,13 +18,11 @@ class ReviveFactory extends Factory
      */
     public function definition(): array
     {
-        $userids = User::where('role','2')->pluck('id')->toArray();
+        $machineids = Machine::pluck('id')->toArray();
 
         return [
             //
-            'name' => $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
-            'owner_id' => $this->faker->randomElement($userids),
-            'location'=>$this->faker->address,
+            'machine_id' => $this->faker->randomElement($machineids),
             'co2'=>fake()->numberBetween($min = 20, $max = 30),
             'o2'=>fake()->numberBetween($min = 15, $max = 25),
             'degree'=>fake()->numberBetween($min = 20, $max = 60),

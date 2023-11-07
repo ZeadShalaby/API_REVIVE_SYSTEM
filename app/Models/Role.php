@@ -13,4 +13,6 @@ class Role extends Model
     const CUSTOMER = "3" ;
     const TOURISM = "4";
     const COASTAL = "5";
+    const REVIVE = "6";
+
 }

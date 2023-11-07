@@ -12,11 +12,8 @@ class Post extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'name_ar',
-        'name_en',
         'user_id',
-        'description_ar',
-        'description_en',
+        'description',
         'path',
         'view',
     ];

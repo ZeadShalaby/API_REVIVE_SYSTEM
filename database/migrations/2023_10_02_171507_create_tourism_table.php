@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('tourisms', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
-            $table->bigInteger('owner_id')->unsigned();
-            $table->index('owner_id');
-            $table->string('location')->unique();
+            $table->bigInteger('machine_id')->unsigned();
+            $table->index('machine_id');
             $table->bigInteger('co2')->unsigned();
             $table->index('co2');
             $table->bigInteger('o2')->unsigned();
             $table->index('o2');
             $table->bigInteger('degree')->unsigned();
             $table->index('degree');
-            $table->string('type');
+            $table->bigInteger('expire')->unsigned()->default(0);
+            $table->index('expire');
             $table->timestamps();
         });
     }
