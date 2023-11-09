@@ -23,7 +23,7 @@
     * [Installation](#installation)
       
 * [Dashboard](#dashboard)
-    * [Prerequisites](#prerequisites)
+    * [Admins](#admin)
     * [Installation](#installation)      
 
 * [Usage](#usage)
