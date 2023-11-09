@@ -248,7 +248,7 @@ Any contributions you make are **greatly appreciated**.
 
 To get a local copy up and running follow these simple example steps.
 
-### Admins
+## Admins
 
 * npm
 
