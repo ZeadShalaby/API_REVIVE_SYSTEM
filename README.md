@@ -24,7 +24,7 @@
 * [Usage](#usage)
     * [Locally](#running-locally)
     * [Via Container](#running-via-container)
-* [Dashboard](#dashboard-started)
+* [Dashboard](#dashboard)
     * [Admins](#admin)
     * [Owners](#owner)
     * [Clienets](#client)  
@@ -242,7 +242,7 @@ Any contributions you make are **greatly appreciated**.
 4. Push to the Branch (`git push origin feature/GoalFeature`)
 5. Open a Pull Request
    
-## Contributing
+## Dashboard
 
 To get a local copy up and running follow these simple example steps.
 
