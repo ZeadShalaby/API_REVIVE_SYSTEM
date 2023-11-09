@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
-  <a href="https://github.com/ZeadShalaby/Srnz_Management_System">
-    <img src="https://i.imgur.com/6kMSHq5.png" alt="Logo" width="300" height="270">
+  <a href="https://github.com/ZeadShalaby/API_REVIVE_SYSTEM">
+    <img src="https://i.imgur.com/IlaMEM9.jpg" alt="Logo" width="300" height="270">
   </a>
     
 <h3 align="center">API REVIVE SYSTEM</h3>
@@ -12,7 +12,7 @@
     <br/>
   </p>
   
-![Forks](https://img.shields.io/github/forks/ZeadShalaby/SRNZ_PROJECT_SYSTEM?style=social) ![Issues](https://img.shields.io/github/issues/ZeadShalaby/SRNZ_PROJECT_SYSTEM) ![License](https://img.shields.io/github/license/ZeadShalaby/SRNZ_PROJECT_SYSTEM)
+![Forks](https://img.shields.io/github/forks/ZeadShalaby/API_REVIVE_SYSTEM?style=social) ![Issues](https://img.shields.io/github/issues/ZeadShalaby/API_REVIVE_SYSTEM) ![License](https://img.shields.io/github/license/ZeadShalaby/API_REVIVE_SYSTEM)
 
 ## Table Of Contents
 
@@ -243,7 +243,7 @@ Any contributions you make are **greatly appreciated**.
 * **Salma Hamdy** - *Computer Science Student* - [Salma Hamdy](https://github.com/salmaserag)
 * **Said Sharaf** - *Computer Science Student* - [Said Sharaf](https://github.com/Saidsharaf)
 * **Rowyda Ehab** - *Computer Science Student* - [Rowyda Ehab](https://github.com/RowydaEhab8)
-* **Ali Hammed** - *Computer Science Student* - [Ziad Shalaby](https://github.com/Aliatia20)
+* **Ali Hammed** - *Computer Science Student* - [Ali Hammed](https://github.com/Aliatia20)
 * **Sahar Fayez** - *Computer Science Student* - [Sahar Fayez](https://github.com/saharfayez)
 * **Hoda Salama** - *Computer Science Student* - [Hoda Salama]()
 
