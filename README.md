@@ -26,6 +26,9 @@
     * [Via Container](#running-via-container)
     
 * [Dashboard](#dashboard)
+    * [Admins](#admin)
+    * [Owners](#owner)
+    * [Clients](#client)
   
 * [Contributing](#contributing)
 * [Authors](#authors)
