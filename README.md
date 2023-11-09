@@ -26,7 +26,7 @@
     * [Via Container](#running-via-container)
     
 * [Dashboard](#dashboard)
-    * [Prerequisitess](#admin)
+    * [Dashboard](#dashboard)
     * [Owners](#owner)
     * [Clients](#client)
   
