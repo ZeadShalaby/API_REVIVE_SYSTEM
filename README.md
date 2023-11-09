@@ -255,12 +255,11 @@ To get a local copy up and running follow these simple example steps.
 
 ### Admins
 
-* npm
+Clone the project
 
-```sh
-npm install npm@latest -g
+```bash
+  https://github.com/ZeadShalaby/Srnz_Management_System
 ```
-
 * laravel
 
 ```sh
