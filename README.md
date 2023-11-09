@@ -23,7 +23,7 @@
     * [Installation](#installation)
       
 * [Dashboard](#dashboard)
-    * [Admins](#admin)
+    * [admin](#admin)
     * [Installation](#installation)      
 
 * [Usage](#usage)
@@ -253,7 +253,7 @@ Any contributions you make are **greatly appreciated**.
 
 To get a local copy up and running follow these simple example steps.
 
-### Admins
+### admin
 
 Clone the project
 
