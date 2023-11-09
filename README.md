@@ -24,7 +24,8 @@
 * [Usage](#usage)
     * [Locally](#running-locally)
     * [Via Container](#running-via-container)
-    
+    * [Admins](#admin)
+
 * [Dashboard](#dashboard)
     * [Admins](#admin)
     * [Owners](#owner)
