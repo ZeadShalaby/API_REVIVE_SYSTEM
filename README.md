@@ -26,11 +26,11 @@
     * [Via Container](#running-via-container)
     
 * [Dashboard](#dashboard)
-    * [Admins](#admin)
+    * [Contributing](#admin)
     * [Owners](#owner)
     * [Clients](#client)
   
-* [Contributing](#contributing)
+* [Contributingس](#contributing)
 * [Authors](#authors)
 <!--* [Screenshots](#Screenshots)-->
 
