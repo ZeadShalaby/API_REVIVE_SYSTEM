@@ -26,14 +26,14 @@
     * [Via Container](#running-via-container)
 * [Contributing](#contributing)
 * [Authors](#authors)
-* [Screenshots](#Screenshots)
+<!--* [Screenshots](#Screenshots)-->
 
-
+<!--
 ## Screenshots
 <p>
 # Screenshots
 
-<!--📌Home Page:
+📌Home Page:
 
 <img src="https://i.imgur.com/bfGGH7U.png" alt="project(Coise-User)" width="1000" height="450">
 
