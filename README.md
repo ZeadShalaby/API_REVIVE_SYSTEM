@@ -21,15 +21,16 @@
 * [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
     * [Installation](#installation)
-* [Getting Started](#getting-started)
+      
+* [Dashboard](#dashboard)
     * [Prerequisites](#prerequisites)
     * [Installation](#installation)      
+
 * [Usage](#usage)
     * [Locally](#running-locally)
     * [Via Container](#running-via-container)
     * [Admins](#admin)
 
-* [Dashboard](#dashboard)
     * [Admins](#admin)
     * [Owners](#owner)
     * [Clients](#client)
