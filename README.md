@@ -23,17 +23,15 @@
     * [Installation](#installation)
       
 * [Dashboard](#dashboard)
-    * [admin](#admin)
-    * [Installation](#installation)      
+    * [Admin](#admin)
+    * [Installation](#installation)
+    * [Owners](#owner)
+    * [Clients](#client)   
 
 * [Usage](#usage)
     * [Locally](#running-locally)
     * [Via Container](#running-via-container)
-    * [Admins](#admin)
-
-    * [Admins](#admin)
-    * [Owners](#owner)
-    * [Clients](#client)
+    
   
 * [Contributingس](#contributing)
 * [Authors](#authors)
@@ -253,7 +251,7 @@ Any contributions you make are **greatly appreciated**.
 
 To get a local copy up and running follow these simple example steps.
 
-### admin
+### Admin
 
 Clone the project
 
