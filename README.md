@@ -223,7 +223,7 @@ docker pull zeadshalaby/srnz
  ```
  <container-ip>:8000
  ```
-## Contributing
+## Contributings
 
 Any contributions you make are **greatly appreciated**.
 
@@ -242,7 +242,7 @@ Any contributions you make are **greatly appreciated**.
 4. Push to the Branch (`git push origin feature/GoalFeature`)
 5. Open a Pull Request
    
-## Dashboard
+## Contributing
 
 To get a local copy up and running follow these simple example steps.
 
