@@ -7,7 +7,7 @@
 <h3 align="center">API REVIVE SYSTEM</h3>
 
   <p align="center">
-     Project Laravel | socialite (github,google) | Event Listener (View) | use hardware | machine learning
+     Project Laravel | socialite (github,google) | Event Listener (View)  | use hardware | machine learning
     <br/>
     <br/>
   </p>
@@ -33,7 +33,7 @@
 <p>
 # Screenshots
 
-📌Home Page:
+<!--📌Home Page:
 
 <img src="https://i.imgur.com/bfGGH7U.png" alt="project(Coise-User)" width="1000" height="450">
 
@@ -90,7 +90,7 @@
 
 
 </p>
-
+-->
 ## About The Project
 
 
