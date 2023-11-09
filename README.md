@@ -25,9 +25,7 @@
     * [Locally](#running-locally)
     * [Via Container](#running-via-container)
 * [Dashboard](#dashboard)
-    * [Admins](#admin)
-    * [Owners](#owner)
-    * [Clienets](#client)  
+  
 * [Contributing](#contributing)
 * [Authors](#authors)
 <!--* [Screenshots](#Screenshots)-->
