@@ -24,9 +24,8 @@
       
 * [Dashboard](#dashboard)
     * [Admin](#admin)
-    * [Installation](#installation)
-    * [Owners](#owner)
-    * [Clients](#client)   
+    * [Owner](#owner)
+    * [Client](#client)   
 
 * [Usage](#usage)
     * [Locally](#running-locally)
@@ -264,7 +263,7 @@ Clone the project
 composer global require laravel/installer
 ```
 
-### Owners
+### Owner
 
 * npm
 
@@ -278,7 +277,7 @@ npm install npm@latest -g
 composer global require laravel/installer
 ```
 
-### Clients
+### Client
 
 * npm
 
