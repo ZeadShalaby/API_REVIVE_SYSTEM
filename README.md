@@ -24,6 +24,10 @@
 * [Usage](#usage)
     * [Locally](#running-locally)
     * [Via Container](#running-via-container)
+* [Dashboard](#dashboard-started)
+    * [Admins](#admin)
+    * [Owners](#owner)
+    * [Clienets](#client)  
 * [Contributing](#contributing)
 * [Authors](#authors)
 <!--* [Screenshots](#Screenshots)-->
@@ -237,6 +241,53 @@ Any contributions you make are **greatly appreciated**.
 3. Commit your Changes (`git commit -m 'Add some GoalFeature'`)
 4. Push to the Branch (`git push origin feature/GoalFeature`)
 5. Open a Pull Request
+   
+## Dashboard
+
+To get a local copy up and running follow these simple example steps.
+
+### Admins
+
+* npm
+
+```sh
+npm install npm@latest -g
+```
+
+* laravel
+
+```sh
+composer global require laravel/installer
+```
+
+### Owners
+
+* npm
+
+```sh
+npm install npm@latest -g
+```
+
+* laravel
+
+```sh
+composer global require laravel/installer
+```
+
+### Clients
+
+* npm
+
+```sh
+npm install npm@latest -g
+```
+
+* laravel
+
+```sh
+composer global require laravel/installer
+```
+
 
 ## Authors
 * **Ziad Shalaby** - *Computer Science Student* - [Ziad Shalaby](https://github.com/ZeadShalaby)
