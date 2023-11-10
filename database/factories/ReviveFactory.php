@@ -24,6 +24,7 @@ class ReviveFactory extends Factory
             //
             'machine_id' => $this->faker->randomElement($machineids),
             'co2'=>fake()->numberBetween($min = 20, $max = 30),
+            'co'=>fake()->numberBetween($min = 20, $max = 30),
             'o2'=>fake()->numberBetween($min = 15, $max = 25),
             'degree'=>fake()->numberBetween($min = 20, $max = 60),
         ];

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('machine_id')->unsigned();
             $table->index('machine_id');
+            $table->bigInteger('co')->unsigned();
+            $table->index('co');
             $table->bigInteger('co2')->unsigned();
             $table->index('co2');
             $table->bigInteger('o2')->unsigned();
