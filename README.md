@@ -25,7 +25,9 @@
 * [Dashboard](#dashboard)
     * [Admin](#admin)
     * [Owner](#owner)
-    * [Client](#client)   
+    * [Client](#client)
+    * [Auth (Owner , Client)](#Auth)   
+
 
 * [Usage](#usage)
     * [Locally](#running-locally)
@@ -331,6 +333,35 @@ To get a local copy up and running follow these simple example steps.
 ```bash
 ....
 ```
+
+
+### Auth (Owner , Client)
+
+* request
+
+```bash
+....
+```
+
+
+* request
+
+```bash
+....
+```
+
+* request
+
+```bash
+....
+```
+
+* request
+
+```bash
+....
+```
+
 
 
 ## Authors
