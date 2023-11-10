@@ -250,25 +250,25 @@ To get a local copy up and running follow these simple example steps.
 
 ### Admin
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-* request
+📌request
 
 ```bash
 ....
 ```
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-* request
+📌request
 
 ```bash
 ....
@@ -277,54 +277,51 @@ To get a local copy up and running follow these simple example steps.
 
 ### Owner
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-
-* request
-
-```bash
-....
-```
-
-* request
+📌request
 
 ```bash
 ....
 ```
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
+📌request
+
+```bash
+....
+```
 
 ### Client
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-
-* request
-
-```bash
-....
-```
-
-* request
+📌request
 
 ```bash
 ....
 ```
 
-* request
+📌 request
+
+```bash
+....
+```
+
+📌request
 
 ```bash
 ....
@@ -333,26 +330,25 @@ To get a local copy up and running follow these simple example steps.
 
 ### Auth 
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-
-* request
-
-```bash
-....
-```
-
-* request
+📌request
 
 ```bash
 ....
 ```
 
-* request
+📌 request
+
+```bash
+....
+```
+
+📌request
 
 ```bash
 ....
@@ -360,14 +356,13 @@ To get a local copy up and running follow these simple example steps.
 
 ### Machine
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-
-* request
+📌request
 
 ```bash
 ....
