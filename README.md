@@ -20,20 +20,16 @@
 * [Built With](#built-with)
 * [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
-    * [Installation](#installation)
-      
+    * [Installation](#installation)      
 * [Dashboard](#dashboard)
     * [Admin](#admin)
     * [Owner](#owner)
     * [Client](#client)
-    * [Auth owner client](#Auth)   
-
-
+    * [Auth](#Auth)
+    * [Machine](#machine)    
 * [Usage](#usage)
     * [Locally](#running-locally)
-    * [Via Container](#running-via-container)
-    
-  
+    * [Via Container](#running-via-container)  
 * [Contributingس](#contributing)
 * [Authors](#authors)
 <!--* [Screenshots](#Screenshots)-->
@@ -335,7 +331,7 @@ To get a local copy up and running follow these simple example steps.
 ```
 
 
-### Auth owner client
+### Auth 
 
 * request
 
@@ -362,6 +358,32 @@ To get a local copy up and running follow these simple example steps.
 ....
 ```
 
+### Machine
+
+* request
+
+```bash
+....
+```
+
+
+* request
+
+```bash
+....
+```
+
+* request
+
+```bash
+....
+```
+
+* request
+
+```bash
+....
+```
 
 
 ## Authors
