@@ -42,7 +42,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // rules
+        //! rules
         $rules = [
             'description' => 'required',
             'file' => 'required|file',

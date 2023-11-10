@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ReviveController;
+use App\Http\Controllers\Api\TourismController;
 use App\Http\Controllers\Api\users\AuthController;
 
 /*
@@ -120,9 +121,12 @@ Route::group(['middleware' => ['securitymachine']], function () {
     // todo prefix in all routes *hard* //
     Route::group(['prefix' =>'hard'], function () {
 
+
     Route::POST('/revive/data',[ReviveController::class, 'store']);
+    Route::POST('/tourism/data',[TourismController::class, 'store']);
 
     
+
 });
 //?end//
 
