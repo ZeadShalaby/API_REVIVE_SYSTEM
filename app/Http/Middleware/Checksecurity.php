@@ -18,7 +18,7 @@ class Checksecurity
     public function handle(Request $request, Closure $next): Response
     {
         if($request->checksecurity != env("API_VALIDATION")){
-            return response()->json(['message'=> 'Unauthenticated .']);
+            return $this->returnError('U100','Unauthenticated OOPS :( ..!'); 
         }
         return $next($request);
     }

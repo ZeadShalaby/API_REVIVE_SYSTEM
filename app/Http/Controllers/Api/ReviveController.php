@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Machine;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
 
 class ReviveController extends Controller
 {
+    use ResponseTrait;
     //
      /**
      * todo Display a listing of the resource.
@@ -31,7 +34,24 @@ class ReviveController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    
+        //! rules
+        $rules = [
+            'description' => 'required',
+            'file' => 'required|file',
+            "co2" => 'required',
+            "co" => 'required',
+            "degree" => 'required',
+        ];
+
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        
     }
 
     /**

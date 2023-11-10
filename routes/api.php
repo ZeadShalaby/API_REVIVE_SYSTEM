@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ReviveController;
 use App\Http\Controllers\Api\users\AuthController;
 
 /*
@@ -59,13 +60,12 @@ Route::group(['middleware' => ['api']], function () {
     });
     //?end//
 
-});
-//?end//
+
 
 
 //?start//
 // ! all routes / api here must be role = Admin //
-Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.admin-role']], function () {
+Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-role']], function () {
 
 
 
@@ -78,7 +78,7 @@ Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.adm
 
 //?start//
 // ! all routes / api here must be role = Owner //
-Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.owner-role']], function () {
+Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-role']], function () {
 
 
 
@@ -89,7 +89,7 @@ Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.own
 
 //?start//
 // ! all routes / api here must be role = Customer //
-Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.customer-role']], function () {
+Route::group(['middleware' => ['checksecurity','auth.guard:api','check.customer-role']], function () {
 
 
 
@@ -100,7 +100,7 @@ Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.cus
 
 //?start//
 // ! all routes / api here must be role = owner or client //
-Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.owner.customer-role']], function () {
+Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.customer-role']], function () {
 
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
@@ -108,6 +108,27 @@ Route::group(['middleware' => ['api','checksecurity','auth.guard:api','check.own
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
+
+});
+//?end//
+
+//?start//
+// ! all routes / api here must be for machine (revive | tourism ) //
+Route::group(['middleware' => ['securitymachine']], function () {
+     
+    //?start//
+    // todo prefix in all routes *hard* //
+    Route::group(['prefix' =>'hard'], function () {
+
+    Route::POST('/revive/data',[ReviveController::class, 'store']);
+
+    
+});
+//?end//
+
+});
+//?end//
+
 
 });
 //?end//
