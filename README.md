@@ -101,12 +101,12 @@
 -->
 ## About The Project
 
-
-It is a site for displaying antique products, pictures and picturesque artifacts, for artists and how to communicate with each other to sell or display them anywhere through it
+Analyzing greenhouse gases at industrial & touristic areas & Revive environment,
+We have a machine consisting of some sensors that read the percentages of greenhouse gases and temperatures in industrial or tourist places. The machine relies on entering this data into API daily to use this data that was recorded to train the data using machine learning to know the permissible percentages in the secretion of oxide gases or greenhouse gases
 
 ## Built With
 
-**Client:** Blade, Bootstrap
+**Client:** flutter , react.js
 
 **Server:** Apache, Laravel
 
@@ -140,13 +140,13 @@ Make sure that either **MySQL** or **MariaDB** are installed either manually or 
 Clone the project
 
 ```bash
-  https://github.com/ZeadShalaby/Srnz_Management_System
+  https://github.com/ZeadShalaby/API_REVIVE_SYSTEM
 ```
 
 Go to the project directory
 
 ```bash
-  cd Srnz_Management_System
+  cd API_REVIVE_SYSTEM
 ```
 
 Install dependencies
@@ -202,19 +202,19 @@ go to the following route
 pull the image 
 
 ```
-docker pull zeadshalaby/srnz 
+docker pull zeadshalaby/revive 
 ``` 
 
  run the container
 
  ```
- docker run --name srnz -p 8000:8000 -d zeadshalaby/srnz
+ docker run --name revive -p 8000:8000 -d zeadshalaby/revive
  ```
  
  connect to Container Terminal
  
  ```
- docker exec -it srnz /bin/sh
+ docker exec -it revive /bin/sh
  ```
  
  make the migrations to update the database
@@ -232,7 +232,7 @@ docker pull zeadshalaby/srnz
 Any contributions you make are **greatly appreciated**.
 
 * If you have suggestions for adding or removing projects, feel free
-  to [open an issue](https://github.com/ZeadShalaby/Srnz_Management_System/issues/new) to discuss it, or directly
+  to [open an issue](https://github.com/ZeadShalaby/API_REVIVE_SYSTEM/issues/new) to discuss it, or directly
   create a pull request after you edit the *README.md* file with necessary changes.
 * Please make sure you check your spelling and grammar.
 * Create individual PR for each suggestion.
@@ -252,43 +252,47 @@ To get a local copy up and running follow these simple example steps.
 
 ### Admin
 
-Clone the project
+* request
 
 ```bash
-  https://github.com/ZeadShalaby/Srnz_Management_System
+....
 ```
-* laravel
 
-```sh
-composer global require laravel/installer
+* request
+
+```bash
+....
 ```
 
 ### Owner
 
-* npm
+* request
 
-```sh
-npm install npm@latest -g
+```bash
+....
 ```
 
-* laravel
 
-```sh
-composer global require laravel/installer
+* request
+
+```bash
+....
 ```
+
 
 ### Client
 
-* npm
+* request
 
-```sh
-npm install npm@latest -g
+```bash
+....
 ```
 
-* laravel
 
-```sh
-composer global require laravel/installer
+* request
+
+```bash
+....
 ```
 
 
