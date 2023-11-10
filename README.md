@@ -373,13 +373,13 @@ To get a local copy up and running follow these simple example steps.
 ....
 ```
 
-* request
+📌 request
 
 ```bash
 ....
 ```
 
-* request
+📌request
 
 ```bash
 ....
