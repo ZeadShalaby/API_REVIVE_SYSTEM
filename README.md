@@ -99,7 +99,7 @@
 -->
 ## About The Project
 
-Analyzing greenhouse gases at industrial & touristic areas & Revive environment,
+Analyzing greenhouse gases at industrial & touristic areas & Revive environment ,
 We have a machine consisting of some sensors that read the percentages of greenhouse gases and temperatures in industrial or tourist places. The machine relies on entering this data into API daily to use this data that was recorded to train the data using machine learning to know the permissible percentages in the secretion of oxide gases or greenhouse gases
 
 ## Built With
