@@ -26,7 +26,7 @@
     * [Admin](#admin)
     * [Owner](#owner)
     * [Client](#client)
-    * [Auth (Owner , Client)](#Auth)   
+    * [Auth](#Auth)   
 
 
 * [Usage](#usage)
@@ -335,7 +335,7 @@ To get a local copy up and running follow these simple example steps.
 ```
 
 
-### Auth (Owner , Client)
+### Auth 
 
 * request
 
