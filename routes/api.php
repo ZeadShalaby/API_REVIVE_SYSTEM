@@ -36,7 +36,7 @@ Route::group(['middleware' => ['api']], function () {
     */
     Route::POST('/logout',[AuthController::class, 'logout'])->middleware('auth.guard:api');
     //// ? return profile information ////
-    Route::POST('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api');
+    Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api');
     });
     //?end//
 
