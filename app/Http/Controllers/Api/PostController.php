@@ -6,15 +6,17 @@ use Auth;
 use Exception;
 use Validator;
 use App\Models\Post;
+use App\Models\Follow;
 use App\Traits\ImageTrait;
 use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\MethodconTrait;
 use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-    use ResponseTrait,MachineTrait,ImageTrait;
+    use ResponseTrait,MachineTrait,ImageTrait,MethodconTrait;
 
     //
      /**
@@ -24,7 +26,7 @@ class PostController extends Controller
     {
         //
         $posts = Post::get();
-        $folowers = Follow::where('following_id',auth()->user()->id)->get();
+        $folowers = Follow::where('followers_id',auth()->user()->id)->get();
         $postfollow =  $this->postfollowers($posts , $folowers);
         return $this->returnData("posts",$postfollow);
     }

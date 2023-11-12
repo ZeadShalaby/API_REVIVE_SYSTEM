@@ -70,12 +70,12 @@ class AuthController extends Controller
         // todo login
         $credentials = $request->only(['email','password']);
         $token = Auth::guard('api')->attempt($credentials);
-        $users =  Auth::guard('api')->user();
-        $users -> api_token = $token;
-
+      
         if(!$token)
         return $this->returnError('E001','information not valid.');
-        
+
+        $users =  Auth::guard('api')->user();
+        $users -> api_token = $token;
         // ! return tocken
         return $this->returnData('Users',$users);
         }

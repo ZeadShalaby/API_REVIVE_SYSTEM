@@ -7,24 +7,24 @@ use App\Models\Role;
 
 trait MethodconTrait
 
-{   // todo only post followers 
-   public function postfollowers($posts , $followers)
+{   // todo only post following
+   public function postfollowers($posts , $folowers)
    {
-   $postfollow = [];
+   $postfollow = array();
+
    foreach ($posts as $post) {
 
-      foreach ($followers as $follower) {
+      foreach ($folowers as $follower) {
 
-          if($post->id == $follower->following_id)
+          if($post->user_id == $follower->following_id)
           {
-             //$post;
+             //todo push post in array ;
+             array_push($postfollow, $post);
           }
-
       }} 
-
+      return $postfollow;
    }
 
-   
 
 }
 
