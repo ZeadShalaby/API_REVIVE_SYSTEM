@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use Symfony\Component\HttpFoundation\Response;
 
-class Authusers
+class Authhonor
 {
     use ResponseTrait;
 
@@ -21,8 +21,8 @@ class Authusers
     {
         $role = auth()->user()->role;
         if($role)
-        if($role!= (Role::OWNER||Role::CUSTOMER)) {
-            return $this->returnError('403','UnAuthorization .');
+        if($role != (Role::OWNER||Role::ADMIN)) {
+            return $this->returnError('403','UnAuthorization .'.$role);
         }
         return $next($request);    
     }

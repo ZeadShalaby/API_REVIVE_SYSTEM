@@ -2,11 +2,13 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Authhonor;
 use App\Http\Middleware\Authusers;
 use App\Http\Middleware\AssignGuard;
 use App\Http\Middleware\Checksecurity;
 use App\Http\Middleware\CheckAdminRole;
 use App\Http\Middleware\CheckOwnerRole;
+use App\Http\Middleware\Securitymachine;
 use App\Http\Middleware\CheckCustomerRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -71,10 +73,13 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checksecurity' => Checksecurity::class,
+        'securitymachine'=>Securitymachine::class,
         'auth.guard'  => AssignGuard::class,
         'check.admin-role'  => CheckAdminRole::class,
         'check.customer-role' => CheckCustomerRole::class,
         'check.owner-role' => CheckOwnerRole::class,
         'check.owner.customer-role' => Authusers::class,
+        'check.owner.admin-role' => Authhonor::class,
+
     ];
 }

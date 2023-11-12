@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Models\Role;
 
 
-trait methodcon
+trait MethodconTrait
 
 {   // todo only post followers 
    public function postfollowers($posts , $followers)
