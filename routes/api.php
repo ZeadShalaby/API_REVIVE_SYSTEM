@@ -113,6 +113,17 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
 });
 //?end//
 
+
+//?start//
+// ! all routes / api here must be role = owner or admin //
+Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.admin-role']], function () {
+
+    Route::POST('/revive/data',[ReviveController::class, 'index']);
+
+});
+//?end//
+
+
 //?start//
 // ! all routes / api here must be for machine (revive | tourism ) //
 Route::group(['middleware' => ['securitymachine']], function () {
@@ -123,6 +134,7 @@ Route::group(['middleware' => ['securitymachine']], function () {
 
 
     Route::POST('/revive/data',[ReviveController::class, 'store']);
+
     Route::POST('/tourism/data',[TourismController::class, 'store']);
 
     

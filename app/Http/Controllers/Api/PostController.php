@@ -6,15 +6,15 @@ use Auth;
 use Exception;
 use Validator;
 use App\Models\Post;
-use App\Traits\methodcon;
 use App\Traits\ImageTrait;
+use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-    use ResponseTrait,methodcon,ImageTrait;
+    use ResponseTrait,MachineTrait,ImageTrait;
 
     //
      /**

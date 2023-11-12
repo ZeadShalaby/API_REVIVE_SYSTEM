@@ -20,6 +20,7 @@ class Tourism extends Model
     protected $fillable = [
         'machine_id',
         'co2',
+        'co',
         'o2',
         'degree',
         'expire',

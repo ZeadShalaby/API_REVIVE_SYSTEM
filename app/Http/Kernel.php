@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Authhonor;
 use App\Http\Middleware\Authusers;
 use App\Http\Middleware\AssignGuard;
 use App\Http\Middleware\Checksecurity;
@@ -78,5 +79,7 @@ class Kernel extends HttpKernel
         'check.customer-role' => CheckCustomerRole::class,
         'check.owner-role' => CheckOwnerRole::class,
         'check.owner.customer-role' => Authusers::class,
+        'check.owner.admin-role' => Authhonor::class,
+
     ];
 }
