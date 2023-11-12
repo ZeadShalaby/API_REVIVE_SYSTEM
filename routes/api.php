@@ -38,7 +38,7 @@ Route::group(['middleware' => ['api']], function () {
     */
     Route::POST('/logout',[AuthController::class, 'logout'])->middleware('auth.guard:api');
     //// ? return profile information ////
-    Route::POST('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api');
+    Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api');
     });
     //?end//
 
@@ -103,6 +103,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.customer-
 // ! all routes / api here must be role = owner or client //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.customer-role']], function () {
 
+    Route::get('/posts',[PostController::class, 'index']);
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
     Route::get('/posts/edit/{id}',[PostController::class, 'show']);
@@ -118,7 +119,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
 // ! all routes / api here must be role = owner or admin //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.admin-role']], function () {
 
-    Route::POST('/revive/data',[ReviveController::class, 'index']);
+    Route::get('/revive/data',[ReviveController::class, 'index']);
 
 });
 //?end//
