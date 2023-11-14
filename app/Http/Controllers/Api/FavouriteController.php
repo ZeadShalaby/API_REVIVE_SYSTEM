@@ -40,6 +40,14 @@ class FavouriteController extends Controller
         //
     }
 
+     /**
+     * todo Display the specified resource.
+     */
+    public function showfacourite(Request $request)
+    {
+        //
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

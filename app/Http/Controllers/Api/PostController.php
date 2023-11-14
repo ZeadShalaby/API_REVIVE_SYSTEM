@@ -8,6 +8,7 @@ use Validator;
 use App\Models\Post;
 use App\Models\Follow;
 use App\Traits\ImageTrait;
+use App\Events\PostsVieweer;
 use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // ? show all post of follwing //
         $posts = Post::get();
         $folowers = Follow::where('followers_id',auth()->user()->id)->get();
         $postfollow =  $this->postfollowers($posts , $folowers);
@@ -76,9 +77,11 @@ class PostController extends Controller
      */
     public function show(Request $request , Post $post)
     {
-        // show only psot by id 
-        $posts = Post::find($request->id) ;
-        return $this->returnData("post",$posts);
+        // ? show only psot by id and +view //
+        $post = Post::find($request->id) ;
+        event(new PostsVieweer($post));   
+
+        return $this->returnData("post",$post);
     }
 
     /**
@@ -86,7 +89,7 @@ class PostController extends Controller
      */
     public function edit(Request $request)
     {
-        // return info post
+        // ? return info post
         $posts = Post::find($request->id) ;
         if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');}
         return $this->returnData("post",$posts);
@@ -125,7 +128,7 @@ class PostController extends Controller
      */
     public function destroy(Request $request , $post)
     {
-        // delete posts //
+        // ? delete posts //
         $posts = Post::find($request->id) ;
         if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
         $posts->delete();

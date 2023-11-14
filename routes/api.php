@@ -3,8 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ReviveController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\TourismController;
+use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\users\AuthController;
 
 /*
@@ -36,9 +39,9 @@ Route::group(['middleware' => ['api']], function () {
      todo Invalidate Token Security Site
      todo  Brocken Access Controller Users enumeration
     */
-    Route::POST('/logout',[AuthController::class, 'logout'])->middleware('auth.guard:api');
+    Route::POST('/logout',[AuthController::class, 'logout'])->middleware('auth.guard:api','checksecurity');
     //// ? return profile information ////
-    Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api');
+    Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api','checksecurity');
     });
     //?end//
 
@@ -103,6 +106,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.customer-
 // ! all routes / api here must be role = owner or client //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.customer-role']], function () {
 
+    //? All posts Route //
     Route::get('/posts',[PostController::class, 'index']);
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
@@ -110,6 +114,20 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
+
+    //? Favourite & Comment & Follow route //
+    Route::POST('/posts/favourite',[FavouriteController::class, 'store']);
+    Route::get('/posts/favourite',[FavouriteController::class, 'showfacourite']);
+    Route::Delete('/posts/favourite',[FavouriteController::class, 'destroy']);
+    // ? comment //
+    Route::POST('/posts/comment',[CommentController::class, 'store']);
+    Route::get('/posts/comment',[CommentController::class, 'showcomment']);
+    Route::Delete('/posts/comment',[CommentController::class, 'destroy']);
+    // ? follow //
+    Route::POST('/users/follow',[FollowController::class, 'store']);
+    Route::get('/users/following',[FollowController::class, 'showfollowing']);
+    Route::get('/users/followers',[FollowController::class, 'showfollowers']);
+    Route::Delete('/users/follow',[FollowController::class, 'destroy']);
 
 });
 //?end//
@@ -120,6 +138,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.admin-role']], function () {
 
     Route::get('/revive/data',[ReviveController::class, 'index']);
+    Route::get('/revive/machine/data',[ReviveController::class, 'machineindex']);
+    Route::get('/tourism/data',[TourismController::class, 'index']);
 
 });
 //?end//

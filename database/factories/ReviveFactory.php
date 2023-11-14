@@ -18,7 +18,7 @@ class ReviveFactory extends Factory
      */
     public function definition(): array
     {
-        $machineids = Machine::pluck('id')->toArray();
+        $machineids = Machine::where('type','6')->pluck('id')->toArray();
 
         return [
             //

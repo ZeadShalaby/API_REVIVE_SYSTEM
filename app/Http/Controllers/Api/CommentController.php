@@ -40,6 +40,14 @@ class CommentController extends Controller
         //
     }
 
+     /**
+     * todo Display the specified resource.
+     */
+    public function showcomment(Request $request)
+    {
+        //
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

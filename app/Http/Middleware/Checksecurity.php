@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\ResponseTrait;
+use App\Traits\ResponseTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 class Checksecurity
