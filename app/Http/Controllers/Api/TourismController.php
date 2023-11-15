@@ -20,23 +20,20 @@ class TourismController extends Controller
      /**
      * todo Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // todo search by 
         
         if(auth()->user()->role !=Role::ADMIN){
-            $machineid = Machine::where('owner_id',auth()->user()->id)->get();
-            $filterResult = Tourism::where('machine_id', '2')->get();
+            $filterResult = Tourism::where('machine_id', $request->machineid)->get();
             foreach ($filterResult as $belong) {
                 $machine = $belong->machine; 
                 $machines = $machine->user; 
-
-            }
-            
-            return $this->returnData("data",$filterResult);
+            }    
+        return $this->returnData("data",$filterResult);
         }
         $query = $request->get('query');
-        $filterResult = Revive::where('machine_id', 'LIKE', '%'. $query. '%')->get();
+        $filterResult = Tourism::where('machine_id', 'LIKE', '%'. $query. '%')->get();
         foreach ($filterResult as $belong) {
             $machine = $belong->machine; 
         }

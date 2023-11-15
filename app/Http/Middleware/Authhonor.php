@@ -20,7 +20,6 @@ class Authhonor
     public function handle(Request $request, Closure $next): Response
     {
         $role = auth()->user()->role;
-        if($role)
         if($role != (Role::OWNER||Role::ADMIN)) {
             return $this->returnError('403','UnAuthorization .'.$role);
         }

@@ -40,6 +40,22 @@ class FollowController extends Controller
         //
     }
 
+      /**
+     * todo Display the specified resource.
+     */
+    public function showfollowing(Request $request)
+    {
+        //
+    }
+
+      /**
+     * todo Display the specified resource.
+     */
+    public function showfollowers(Request $request)
+    {
+        //
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

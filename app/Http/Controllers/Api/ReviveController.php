@@ -16,8 +16,7 @@ use App\Http\Controllers\Controller;
 class ReviveController extends Controller
 {
     use ResponseTrait;
-
-    //
+      //
      /**
      * todo Display a listing of the resource.
      */
@@ -25,13 +24,12 @@ class ReviveController extends Controller
     {
         // todo search by 
         
-        if(auth()->user()->role !=Role::ADMIN){
-            $machineid = Machine::where('owner_id',auth()->user()->id)->get();
-            $filterResult = Revive::where('machine_id', '2')->get();
+        if(auth()->user()->role !=Role::ADMIN ){
+           // $machineid = Machine::where('owner_id',auth()->user()->id)->get();
+            $filterResult = Revive::where('machine_id' , $request -> machineid)->get();
             foreach ($filterResult as $belong) {
                 $machine = $belong->machine; 
                 $machines = $machine->user; 
-
             }
             
             return $this->returnData("data",$filterResult);
@@ -44,6 +42,29 @@ class ReviveController extends Controller
         return $this->returnData("data",$filterResult);
 
     }
+
+     //
+     /**
+     * todo Display a listing of the resource.
+     */ // ? return all machine of this person //
+     public function machineindex(Request $request)
+     {
+         // todo search by 
+         if(auth()->user()->role !=Role::ADMIN ){
+             $machineid = Machine::where('owner_id',auth()->user()->id)->get();
+             foreach ($machineid as $belong) {
+                 $machine = $belong->user; 
+             }
+             
+             return $this->returnData("data",$machineid);
+         }
+         $query = $request->get('query');
+         $machines = Machine::where('machine_id', 'LIKE', '%'. $query. '%')->get();
+         foreach ($machines as $belong) {
+             $machine = $belong->user; 
+         }
+         return $this->returnData("data",$machines);
+     }
 
     /**
      * todo Show the form for creating a new resource.
