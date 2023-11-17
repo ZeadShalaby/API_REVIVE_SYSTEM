@@ -155,6 +155,7 @@ class ReviveController extends Controller
     {
         //
         $machine = Machine::find($request->machineid);
+        $machin = $machine->user; 
         return $this->returnData("machine",$machine);
 
     }
