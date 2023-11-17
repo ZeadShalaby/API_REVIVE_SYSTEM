@@ -42,25 +42,16 @@ class TourismController extends Controller
     }
 
     /**
-     * todo Show the form for creating a new resource.
-     * !only admin do this
-     */
-    public function newtourism()
-    {
-        //
-    }
-
-    /**
      * todo Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
        //! rules
        $rules = [
-        "machineids" => 'required',
-        "co2" => 'required',
-        "co" => 'required',
-        "degree" => 'required',
+        "machineids" => 'required|integer|exists:machines,id',
+        "co2" => 'required|integer',
+        "co" => 'required|integer',
+        "degree" => 'required|integer',
     ];
 
     // ! valditaion
@@ -87,9 +78,12 @@ class TourismController extends Controller
     /**
      * todo Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
         //
+        $datarevive = Revive::where('machine_id',$request->machineid)
+        ->whereDate('created_at',$request->createat)->get()->toArray();
+        return $this->returnData("Data",$datarevive);
     }
 
     /**

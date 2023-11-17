@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ReviveController;
@@ -46,6 +47,19 @@ Route::group(['middleware' => ['api']], function () {
     //?end//
 
     //?start//
+    // ! login with social (github , google) //
+    Route::group(['middleware' => ['checksecurity']], function () {
+        // login with social
+        Route::get('/redirect/{service}',[ServiceController::class,'redirect']);
+        // callback google
+        Route::get('/auth/google/callback',[ServiceController::class,'googlecallback']);
+        // callback githup 
+        Route::get('/auth/github/callback',[ServiceController::class,'githubcallback']); 
+    
+    });
+    //?end//
+   
+    //?start//
     //! return image post or user or machine // 
     Route::group(['prefix' =>'images','namespace' => 'users'], function () {
     
@@ -71,6 +85,10 @@ Route::group(['middleware' => ['api']], function () {
 // ! all routes / api here must be role = Admin //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-role']], function () {
 
+    Route::POST('/tcr/new_machine',[ReviveController::class, 'newtcr']);
+    Route::get('/tcr/edit/{machineid}',[ReviveController::class, 'edit']);
+    Route::PUT('/tcr/update/{machineid}',[ReviveController::class, 'update']);
+    Route::Delete('/tcr/{machineid}',[ReviveController::class, 'destroy']);
 
 
 });
@@ -110,18 +128,20 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/posts',[PostController::class, 'index']);
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
-    Route::get('/posts/edit/{id}',[PostController::class, 'show']);
+    Route::get('/posts/edit/{id}',[PostController::class, 'edit']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
 
     //? Favourite & Comment & Follow route //
     Route::POST('/posts/favourite',[FavouriteController::class, 'store']);
-    Route::get('/posts/favourite',[FavouriteController::class, 'showfacourite']);
+    Route::get('/posts/favourite',[FavouriteController::class, 'showfavourite']);
     Route::Delete('/posts/favourite',[FavouriteController::class, 'destroy']);
     // ? comment //
     Route::POST('/posts/comment',[CommentController::class, 'store']);
     Route::get('/posts/comment',[CommentController::class, 'showcomment']);
+    Route::get('/posts/comment/edit/{comentid}',[CommentController::class, 'edit']);
+    Route::PUT('/posts/comment',[CommentController::class, 'update']);
     Route::Delete('/posts/comment',[CommentController::class, 'destroy']);
     // ? follow //
     Route::POST('/users/follow',[FollowController::class, 'store']);
@@ -136,10 +156,13 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
 //?start//
 // ! all routes / api here must be role = owner or admin //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.admin-role']], function () {
-
+    // ?revive //
     Route::get('/revive/data',[ReviveController::class, 'index']);
     Route::get('/revive/machine/data',[ReviveController::class, 'machineindex']);
+    Route::get('/revive/data/date/{createat}',[ReviveController::class, 'show']);
+    // ? tourism //
     Route::get('/tourism/data',[TourismController::class, 'index']);
+    Route::get('/tourism/data/date/{createat}',[TourismController::class, 'show']);
 
 });
 //?end//

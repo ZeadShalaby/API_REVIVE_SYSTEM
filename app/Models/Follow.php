@@ -43,9 +43,20 @@ class Follow extends Model
      *
      * @var array<int, string>
      */
-    public function user()
+    public function userfollowing()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'following_id');
     }
+
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    public function userfollowers()
+    {
+        return $this->belongsTo(User::class, 'followers_id');
+    }
+
 
 }

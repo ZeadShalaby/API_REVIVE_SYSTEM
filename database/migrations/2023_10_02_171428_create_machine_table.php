@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('machines', function (Blueprint $table) {
-            $table->id();
+            $table->id();// ! to start in value ->startingValue(1755) //
             $table->string("name")->unique();
             $table->bigInteger('owner_id')->unsigned();
             $table->index('owner_id');

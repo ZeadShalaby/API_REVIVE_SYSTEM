@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Auth;
+use Exception;
+use Validator;
+use App\Models\Favourite;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Http\Controllers\Controller;
 
 class FavouriteController extends Controller
 {
+    use ResponseTrait;
     //
      /**
      * todo Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
     }
@@ -29,7 +35,29 @@ class FavouriteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //! rules
+        $rules = [
+            'posts_id' => 'required|exists:posts,id',
+        ];
+
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        
+        $postfav = Favourite::create([
+            'posts_id'  => $request->posts_id,
+            'user_id' =>auth()->user()->id,
+        ]);
+
+        $msg = " Create successfully .";
+        return $this->returnSuccessMessage($msg); 
+
+
+
     }
 
     /**
@@ -43,7 +71,7 @@ class FavouriteController extends Controller
      /**
      * todo Display the specified resource.
      */
-    public function showfacourite(Request $request)
+    public function showfavourite(Request $request)
     {
         //
     }
@@ -67,9 +95,16 @@ class FavouriteController extends Controller
     /**
      * todo Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         //
+        $postfav = Favourite::where('user_id',auth()->user()->id)
+        ->where('posts_id',$request->post_id)->get();
+        foreach ($postfav as $fav) {
+          $fav->delete();
+         }
+        $msg = " Delete Favourite posts successfully .";
+        return $this->returnSuccessMessage($msg);  
     }
 
     

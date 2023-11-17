@@ -16,34 +16,8 @@ use App\Http\Controllers\Controller;
 class ReviveController extends Controller
 {
     use ResponseTrait;
-      //
-     /**
-     * todo Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        // todo search by 
-        
-        if(auth()->user()->role !=Role::ADMIN ){
-           // $machineid = Machine::where('owner_id',auth()->user()->id)->get();
-            $filterResult = Revive::where('machine_id' , $request -> machineid)->get();
-            foreach ($filterResult as $belong) {
-                $machine = $belong->machine; 
-                $machines = $machine->user; 
-            }
-            
-            return $this->returnData("data",$filterResult);
-        }
-        $query = $request->get('query');
-        $filterResult = Revive::where('machine_id', 'LIKE', '%'. $query. '%')->get();
-        foreach ($filterResult as $belong) {
-            $machine = $belong->machine; 
-        }
-        return $this->returnData("data",$filterResult);
 
-    }
-
-     //
+     //!
      /**
      * todo Display a listing of the resource.
      */ // ? return all machine of this person //
@@ -66,13 +40,28 @@ class ReviveController extends Controller
          return $this->returnData("data",$machines);
      }
 
-    /**
-     * todo Show the form for creating a new resource.
-     * ! only admin can add a new revive hardware
+    //!
+     /**
+     * todo Display a listing of the resource.
      */
-    public function newrevive()
+    public function index(Request $request)
     {
-        //
+        // todo search by 
+        if(auth()->user()->role !=Role::ADMIN ){
+            $filterResult = Revive::where('machine_id' , $request -> machineid)/*->where('expire',Role::EXPIRE)*/->get();
+            foreach ($filterResult as $belong) {
+                $machine = $belong->machine; 
+                $machines = $machine->user; 
+            }
+            return $this->returnData("data",$filterResult);
+        }
+        $query = $request->get('query');
+        $filterResult = Revive::where('machine_id', 'LIKE', '%'. $query. '%')/*->where('expire',Role::EXPIRE)*/->get();
+        foreach ($filterResult as $belong) {
+            $machine = $belong->machine; 
+        }
+        return $this->returnData("data",$filterResult);
+
     }
 
     /**
@@ -84,10 +73,10 @@ class ReviveController extends Controller
     
         //! rules
         $rules = [
-            "machineids" => 'required',
-            "co2" => 'required',
-            "co" => 'required',
-            "degree" => 'required',
+            "machineids" => 'required|integer|exists:machines,id',
+            "co2" => 'required|integer',
+            "co" => 'required|integer',
+            "degree" => 'required|integer',
         ];
 
         // ! valditaion
@@ -114,39 +103,114 @@ class ReviveController extends Controller
     /**
      * todo Display the specified resource with date not id.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
         //
+          $datarevive = Revive::where('machine_id',$request->machineid)
+          ->whereDate('created_at',$request->createat)->get()->toArray();
+          return $this->returnData("Data",$datarevive);
     }
 
+
+    /** 
+     * todo Show the form for creating a new resource.
+     * ! only admin can add a new revive | tourism hardware
+     */// ? tcr mening : Tourism & Revive & Coastal  //
+     public function newtcr(Request $request)
+     {
+          //! rules
+          $rules = [
+             "name" => "required|unique:machines,name",
+             "owner_id" => "required|exists:users,id",
+             "location" => "required|unique:machines,location",
+             "type" => 'required|integer|min:5|max:7',
+            ];
+ 
+         // ! valditaion
+         $validator = Validator::make($request->all(),$rules);
+     
+         if($validator->fails()){
+                 $code = $this->returnCodeAccordingToInput($validator);
+                 return $this->returnValidationError($code,$validator);
+         }
+ 
+         $machines = Machine::create([
+             "name" => $request->name,
+             "owner_id" => $request->owner_id,
+             "location" => $request->location,
+             "type" => $request->type,
+         ]);
+ 
+         $msg = " Create : " .$request->name . " machine " ."successfully .";
+         return $this->returnSuccessMessage($msg);
+     }
+ 
+
+
     /**
-     * Show the form for editing the specified resource.
+     * todo Show the form for editing the specified resource.
+     * ! only admin can do this
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
+        $machine = Machine::find($request->machineid);
+        $machin = $machine->user; 
+        return $this->returnData("machine",$machine);
+
     }
 
     /**
-     * Update the specified resource in storage.
+     * todo Update the specified resource in storage.
+     * ! only admin can do this
      */
     public function update(Request $request, string $id)
     {
         //
+        $machine = Machine::find($request->machineid);        
+        $rules = [
+            "name" => "required",
+            "owner_id" => "required|exists:users,id",
+            "location" => "required",
+            "type" => 'required|integer|min:5|max:7',
+
+        ];
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        $machine->update([
+            "name" => $request->name,
+            "owner_id" => $request->owner_id,
+            "location" => $request->location,
+            "type" => $request->type,
+        ]);
+             
+        $msg = " Update : " .$request->name . " machine " ."successfully .";
+        return $this->returnSuccessMessage($msg);
     }
 
     /**
      * todo Remove the specified resource from storage.
      * ! only admin can do this
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         //
+        $machine = Machine::find($request->machineid);
+        $machine ->delete();
+        $msg = " delete : " .$request->name . " machine " ."successfully .";
+        return $this->returnSuccessMessage($msg);
+
     }
 
     
     /**
      * todo restore index the specified resource from storage.
+     * ! only admin can do this
      */
     public function restoreindex()
     {
@@ -155,6 +219,7 @@ class ReviveController extends Controller
 
      /**
      * todo  restore the specified resource from storage.
+     * ! only admin can do this
      */
     public function restore()
     {
@@ -163,6 +228,7 @@ class ReviveController extends Controller
     
     /**
      * todo Autocomplete Search the specified resource from storage.
+     * ! only admin can do this
      */
     public function autocolmpletesearch()
     {

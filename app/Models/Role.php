@@ -14,5 +14,7 @@ class Role extends Model
     const TOURISM = "4";
     const COASTAL = "5";
     const REVIVE = "6";
+    const EXPIRE = "7";
+    const NOTEXPIRE = "8";
 
 }

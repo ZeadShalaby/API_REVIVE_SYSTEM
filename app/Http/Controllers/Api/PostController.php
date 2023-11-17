@@ -47,7 +47,7 @@ class PostController extends Controller
     {
         //! rules
         $rules = [
-            'description' => 'required',
+            'description' => 'required|min:5|max:250',
             'file' => 'required|file',
         ];
 
