@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use Auth;
+use Exception;
+use Validator;
+use App\Models\Follow;
+use App\Traits\CountTrait;
 use Illuminate\Http\Request;
+use App\Traits\ResponseTrait;
+use App\Traits\MethodconTrait;
+use App\Http\Controllers\Controller;
 
 class FollowController extends Controller
 {
+    use ResponseTrait , MethodconTrait , CountTrait;
     //
      /**
      * todo Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
     }
@@ -29,7 +37,28 @@ class FollowController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //! rules
+        $rules = [
+            'following_id' => 'required|exists:users,id',
+        ];
+        
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        $checkfollow = $this->checkfollow($request->following_id , auth()->user()->id);
+        if($checkfollow !=TRUE){return $this->returnError('F001',"Cant do that Sir  !!..:("); }
+
+        $postfav = Follow::create([
+            'following_id'  => $request->following_id,
+            'followers_id' =>auth()->user()->id,
+            
+        ]);
+        $msg = " Create successfully .";
+        return $this->returnSuccessMessage($msg); 
     }
 
     /**
@@ -45,7 +74,12 @@ class FollowController extends Controller
      */
     public function showfollowing(Request $request)
     {
-        //
+
+        $following = Follow::Where('followers_id',auth()->user()->id)->get('following_id');
+        foreach ($following as $belong) {
+        $followinfo = $belong->user;
+        }
+        return $this->returnData("following" , $following);
     }
 
       /**
@@ -54,14 +88,20 @@ class FollowController extends Controller
     public function showfollowers(Request $request)
     {
         //
+        $followers = Follow::Where('following_id',auth()->user()->id)->get('followers_id');
+        foreach ($followers as $belong) {
+        $followinfo = $belong->userfollowers;
+        }
+        return $this->returnData("followers" , $followers);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
+       
     }
 
     /**
@@ -75,15 +115,22 @@ class FollowController extends Controller
     /**
      * todo Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         //
+        $user = Follow::where('followers_id',auth()->user()->id)
+        ->where('following_id',$request->userfollowing)->get();
+        foreach ($user as $user) {
+          $user->delete();
+         }
+        $msg = " UnFollow User successfully .";
+        return $this->returnSuccessMessage($msg);  
     }
 
     /**
      * todo Autocomplete Search the specified resource from storage.
      */
-    public function autocolmpletesearch()
+    public function autocolmpletesearch(Request $request)
     {
        //
     }
@@ -91,7 +138,7 @@ class FollowController extends Controller
     /**
      * todo go to profile followers the specified resource from storage.
      */
-    public function profileinfo()
+    public function profileinfo(Request $request)
     {
        //
     }

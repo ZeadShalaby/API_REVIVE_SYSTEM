@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('follows', function (Blueprint $table) {
-            $table->id();
+            $table->id();// ! to start in value ->startingValue(1755) //
             $table->bigInteger('following_id')->unsigned();
             $table->index('following_id');
             $table->bigInteger('followers_id')->unsigned();
