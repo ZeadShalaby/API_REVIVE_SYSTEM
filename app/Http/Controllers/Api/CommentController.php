@@ -39,7 +39,7 @@ class CommentController extends Controller
         //! rules
         $rules = [
             'posts_id' => 'required|exists:posts,id',
-            'comment' => 'required',
+            'comment' => 'required|min:5|max:200',
         ];
 
         // ! valditaion
