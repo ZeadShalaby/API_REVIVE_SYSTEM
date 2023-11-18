@@ -43,6 +43,7 @@ class TourismController extends Controller
 
     /**
      * todo Store a newly created resource in storage.
+     * ! hard can do this but type (tc) //
      */
     public function store(Request $request)
     {
@@ -77,6 +78,7 @@ class TourismController extends Controller
 
     /**
      * todo Display the specified resource.
+     * 
      */
     public function show(Request $request)
     {
@@ -86,54 +88,6 @@ class TourismController extends Controller
         return $this->returnData("Data",$datarevive);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * todo Remove the specified resource from storage.
-     * ! oonly admin can do this
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    
-    /**
-     * todo restore index the specified resource from storage.
-     */
-    public function restoreindex()
-    {
-       //
-    }
-
-     /**
-     * todo  restore the specified resource from storage.
-     */
-    public function restore()
-    {
-       //
-    }
-
-    /**
-     * todo Autocomplete Search the specified resource from storage.
-     */
-    public function autocolmpletesearch()
-    {
-       //
-    }
+   
 
 }

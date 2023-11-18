@@ -23,7 +23,7 @@ class ReviveController extends Controller
      */ // ? return all machine of this person //
      public function machineindex(Request $request)
      {
-         // todo search by 
+         // ? choise machine of owner to sho it and then show data // 
          if(auth()->user()->role !=Role::ADMIN ){
              $machineid = Machine::where('owner_id',auth()->user()->id)->get();
              foreach ($machineid as $belong) {
@@ -46,7 +46,7 @@ class ReviveController extends Controller
      */
     public function index(Request $request)
     {
-        // todo search by 
+        // ? show data not expire //
         if(auth()->user()->role !=Role::ADMIN ){
             $filterResult = Revive::where('machine_id' , $request -> machineid)/*->where('expire',Role::EXPIRE)*/->get();
             foreach ($filterResult as $belong) {
@@ -105,134 +105,14 @@ class ReviveController extends Controller
      */
     public function show(Request $request)
     {
-        //
+        // ? show data revive by date //
           $datarevive = Revive::where('machine_id',$request->machineid)
           ->whereDate('created_at',$request->createat)->get()->toArray();
           return $this->returnData("Data",$datarevive);
     }
 
 
-    /** 
-     * todo Show the form for creating a new resource.
-     * ! only admin can add a new revive | tourism hardware
-     */// ? tcr mening : Tourism & Revive & Coastal  //
-     public function newtcr(Request $request)
-     {
-          //! rules
-          $rules = [
-             "name" => "required|unique:machines,name",
-             "owner_id" => "required|exists:users,id",
-             "location" => "required|unique:machines,location",
-             "type" => 'required|integer|min:5|max:7',
-            ];
- 
-         // ! valditaion
-         $validator = Validator::make($request->all(),$rules);
-     
-         if($validator->fails()){
-                 $code = $this->returnCodeAccordingToInput($validator);
-                 return $this->returnValidationError($code,$validator);
-         }
- 
-         $machines = Machine::create([
-             "name" => $request->name,
-             "owner_id" => $request->owner_id,
-             "location" => $request->location,
-             "type" => $request->type,
-         ]);
- 
-         $msg = " Create : " .$request->name . " machine " ."successfully .";
-         return $this->returnSuccessMessage($msg);
-     }
- 
-
-
-    /**
-     * todo Show the form for editing the specified resource.
-     * ! only admin can do this
-     */
-    public function edit(Request $request)
-    {
-        //
-        $machine = Machine::find($request->machineid);
-        $machin = $machine->user; 
-        return $this->returnData("machine",$machine);
-
-    }
-
-    /**
-     * todo Update the specified resource in storage.
-     * ! only admin can do this
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-        $machine = Machine::find($request->machineid);        
-        $rules = [
-            "name" => "required",
-            "owner_id" => "required|exists:users,id",
-            "location" => "required",
-            "type" => 'required|integer|min:5|max:7',
-
-        ];
-        // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
-        $machine->update([
-            "name" => $request->name,
-            "owner_id" => $request->owner_id,
-            "location" => $request->location,
-            "type" => $request->type,
-        ]);
-             
-        $msg = " Update : " .$request->name . " machine " ."successfully .";
-        return $this->returnSuccessMessage($msg);
-    }
-
-    /**
-     * todo Remove the specified resource from storage.
-     * ! only admin can do this
-     */
-    public function destroy(Request $request)
-    {
-        //
-        $machine = Machine::find($request->machineid);
-        $machine ->delete();
-        $msg = " delete : " .$request->name . " machine " ."successfully .";
-        return $this->returnSuccessMessage($msg);
-
-    }
-
-    
-    /**
-     * todo restore index the specified resource from storage.
-     * ! only admin can do this
-     */
-    public function restoreindex()
-    {
-       //
-    }
-
-     /**
-     * todo  restore the specified resource from storage.
-     * ! only admin can do this
-     */
-    public function restore()
-    {
-       //
-    }
-    
-    /**
-     * todo Autocomplete Search the specified resource from storage.
-     * ! only admin can do this
-     */
-    public function autocolmpletesearch()
-    {
-       //
-    }
+   
+   
 
 }

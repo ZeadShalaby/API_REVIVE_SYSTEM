@@ -2,11 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\TCRController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ReviveController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TourismController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\users\AuthController;
@@ -85,11 +86,15 @@ Route::group(['middleware' => ['api']], function () {
 // ! all routes / api here must be role = Admin //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-role']], function () {
 
-    Route::POST('/tcr/new_machine',[ReviveController::class, 'newtcr']);
-    Route::get('/tcr/edit/{machineid}',[ReviveController::class, 'edit']);
-    Route::PUT('/tcr/update/{machineid}',[ReviveController::class, 'update']);
-    Route::Delete('/tcr/{machineid}',[ReviveController::class, 'destroy']);
-
+    // todo for all things of new & old machine //
+    Route::POST('/tcr/new_machine',[TCRController::class, 'newtcr']);
+    Route::get('/tcr/edit/{machineid}',[TCRController::class, 'edit']);
+    Route::PUT('/tcr/update/{machineid}',[TCRController::class, 'update']);
+    Route::Delete('/tcr/{machineid}',[TCRController::class, 'destroy']);
+    // todo autocomplete search & restore machine //
+    Route::get('/tcr/autocolmpletesearch',[TCRController::class, 'autocolmpletesearch']);
+    Route::get('/tcr/restoreindex',[TCRController::class, 'restoreindex']);
+    Route::post('/tcr/restore',[TCRController::class, 'restore']);
 
 });
 //?end//

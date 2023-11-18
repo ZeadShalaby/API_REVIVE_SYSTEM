@@ -66,14 +66,21 @@ class FavouriteController extends Controller
     public function show(string $id)
     {
         //
+        
     }
 
      /**
      * todo Display the specified resource.
+     * ? show all favourite of post 
      */
     public function showfavourite(Request $request)
     {
         //
+        $favourite = Favourite::select('user_id')->where('posts_id',$request->posts_id)->get();
+        foreach($favourite as $belong){
+          $user = $belong->user; 
+        }
+        return $this->returnData('PersonFav',$favourite);
     }
 
     /**

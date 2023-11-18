@@ -47,6 +47,21 @@ trait MethodconTrait
       }
 
    }   
+   
+   // todo check type of machine (tcr) //
+   public function checktype($checktype){
+
+      if($checktype == "TOURISM"){
+         return Role::TOURISM;
+      }
+      elseif ($checktype == "COASTAL") {
+         return Role::COASTAL;
+      }
+      elseif ($checktype == "REVIVE") {
+         return Role::REVIVE;
+      }
+
+   }
 
 }
 
