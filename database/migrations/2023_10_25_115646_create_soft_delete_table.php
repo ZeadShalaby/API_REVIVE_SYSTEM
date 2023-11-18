@@ -23,6 +23,10 @@ return new class extends Migration
             $table->softDeletes();
         });
 
+        Schema::table('machines', function (Blueprint $table) {
+            $table->softDeletes();
+        });
+
        /* Schema::table('users', function (Blueprint $table) {
             $table->softDeletes();
         });*/
