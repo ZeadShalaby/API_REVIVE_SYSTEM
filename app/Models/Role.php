@@ -16,5 +16,7 @@ class Role extends Model
     const REVIVE = "6";
     const EXPIRE = "1";
     const NOTEXPIRE = "0";
+    
+   
 
 }

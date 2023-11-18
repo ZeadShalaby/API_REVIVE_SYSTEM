@@ -30,10 +30,12 @@ class UserFactory extends Factory
             'gmail'=>fake()->unique()->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'phone'=>fake()->numberBetween($min = 123456789, $max = 98561237894),
+            'gender' =>fake()->randomElement(['male', 'female']),
             'role' => Role::CUSTOMER,
             'profile_photo'=>$path,
+            'Personal_card'=>fake()->numberBetween($min = 10000000000000, $max = 900000000000),
+            'birthday' => fake()->dateTimeBetween($startDate = '-30 years', $endDate = 'now', $timezone = null),
             'email_verified_at' => now(),
-
           /*
            todo 'gmail'=>fake()->unique()->safeEmail(),
            todo  'phone'=>fake()->numberBetween($min = 123456789, $max = 98561237894),

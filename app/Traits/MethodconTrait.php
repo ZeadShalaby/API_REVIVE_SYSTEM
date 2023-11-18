@@ -49,7 +49,7 @@ trait MethodconTrait
    }   
    
    // todo check type of machine (tcr) //
-   public function checktype($checktype){
+   public function checkTypeMachine($checktype){
 
       if($checktype == "TOURISM"){
          return Role::TOURISM;
@@ -63,5 +63,57 @@ trait MethodconTrait
 
    }
 
+
+   // todo check type of machine (tcr) //
+   public function checkTypeUsers($checktype){
+
+      if($checktype == "ADMIN"){
+         return Role::ADMIN;
+      }
+      elseif ($checktype == "OWNER") {
+         return Role::OWNER;
+      }
+      elseif ($checktype == "CUSTOMER") {
+         return Role::CUSTOMER;
+      }
+
+   }
+
+
+   // todo check type of path owner || admin (tcr) //
+   public function checkpath($gender , $role){
+
+      if($gender == "MALE"){
+         if($role == "ADMIN"){
+            return randomElement(['admin.jpg', 'maleadmin.jpg','maleadmin1.jpg']) ;
+         }
+         elseif ($role == "OWNER") {
+            return randomElement(['maleowner.jpg']) ;
+         }
+      }
+      elseif ($checktype == "FEMALE") {
+         if($role == "ADMIN"){
+            return randomElement(['femaleadmin.jpg']) ;
+         }
+         elseif ($role == "OWNER") {
+            return randomElement(['femaleowner.jpg']) ;
+         }
+      }
+   }
+
+
+   // todo check type of path owner || admin (tcr) //
+   public function checkuserpath($gender){
+
+      if($gender == "MALE"){
+            return randomElement(['male.jpg', 'male1.png','male2.png']) ;
+        
+      }
+      elseif ($checktype == "FEMALE") {
+            return randomElement(['female.png','female1.png','female2.png','female3.png','female4.png','female5.png']) ;
+      }
+         
+        
+   }
 }
 

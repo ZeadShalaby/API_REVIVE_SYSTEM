@@ -118,10 +118,10 @@ class TCRController extends Controller
      */
     public function autocolmpletesearch(Request $request)
     {
-        // ? search by name machine || location // 
+        // ? search by name || location machine // 
         $query = $request->get('query');
         if($request->type){
-            $type = $this->checktype($request->type);
+            $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)->where('name', 'LIKE', '%'. $query. '%')
             ->orwhere('location', 'LIKE', '%'. $query. '%')
             ->get();
@@ -143,7 +143,7 @@ class TCRController extends Controller
     {
         // ? return all post i deleted it //
         if($request->type){
-        $type = $this->checktype($request->type);
+        $type = $this->checkTypeMachine($request->type);
         $mhrevive = Machine::where('type',$type)->onlyTrashed()->get();
         return $this->returnData("machine",$mhrevive);}
         $mhrevive = Machine::where('type',Role::REVIVE)->onlyTrashed()->get();

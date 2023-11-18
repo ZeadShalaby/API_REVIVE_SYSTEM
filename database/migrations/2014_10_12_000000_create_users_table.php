@@ -20,13 +20,14 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('role')->unsigned();
             $table->index('role');
+            $table->string('gender');
             $table->bigInteger('phone')->unique();
             $table->index('phone');
+            $table->string('Personal_card')->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('profile_photo');
             $table->string('social_type')->nullable();
             $table->string('social_id')->nullable();
-            $table->string('profile_photo');
-            $table->string('Personal card')->nullable();
-            $table->date('birthday')->nullable();
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable();
         //  $table->rememberToken();

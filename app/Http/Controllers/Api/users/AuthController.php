@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\MethodconTrait;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Symfony\Component\Console\Input\Input;
@@ -19,7 +20,7 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
-    use ResponseTrait,ImageTrait;
+    use ResponseTrait,ImageTrait,MethodconTrait;
 
    // todo Register to api natural user
    public function register(Request $request){
@@ -36,13 +37,20 @@ class AuthController extends Controller
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
         }
-    
+    $path = $this->checkuserpath($request->gender);
     // todo Register New Account //    
     $customer = User::create([
         'name' => $request->name,
+        'username' => $request->username,
         'email' => $request->email,
         'password'  => $request->password,
         'role' => Role::CUSTOMER,
+        'gmail'=> $request->email,
+        'password' => $request->password , //! password
+        'phone'=> $request->password,
+        'profile_photo'=>$path,
+        'Personal_card' => $request->Personal_card,
+        'birthday' => $request->birthday,
      ]);
 
      if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
@@ -97,7 +105,8 @@ class AuthController extends Controller
 
     // todo POST image
     public function profileimage(Request $request){
-    //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());
+    //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());          
+    //   required|image|mimes:jpeg,png,jpg|max:2048
     $folder = 'images/users';
     $image_name = time().'.'.$request->file->extension();
     $images = $request->file->move(public_path($folder),$image_name) ;
@@ -130,7 +139,7 @@ class AuthController extends Controller
 
     }
 
-    // todo return users image
+    // todo return posts image
     public function imagesposts(Request $request,$post){
         if(isset($post)){
           return $this->returnimageposts($post,$post);}
@@ -138,7 +147,7 @@ class AuthController extends Controller
 
     }
 
-    // todo return users image
+    // todo return machine image
     public function imagesmachine(Request $request,$machine){
         if(isset($machine)){
           return $this->returnimagemachine($machine,$machine);}
