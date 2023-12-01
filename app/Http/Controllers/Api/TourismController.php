@@ -33,7 +33,7 @@ class TourismController extends Controller
         return $this->returnData("data",$filterResult);
         }
         $query = $request->get('query');
-        $filterResult = Tourism::where('machine_id', 'LIKE', '%'. $query. '%')->get();
+        $filterResult = Tourism::where('type',ROLE::REVIVE)/*->where('expire',Role::EXPIRE)*/->get();
         foreach ($filterResult as $belong) {
             $machine = $belong->machine; 
         }
@@ -83,7 +83,7 @@ class TourismController extends Controller
     public function show(Request $request)
     {
         //
-        $datarevive = Revive::where('machine_id',$request->machineid)
+        $datarevive = Tourism::where('machine_id',$request->machineid)
         ->whereDate('created_at',$request->createat)->get()->toArray();
         return $this->returnData("Data",$datarevive);
     }

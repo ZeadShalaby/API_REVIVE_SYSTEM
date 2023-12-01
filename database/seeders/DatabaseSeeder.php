@@ -36,6 +36,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'Admin@Admin.rev',
             'password' => Hash::make('admin'), 
             'role' =>'1',
+            'gmail'=>"zeadshalaby1@gmail.com",
+            'social_id'=>Hash::make(env("admin_social")),
             ]);
         
         //// todo add one customer ////

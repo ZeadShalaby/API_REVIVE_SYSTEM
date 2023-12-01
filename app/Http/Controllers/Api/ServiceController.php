@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Role;
+use App\Traits\LoginTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
@@ -9,22 +11,21 @@ use Laravel\Socialite\Facades\Socialite;
 
 class ServiceController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait , LoginTrait;
 
     // social service //
     public function redirect($service){
-        return  $this->returnData("data",Socialite::driver($service)->redirect());
         if(isset($service))
         return Socialite::driver($service)->redirect();
-        else return 'null';
+        else return 'Oops Some Thing Wrong :(!';
     }
 
 
        //! githup //
        public function githubcallback(){
         $user =  Socialite::driver('github')->user();
-        $users=$user;
-        return  $this->returnData("data",$users);
+        $checkuser = $this->CheckLogin($user,Role::GITHUB);
+        return $this->returnData("users",$checkuser);
 
 
       /*  
@@ -64,9 +65,14 @@ class ServiceController extends Controller
 
 
       //! google 
-      public function callback(){
+      public function googlecallback(){
         $user =  Socialite::driver('google')->user();
-        $users=$user;
+        $checkuser = $this->CheckLogin($user,Role::GOOGLE);
+        return $this->returnData("users",$checkuser);
+   }
+
+   /*
+        return $this->returnData("users",$user);
         $finduser = User::where('social_id',$users->id)->get()->value('social_id');
         $findemail = User::where('email',$user->email)->get()->value('email');
         if($finduser>0){
@@ -96,7 +102,6 @@ class ServiceController extends Controller
             else{return back()->with('error', 'Wrong Login Details');}
             
        }   
-
-   }
+ */
 
 }

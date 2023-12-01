@@ -59,6 +59,7 @@ class TCRController extends Controller
     {
         // ? edit machine //
         $machine = Machine::find($request->machineid);
+        if(!$machine){return $this->returnError('M001'," Some Thing Wrong :( ..!");}
         $machin = $machine->user; 
         return $this->returnData("machine",$machine);
 
@@ -122,13 +123,14 @@ class TCRController extends Controller
         $query = $request->get('query');
         if($request->type){
             $type = $this->checkTypeMachine($request->type);
-            $filterResult = Machine::where('type',$type)->where('name', 'LIKE', '%'. $query. '%')
-            ->orwhere('location', 'LIKE', '%'. $query. '%')
+            $filterResult = Machine::where('type',$type)
+            ->where('name', 'LIKE', '%'. $query. '%')
+            ->orwhere( 'type',$type and 'location', 'LIKE', '%'. $query. '%')
             ->get();
              return $this->returnData("machine",$filterResult);
         }else{
             $filterResult = Machine::where('type',Role::REVIVE)->where('name', 'LIKE', '%'. $query. '%')
-            ->orwhere('location', 'LIKE', '%'. $query. '%')
+            ->orwhere('type',$type and 'location', 'LIKE', '%'. $query. '%')
             ->get();
             return $this->returnData("machine",$filterResult);
         }
@@ -156,7 +158,7 @@ class TCRController extends Controller
      */
     public function restore(Request $request)
     {
-       Machine::withTrashed()->find($request->mhreviveid)->restore();
+       Machine::withTrashed()->find($request->mchrestore)->restore();
        return $this->returnSuccessMessage("Restore Machine Successfully .");
     }
     
