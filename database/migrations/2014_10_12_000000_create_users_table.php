@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger('role')->unsigned();
             $table->index('role');
             $table->string('gender');
-            $table->bigInteger('phone')->unique();
+            $table->bigInteger('phone')->unique()->nullable();
             $table->index('phone');
             $table->string('Personal_card')->nullable();
             $table->date('birthday')->nullable();

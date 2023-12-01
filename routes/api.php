@@ -49,7 +49,7 @@ Route::group(['middleware' => ['api']], function () {
 
     //?start//
     // ! login with social (github , google) //
-    Route::group(['middleware' => ['checksecurity']], function () {
+    Route::group(['middleware' => ['web']], function () {
         // login with social
         Route::get('/redirect/{service}',[ServiceController::class,'redirect']);
         // callback google
@@ -197,3 +197,15 @@ Route::group(['middleware' => ['securitymachine']], function () {
 
 });
 //?end//
+
+
+    /*
+
+     Route::group(['middleware' => ['web']], function () {
+     // login with social
+     Route::get('/redirects/{service}',[ServiceController::class,'redirect']);
+     // callback google
+     Route::get('/auth/google/callback',[ServiceController::class,'googlecallback']);
+     // callback githup 
+     Route::get('/auth/github/callback',[ServiceController::class,'githubcallback']);     });
+     */

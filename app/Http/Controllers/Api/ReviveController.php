@@ -32,8 +32,7 @@ class ReviveController extends Controller
              
              return $this->returnData("data",$machineid);
          }
-         $query = $request->get('query');
-         $machines = Machine::where('machine_id', 'LIKE', '%'. $query. '%')->get();
+         $machines = Machine::get();
          foreach ($machines as $belong) {
              $machine = $belong->user; 
          }
@@ -56,9 +55,10 @@ class ReviveController extends Controller
             return $this->returnData("data",$filterResult);
         }
         $query = $request->get('query');
-        $filterResult = Revive::where('machine_id', 'LIKE', '%'. $query. '%')/*->where('expire',Role::EXPIRE)*/->get();
+        $filterResult = Revive::/*->where('expire',Role::EXPIRE)*/get();
         foreach ($filterResult as $belong) {
             $machine = $belong->machine; 
+            $machines = $machine->user; 
         }
         return $this->returnData("data",$filterResult);
 
