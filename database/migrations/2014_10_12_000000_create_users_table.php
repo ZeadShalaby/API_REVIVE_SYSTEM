@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('role')->unsigned();
             $table->index('role');
-            $table->string('gender');
+            $table->string('gender')->nullable();;
             $table->bigInteger('phone')->unique()->nullable();
             $table->index('phone');
             $table->string('Personal_card')->nullable();

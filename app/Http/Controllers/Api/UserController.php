@@ -19,11 +19,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // ? return all usres //
+        // ? return  usres where role == "Admin" | "owner" | "Customer" //
         if($request->role){
             $role = $this->checkTypeUsers($request->type);
             $users = User::where('id','!=',Role::ADMIN)->where('role',$role)->get();
         }
+         // ? return all usres //
         else{$users = User::where('role',(Role::OWNER||Role::CUSTOMER))->get();}
         return $this->returnData("users",$users);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Validator;
 use App\Models\Role;
 use App\Traits\LoginTrait;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class ServiceController extends Controller
 {
-    use ResponseTrait , LoginTrait;
+    use ResponseTrait , LoginTrait ;
 
     //? social service //
     public function redirect($service){
@@ -22,7 +23,6 @@ class ServiceController extends Controller
 
     //! githup //
     public function githubcallback(){
-
     $user =  Socialite::driver('github')->user();
     $checkuser = $this->CheckLogin($user,Role::GITHUB);
     return $this->returnData("users",$checkuser);
@@ -30,8 +30,7 @@ class ServiceController extends Controller
     }
 
     //! google 
-    public function googlecallback(){
-
+    public function googlecallback(){  
     $user =  Socialite::driver('google')->user();
     $checkuser = $this->CheckLogin($user,Role::GOOGLE);
     return $this->returnData("users",$checkuser);
