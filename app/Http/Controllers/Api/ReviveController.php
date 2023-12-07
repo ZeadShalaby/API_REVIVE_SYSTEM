@@ -78,7 +78,9 @@ class ReviveController extends Controller
             "co" => 'required|integer',
             "degree" => 'required|integer',
         ];
-
+        // ? calculate o2 ratio //
+        $o2 = (100 - ($request->co + $request->co2 ));
+        //return $this->returnData("o2",$o2);
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -86,12 +88,15 @@ class ReviveController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
+        $check = $this->report();
+        if($check == FALSE){
 
+        }
         $posts = Revive::create([
             "machine_id" => $request->machineids,
             "co2" => $request->co2,
             "co" => $request->co,
-            "o2" => '12',
+            "o2" => $o2,
             "degree" => $request->degree,
         ]);
 

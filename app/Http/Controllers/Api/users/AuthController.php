@@ -27,8 +27,14 @@ class AuthController extends Controller
 
     $rules = [
         'name' => 'required|min:5|max:20',
+        'username' => 'required|min:5|max:20|unique:users:username',
         'email' => 'required|unique:users,email',
-        "password" => "required"
+        'gmail' => 'required|unique:users,gmail',
+        "phone" => "required|unique:users,phone",
+        'profile_photo' => 'max:30000|mimes:jpeg,png,jpg',
+        'Personal_card' =>"required|[14,]",
+        'birthday' => "required",
+        "password" => "required|[]"
     ];
     // ! valditaion
     $validator = Validator::make($request->all(),$rules);
@@ -103,7 +109,7 @@ class AuthController extends Controller
     return $this->returnData("user",$user);
    }
 
-    // todo POST image
+    // todo profileimage image
     public function profileimage(Request $request){
     //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());          
     //   required|image|mimes:jpeg,png,jpg|max:2048
@@ -113,7 +119,7 @@ class AuthController extends Controller
     return $this->returnData('file name',$image_name);
    }
 
-   // todo POST image
+   // todo postsimage image
    public function postsimage(Request $request){
     $folder = 'images/posts';
     $image_name = time().'.'.$request->file->extension();
@@ -121,7 +127,7 @@ class AuthController extends Controller
     return $this->returnData('file name',$image_name);
    }
 
-   // todo POST image
+   // todo machineimage image
    public function machineimage(Request $request){
     $folder = 'images/machine';
     $image_name = time().'.'.$request->file->extension();

@@ -62,12 +62,20 @@ class TourismController extends Controller
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
     }
+    
+    // ? calculate o2 ratio //
+    $o2 = (100 - ($request->co + $request->co2 ));
+ 
+    $check = $this->report();
+        if($check == FALSE){
 
+        }
+        
     $posts = Tourism::create([
         "machine_id" => $request->machineids,
         "co2" => $request->co2,
         "co" => $request->co,
-        "o2" => '12',
+        "o2" => $o2,
         "degree" => $request->degree,
     ]);
 
