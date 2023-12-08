@@ -7,6 +7,7 @@ use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
 use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Process;
+//use Illuminate\Support\Facades\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class MachineLearningController extends Controller
@@ -64,12 +65,29 @@ class MachineLearningController extends Controller
     }
 
 
-    public function sayhellow(Request $request)
+    public function sayheسllow(Request $request)
     {
-        exec('python ./public/code_python/say.py', $output, $retval);
+        $path = require __DIR__ . '\MachineLearning\code_python\say.py';
+        exec('python '.$path.'', $output, $retval);
         echo "Returned with status $retval and output:\n";
         print_r($output);
 
+    }
+
+
+    public function sayhellow(Request $request)
+    {
+       /* $command = escapeshellcmd(require __DIR__ .'\MachineLearning\code_python\say.py');
+
+        exec('python '.$command.'', $output);
+        print_r($output);
+
+      $output=null;
+      $retval=null;
+      exec('whoami', $output, $retval);
+      echo "Returned with status $retval and output:\n";
+      print_r($output);
+*/
     }
   
 
