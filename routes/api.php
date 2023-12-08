@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TourismController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\users\AuthController;
+use App\Http\Controllers\Api\MachineLearningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -194,18 +195,10 @@ Route::group(['middleware' => ['securitymachine']], function () {
 });
 //?end//
 
+Route::POST('/python',[MachineLearningController::class, 'sayhellow']);
 
 });
 //?end//
 
 
-    /*
-
-     Route::group(['middleware' => ['web']], function () {
-     // login with social
-     Route::get('/redirects/{service}',[ServiceController::class,'redirect']);
-     // callback google
-     Route::get('/auth/google/callback',[ServiceController::class,'googlecallback']);
-     // callback githup 
-     Route::get('/auth/github/callback',[ServiceController::class,'githubcallback']);     });
-     */
+   
