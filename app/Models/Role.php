@@ -18,6 +18,7 @@ class Role extends Model
     const NOTEXPIRE = "0";
     const GOOGLE ="google"; 
     const GITHUB = "github";
+    const PATH_PYTHON = '/public/code_python/code_model/python.py';
     
    
 

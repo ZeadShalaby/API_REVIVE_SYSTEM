@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
-use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Process;
-//use Illuminate\Support\Facades\Process;
+use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+//use Illuminate\Support\Facades\Process;
 
 class MachineLearningController extends Controller
 {
@@ -81,14 +82,20 @@ class MachineLearningController extends Controller
 
         exec('python '.$command.'', $output);
         print_r($output);
-
+print("Welcome Laravel")
       $output=null;
       $retval=null;
       exec('whoami', $output, $retval);
       echo "Returned with status $retval and output:\n";
       print_r($output);
 */
-    }
+    
+        $process = new Process(['python', base_path() . Role::PATH_PYTHON]);
+        $process->run();
+        return $process->getOutput();
+    
+
+}
   
 
 
