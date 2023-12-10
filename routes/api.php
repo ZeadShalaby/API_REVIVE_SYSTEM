@@ -158,7 +158,6 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
 });
 //?end//
 
-
 //?start//
 // ! all routes / api here must be role = owner or admin //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.admin-role']], function () {
@@ -169,13 +168,16 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     // ? tourism //
     Route::get('/tourism/data',[TourismController::class, 'index']);
     Route::get('/tourism/data/date/{createat}',[TourismController::class, 'show']);
+    // ? training Data //
+    Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
 
 });
 //?end//
-
+// ! for all users Owner | Client | Admin //
+Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio'])->middleware('auth.guard:api','checksecurity');
 
 //?start//
-// ! all routes / api here must be for machine (revive | tourism ) //
+// ! all routes / api here must be for machine (revive | tourism | other ) //
 Route::group(['middleware' => ['securitymachine']], function () {
      
     //?start//

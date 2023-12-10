@@ -19,7 +19,9 @@ class Role extends Model
     const GOOGLE ="google"; 
     const GITHUB = "github";
     const PATH_PYTHON = '/public/code_python/code_model/python.py';
-    
+    const PATH_PYTHON_dioxide = '/public/code_python/code_model/dioxide_ratio.py';
+    const PATH_PYTHON_training = '/public/code_python/code_model/training_data.py';
+
    
 
 }
