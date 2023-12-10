@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use Symfony\Component\Process\Process;
 use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-//use Illuminate\Support\Facades\Process;
 
 class MachineLearningController extends Controller
 {
@@ -22,6 +21,9 @@ class MachineLearningController extends Controller
     
         $process = new Process(['python', base_path() . Role::PATH_PYTHON]);
         $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
         return $process->getOutput();
 
     }
