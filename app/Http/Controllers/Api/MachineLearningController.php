@@ -16,6 +16,18 @@ class MachineLearningController extends Controller
     //
     use ResponseTrait;
 
+    //! finally its work //
+    public function sayhellow(Request $request)
+    {
+    
+        $process = new Process(['python', base_path() . Role::PATH_PYTHON]);
+        $process->run();
+        return $process->getOutput();
+
+    }
+
+
+    //! not work //
     public function sayhellowss(Request $request)
     {
         $path = public_path('images/say.py');
@@ -66,7 +78,7 @@ class MachineLearningController extends Controller
     }
 
 
-    public function sayheسllow(Request $request)
+    public function sayheslow(Request $request)
     {
         $path = require __DIR__ . '\MachineLearning\code_python\say.py';
         exec('python '.$path.'', $output, $retval);
@@ -76,26 +88,6 @@ class MachineLearningController extends Controller
     }
 
 
-    public function sayhellow(Request $request)
-    {
-       /* $command = escapeshellcmd(require __DIR__ .'\MachineLearning\code_python\say.py');
-
-        exec('python '.$command.'', $output);
-        print_r($output);
-print("Welcome Laravel")
-      $output=null;
-      $retval=null;
-      exec('whoami', $output, $retval);
-      echo "Returned with status $retval and output:\n";
-      print_r($output);
-*/
-    
-        $process = new Process(['python', base_path() . Role::PATH_PYTHON]);
-        $process->run();
-        return $process->getOutput();
-    
-
-}
   
 
 
