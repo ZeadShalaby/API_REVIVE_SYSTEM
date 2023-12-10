@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use validator;
+use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -44,77 +46,111 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        //! rules //
-        $rules = [
-            'name' => 'required|min:5|max:20',
-            'email' => 'required|unique:users,email',
-            "password" => "required|regex:/(^([a-zA-Z]+)(\d+)?$)/u"
-        ];
-        // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-            }
-        $path = $this->checkpath($request->gender,$request->role);
-        // todo Register New Account //    
-        $customer = User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password'  => $request->password,
-            'role' => $request->role,
-            'gmail'=> $request->email,
-            'password' => $request->password , //! password
-            'phone' => $request->password,
-            'profile_photo' => $path,
-            'Personal_card' => $request->Personal_card,
-            'birthday' => $request->birthday,
-        ]);
-
-        if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
-        else{return $this->returnError('R001','Some Thing Wrong .');}
+       
     }
 
     /**
      * todo Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        // ? show info for user 
+        $user = User::find($request->id);
+        return  $this->returnData("users" , $user);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        // ? 
+        $user = User::find($request->id);
+        return  $this->returnData("users" , $user);
     }
 
     /**
      * todo Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        // ? update user //
+        $user = User::find($request->id);
+        if(asset($user->social_id)){
+        $rules = [
+            'name' => 'required|min:5|max:20',
+            'username' => 'required|min:5|max:20|unique:users:username',
+            "phone" => "required|unique:users,phone",
+            'birthday' => "required",
+
+        ];}
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        $old_post->update([
+                'description' => $request->description,
+            ]);
+             
+            $msg = " Update successfully .";
+            return $this->returnSuccessMessage($msg); 
+
     }
 
     /**
+     * todo Update the specified resource in storage.
+     */
+    public function modifyrole(Request $request)
+    {
+        $user = User::find($request->id);
+        if(asset($user->social_id)){
+        $rules = [
+            'name' => 'required|integer',
+        ];}
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        $old_post->update([
+                'role' => $request->role,
+            ]);
+             
+            $msg = " change role successfully .";
+            return $this->returnSuccessMessage($msg); 
+
+    }
+    /**
      * todo Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        // ? delete users //
+        $user = User::find($request->id);
+        $user ->delete();
+        $msg = " delete users : " .$request->name . "  " ."successfully .";
+        return $this->returnSuccessMessage($msg);
     }
 
     /**
      * todo Autocomplete Search the specified resource from storage.
      */
-    public function autocolmpletesearch()
+    public function autocolmpletesearch(Request $request)
     {
-       //
+        // ? search by name || location machine // 
+        $query = $request->get('query');
+        $filterResult = User::where('name', 'LIKE', '%'. $query. '%')
+        ->orwhere( 'username', 'LIKE', '%'. $query. '%')
+        ->orwhere( 'phone', 'LIKE', '%'. $query. '%')
+        ->get();
+            return $this->returnData("users",$filterResult);
+    
     }
 
 //////////////////////////////////////////////////////////! ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

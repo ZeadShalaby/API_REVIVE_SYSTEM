@@ -2,18 +2,32 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
-use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Process;
+use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+//use Illuminate\Support\Facades\Process;
 
 class MachineLearningController extends Controller
 {
     //
     use ResponseTrait;
 
+    //! finally its work //
+    public function sayhellow(Request $request)
+    {
+    
+        $process = new Process(['python', base_path() . Role::PATH_PYTHON]);
+        $process->run();
+        return $process->getOutput();
+
+    }
+
+
+    //! not work //
     public function sayhellowss(Request $request)
     {
         $path = public_path('images/say.py');
@@ -64,13 +78,16 @@ class MachineLearningController extends Controller
     }
 
 
-    public function sayhellow(Request $request)
+    public function sayheslow(Request $request)
     {
-        exec('python ./public/code_python/say.py', $output, $retval);
+        $path = require __DIR__ . '\MachineLearning\code_python\say.py';
+        exec('python '.$path.'', $output, $retval);
         echo "Returned with status $retval and output:\n";
         print_r($output);
 
     }
+
+
   
 
 
