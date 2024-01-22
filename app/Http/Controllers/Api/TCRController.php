@@ -121,7 +121,7 @@ class TCRController extends Controller
     {
         // ? search by name || location machine // 
         $query = $request->get('query');
-        if($request->type){
+        if($request->type != NULL){
             $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)
             ->where('name', 'LIKE', '%'. $query. '%')
@@ -130,9 +130,9 @@ class TCRController extends Controller
              return $this->returnData("machine",$filterResult);
         }else{
             $filterResult = Machine::where('type',Role::REVIVE)->where('name', 'LIKE', '%'. $query. '%')
-            ->orwhere('type',$type and 'location', 'LIKE', '%'. $query. '%')
+            ->orwhere('location', 'LIKE', '%'. $query. '%')
             ->get();
-            return $this->returnData("machine",$filterResult);
+            return $this->returnData("machines",$filterResult);
         }
     }
 

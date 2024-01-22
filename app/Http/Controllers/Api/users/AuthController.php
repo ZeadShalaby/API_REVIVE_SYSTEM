@@ -25,17 +25,7 @@ class AuthController extends Controller
    // todo Register to api natural user
    public function register(Request $request){
 
-    $rules = [
-        'name' => 'required|min:5|max:20',
-        'username' => 'required|min:5|max:20|unique:users:username',
-        'email' => 'required|unique:users,email',
-        'gmail' => 'required|unique:users,gmail',
-        "phone" => "required|unique:users,phone",
-        'profile_photo' => 'max:30000|mimes:jpeg,png,jpg',
-        'Personal_card' =>"required|[14,]",
-        'birthday' => "required",
-        "password" => "required|[]"
-    ];
+       
     // ! valditaion
     $validator = Validator::make($request->all(),$rules);
 
@@ -101,8 +91,39 @@ class AuthController extends Controller
 
 
  ////! ///////////////////////////////////////////////
+ // todo change image of users 
+    public function changeimg(Request $request)
+   {
+       //
+       $users = user::find(auth()->user()->id);
+       $rules = [
+           "profile_photo" => "required|image|mimes:jpg,png,gif|max:2048"
+       ];
+       // ! valditaion
+       $validator = Validator::make($request->all(),$rules);
+
+       if($validator->fails()){
+               $code = $this->returnCodeAccordingToInput($validator);
+               return $this->returnValidationError($code,$validator);
+           }
+       else{
+           $folder = 'images/users';
+           $image_name = time().'.'.$request->file->extension();
+           $images = $request->file->move(public_path($folder),$image_name) ;
+           $path = env("APP_URL").env("Path_imgUsers").$image_name;
+           $users->update([
+               'path'  => $path ,
+           ]);
+       }    
+       $msg = "users : ".$users->name." , Change Photo successfully .";
+       return $this->returnSuccessMessage($msg);    
+   
+   }
 
 
+
+
+////! ////////////////////////////////////////////////
    // todo return users details
    public function profile(Request $request){
     $user = auth()->user();
