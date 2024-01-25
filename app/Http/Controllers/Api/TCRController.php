@@ -73,13 +73,7 @@ class TCRController extends Controller
     {
         // ? update machine //
         $machine = Machine::find($request->machineid);        
-        $rules = [
-            "name" => "required",
-            "owner_id" => "required|exists:users,id",
-            "location" => "required",
-            "type" => 'required|integer|min:5|max:7',
-
-        ];
+        $rules = $this->rulesMachineUpdate();
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     

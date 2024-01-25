@@ -1,0 +1,1 @@
+print('the weather is good')

@@ -70,23 +70,16 @@ class ReviveController extends Controller
      */
     public function store(Request $request)
     {
-    
         //! rules
-        $rules = [
-            "machineids" => 'required|integer|exists:machines,id',
-            "co2" => 'required|integer',
-            "co" => 'required|integer',
-            "degree" => 'required|integer',
-        ];
+        $rules = $this->rulesRevive();
         // ? calculate o2 ratio //
-        $o2 = (100 - ($request->co + $request->co2 ));
+        $o2 = (100 - ($request->co + $request->co2 )-20);
         //return $this->returnData("o2",$o2);
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
-    
         if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
         }
         $check = $this->report();
         if($check == FALSE){

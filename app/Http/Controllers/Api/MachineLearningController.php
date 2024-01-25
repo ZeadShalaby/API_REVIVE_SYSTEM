@@ -40,6 +40,7 @@ class MachineLearningController extends Controller
       $process = new Process(['python', base_path() . env("PATH_PYTHON_dioxide","/public/code_python/code_model/dioxide_ratio.py")]);
       $process->run();
       if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
+      $this->ReadFile_dioxide($process->getOutput());
       return $process->getOutput();
 
   }
@@ -53,12 +54,25 @@ class MachineLearningController extends Controller
         $process = new Process(['python', base_path() . env("PATH_PYTHON_training","/public/code_python/code_model/training_data.py")]);
         $process->run();
         if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
-        $this->ReadFile($process->getOutput());
+        $this->ReadFile_training($process->getOutput());
         return $process->getOutput();
 
     }
 
 
+
+     //! Training Data Weather classfication , model //
+     public function weather(Request $request)
+     {
+     
+         $process = new Process(['python', base_path() . env("PATH_PYTHON_weather","/public/code_python/code_model/weather.py")]);
+         $process->run();
+         if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
+         $this->ReadFile_weather($process->getOutput());
+         return $process->getOutput();
+ 
+     }
+ 
 
 
 

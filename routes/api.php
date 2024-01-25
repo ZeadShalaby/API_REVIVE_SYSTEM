@@ -75,7 +75,7 @@ Route::group(['middleware' => ['api']], function () {
 
     // todo return image post | users | machine //
     Route::get('/reviveimageusers/{service}',[AuthController::class, 'imagesuser']);
-    Route::get('/reviveimageposts/{service}',[AuthController::class, 'imagesposts']);
+    Route::get('/reviveimageposts/{service}',[PostController::class, 'imagesposts']);
     Route::get('/reviveimagemachine/{service}',[AuthController::class, 'imagesmachine']);
     // todo change photo for users  //
     Route::PUT('/revive/imgusers',[AuthController::class, 'changeimg']);
@@ -183,6 +183,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     Route::get('/tourism/data/date/{createat}',[TourismController::class, 'show']);
     // ? training Data //
     Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
+    // ? training Data weather //
+    Route::POST('/python/weather',[MachineLearningController::class, 'weather']);
 
 });
 //?end//

@@ -15,7 +15,8 @@ class Role extends Model
     const COASTAL = "5";
     const REVIVE = "6";
     const FCI = "7";
-    const OTHER = "8";
+    const WEATHER = '8';
+    const OTHER = "9";
     const EXPIRE = "1";
     const NOTEXPIRE = "0";
     const GOOGLE ="google"; 

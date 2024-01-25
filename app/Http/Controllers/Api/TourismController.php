@@ -48,39 +48,34 @@ class TourismController extends Controller
     public function store(Request $request)
     {
        //! rules
-       $rules = [
-        "machineids" => 'required|integer|exists:machines,id',
-        "co2" => 'required|integer',
-        "co" => 'required|integer',
-        "degree" => 'required|integer',
-    ];
+       $rules = $this->rulesTourism();
 
-    // ! valditaion
-    $validator = Validator::make($request->all(),$rules);
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
 
-    if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-    }
-    
-    // ? calculate o2 ratio //
-    $o2 = (100 - ($request->co + $request->co2 ));
- 
-    $check = $this->report();
-        if($check == FALSE){
-
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
         }
         
-    $posts = Tourism::create([
-        "machine_id" => $request->machineids,
-        "co2" => $request->co2,
-        "co" => $request->co,
-        "o2" => $o2,
-        "degree" => $request->degree,
-    ]);
+        // ? calculate o2 ratio //
+        $o2 = (100 - ($request->co + $request->co2 ));
+    
+        $check = $this->report();
+            if($check == FALSE){
 
-    $msg = " insert successfully .";
-    return $this->returnSuccessMessage($msg);
+            }
+            
+        $posts = Tourism::create([
+            "machine_id" => $request->machineids,
+            "co2" => $request->co2,
+            "co" => $request->co,
+            "o2" => $o2,
+            "degree" => $request->degree,
+        ]);
+
+        $msg = " insert successfully .";
+        return $this->returnSuccessMessage($msg);
     
 }
 

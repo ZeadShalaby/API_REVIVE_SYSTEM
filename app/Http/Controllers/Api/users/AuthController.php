@@ -8,6 +8,7 @@ use Exception;
 use Validator;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\Requests\TestAuth;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -20,12 +21,12 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
-    use ResponseTrait,ImageTrait,MethodconTrait;
+    use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
 
    // todo Register to api natural user
    public function register(Request $request){
-
-       
+   
+   $rules = $this->rulesRegist();    
     // ! valditaion
     $validator = Validator::make($request->all(),$rules);
 
@@ -48,7 +49,6 @@ class AuthController extends Controller
         'Personal_card' => $request->Personal_card,
         'birthday' => $request->birthday,
      ]);
-
      if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
      else{return $this->returnError('R001','Some Thing Wrong .');}
 
@@ -59,13 +59,9 @@ class AuthController extends Controller
      // todo Login Users
      public function login(Request $request){
         try{
-        $rules = [
-            "email" => "required|exists:users,email",
-            "password" => "required"
-        ];
+        $rules = $this->rulesLogin();
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
-
         if($validator->fails()){
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
@@ -166,13 +162,6 @@ class AuthController extends Controller
 
     }
 
-    // todo return posts image
-    public function imagesposts(Request $request,$post){
-        if(isset($post)){
-          return $this->returnimageposts($post,$post);}
-        else {return 'null';}
-
-    }
 
     // todo return machine image
     public function imagesmachine(Request $request,$machine){

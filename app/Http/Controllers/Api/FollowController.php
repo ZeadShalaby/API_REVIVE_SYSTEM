@@ -10,11 +10,12 @@ use App\Traits\CountTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 class FollowController extends Controller
 {
-    use ResponseTrait , MethodconTrait , CountTrait;
+    use ResponseTrait , MethodconTrait , CountTrait , TestAuth;
     //
      /**
      * todo Display a listing of the resource.
