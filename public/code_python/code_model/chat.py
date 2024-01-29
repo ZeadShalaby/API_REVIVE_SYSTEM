@@ -11,5 +11,5 @@ data_dict = json.loads(data)
 
 
 #! Process the data
-print("Dioxide Ratio With Laravel")
+print("Question is very good :)")
 print(data_dict)

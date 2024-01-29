@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\emailmailer;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\users\AuthController;
 
@@ -18,6 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/testroute', function () {
+    $name = "Funny Coder";
+
+    Mail::to('zeadshalaby1@gmail.com')->send(new emailmailer($name));
+});
 
 
 

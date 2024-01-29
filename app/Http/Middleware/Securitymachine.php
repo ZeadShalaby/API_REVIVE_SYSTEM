@@ -20,7 +20,7 @@ class Securitymachine
     public function handle(Request $request, Closure $next): Response
     {
         $checkmachineid = $this->machinevalidate($request->machineids);
-        if($request->securitymachine != env("API_SEC_Machine")){
+        if($request->securitymachine != env("API_SEC_Machine",'NPd1nyozbX9qGyfAqKkCDlDY5Fn8CGr')){
             return $this->returnError('U100','Unauthenticated Machine OOPS :( ...!'); 
         }
         if($request->machineids != $checkmachineid){

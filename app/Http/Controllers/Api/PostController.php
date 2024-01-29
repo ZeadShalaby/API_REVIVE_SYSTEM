@@ -13,11 +13,12 @@ use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-    use ResponseTrait,MachineTrait,ImageTrait,MethodconTrait;
+    use ResponseTrait,MachineTrait,ImageTrait,MethodconTrait,TestAuth;
 
     //
      /**
@@ -46,11 +47,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //! rules
-        $rules = [
-            'description' => 'required|min:5|max:250',
-            'file' => 'required|file',
-        ];
-
+        $rules = $this->rulesPosts();
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -121,6 +118,16 @@ class PostController extends Controller
              
             $msg = " Update successfully .";
             return $this->returnSuccessMessage($msg); 
+    }
+    
+    /**
+      * todo return posts image
+      */
+    public function imagesposts(Request $request,$post){
+        if(isset($post)){
+        return $this->returnimageposts($post,$post);}
+        else {return 'null';}
+
     }
 
     /**

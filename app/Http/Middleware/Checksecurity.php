@@ -17,7 +17,7 @@ class Checksecurity
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->checksecurity != env("API_VALIDATION")){
+        if($request->checksecurity != env("API_VALIDATION",'EI8m2bl8TFVjbwYmuopsNPd1')){
             return $this->returnError('U100','Unauthenticated OOPS :( ..!'); 
         }
         return $next($request);

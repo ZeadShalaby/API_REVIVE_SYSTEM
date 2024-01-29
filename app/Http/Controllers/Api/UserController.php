@@ -8,12 +8,13 @@ use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 ////! only admin can do this method on this controller ////
 class UserController extends Controller
 {
-    use ResponseTrait,ImageTrait,MethodconTrait;
+    use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
 
     /** 
      * 
@@ -78,13 +79,8 @@ class UserController extends Controller
         // ? update user //
         $user = User::find($request->id);
         if(asset($user->social_id)){
-        $rules = [
-            'name' => 'required|min:5|max:20',
-            'username' => 'required|min:5|max:20|unique:users:username',
-            "phone" => "required|unique:users,phone",
-            'birthday' => "required",
-
-        ];}
+        $rules = $this->rulesUpdateUsers();
+        }
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     

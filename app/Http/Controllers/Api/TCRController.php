@@ -11,11 +11,12 @@ use App\Models\Machine;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 class TCRController extends Controller
 {
-    use MethodconTrait,ResponseTrait;
+    use MethodconTrait,ResponseTrait,TestAuth;
      /** 
      * todo Show the form for creating a new resource.
      * ! only admin can add a new revive | tourism hardware
@@ -23,13 +24,7 @@ class TCRController extends Controller
      public function newtcr(Request $request)
      {
           //! rules
-          $rules = [
-             "name" => "required|unique:machines,name",
-             "owner_id" => "required|exists:users,id",
-             "location" => "required|unique:machines,location",
-             "type" => 'required|integer|min:5|max:7',
-            ];
- 
+          $rules = $this->rulestcr();
          // ! valditaion
          $validator = Validator::make($request->all(),$rules);
      
@@ -73,13 +68,7 @@ class TCRController extends Controller
     {
         // ? update machine //
         $machine = Machine::find($request->machineid);        
-        $rules = [
-            "name" => "required",
-            "owner_id" => "required|exists:users,id",
-            "location" => "required",
-            "type" => 'required|integer|min:5|max:7',
-
-        ];
+        $rules = $this->rulesMachineUpdate();
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -121,7 +110,7 @@ class TCRController extends Controller
     {
         // ? search by name || location machine // 
         $query = $request->get('query');
-        if($request->type){
+        if($request->type != NULL){
             $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)
             ->where('name', 'LIKE', '%'. $query. '%')
@@ -130,9 +119,9 @@ class TCRController extends Controller
              return $this->returnData("machine",$filterResult);
         }else{
             $filterResult = Machine::where('type',Role::REVIVE)->where('name', 'LIKE', '%'. $query. '%')
-            ->orwhere('type',$type and 'location', 'LIKE', '%'. $query. '%')
+            ->orwhere('location', 'LIKE', '%'. $query. '%')
             ->get();
-            return $this->returnData("machine",$filterResult);
+            return $this->returnData("machines",$filterResult);
         }
     }
 

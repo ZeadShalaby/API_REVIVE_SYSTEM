@@ -8,6 +8,7 @@ use Exception;
 use Validator;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\Requests\TestAuth;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -20,29 +21,19 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
-    use ResponseTrait,ImageTrait,MethodconTrait;
+    use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
+
 
    // todo Register to api natural user
    public function register(Request $request){
 
-    $rules = [
-        'name' => 'required|min:5|max:20',
-        'username' => 'required|min:5|max:20|unique:users:username',
-        'email' => 'required|unique:users,email',
-        'gmail' => 'required|unique:users,gmail',
-        "phone" => "required|unique:users,phone",
-        'profile_photo' => 'max:30000|mimes:jpeg,png,jpg',
-        'Personal_card' =>"required|[14,]",
-        'birthday' => "required",
-        "password" => "required|[]"
-    ];
+   $rules = $this->rulesRegist();    
     // ! valditaion
     $validator = Validator::make($request->all(),$rules);
-
     if($validator->fails()){
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
-        }
+    }
     $path = $this->checkuserpath($request->gender);
     // todo Register New Account //    
     $customer = User::create([
@@ -51,14 +42,13 @@ class AuthController extends Controller
         'email' => $request->email,
         'password'  => $request->password,
         'role' => Role::CUSTOMER,
-        'gmail'=> $request->email,
+        'gmail'=> $request->gmail,
         'password' => $request->password , //! password
-        'phone'=> $request->password,
+        'phone'=> $request->phone,
         'profile_photo'=>$path,
         'Personal_card' => $request->Personal_card,
         'birthday' => $request->birthday,
      ]);
-
      if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
      else{return $this->returnError('R001','Some Thing Wrong .');}
 
@@ -69,13 +59,9 @@ class AuthController extends Controller
      // todo Login Users
      public function login(Request $request){
         try{
-        $rules = [
-            "email" => "required|exists:users,email",
-            "password" => "required"
-        ];
+        $rules = $this->rulesLogin();
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
-
         if($validator->fails()){
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
@@ -101,41 +87,42 @@ class AuthController extends Controller
 
 
  ////! ///////////////////////////////////////////////
+ // todo change image of users 
+    public function changeimg(Request $request)
+   {
+       //
+       $users = user::find(auth()->user()->id);
+       $rules = [ "profile_photo" => "required|image|mimes:jpg,png,gif|max:2048"];
+       // ! valditaion
+       $validator = Validator::make($request->all(),$rules);
+       if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+           }
+       else{
+           $folder = 'images/users';
+           $path = 'reviveimageusers';
+           $path = $this->saveimage($request->profile_photo , $folder , $path);
+           $users->update([
+               'profile_photo'  => $path ,
+           ]);
+       }    
+       $msg = "users : ".$users->name." , Change Photo successfully .";
+       return $this->returnSuccessMessage($msg);    
+   
+   }
 
 
+
+
+////! //////////////////////////////////////
    // todo return users details
    public function profile(Request $request){
     $user = auth()->user();
     return $this->returnData("user",$user);
-   }
+   } 
 
-    // todo profileimage image
-    public function profileimage(Request $request){
-    //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());          
-    //   required|image|mimes:jpeg,png,jpg|max:2048
-    $folder = 'images/users';
-    $image_name = time().'.'.$request->file->extension();
-    $images = $request->file->move(public_path($folder),$image_name) ;
-    return $this->returnData('file name',$image_name);
-   }
-
-   // todo postsimage image
-   public function postsimage(Request $request){
-    $folder = 'images/posts';
-    $image_name = time().'.'.$request->file->extension();
-    $images = $request->file->move(public_path($folder),$image_name) ;
-    return $this->returnData('file name',$image_name);
-   }
-
-   // todo machineimage image
-   public function machineimage(Request $request){
-    $folder = 'images/machine';
-    $image_name = time().'.'.$request->file->extension();
-    $images = $request->file->move(public_path($folder),$image_name) ;
-    return $this->returnData('file name',$image_name);
-   }
-
-//! ////////////////////////////////////////////////////////////
+//! ////////////////////////////////////////
 
     // todo return users image
     public function imagesuser(Request $request,$user){
@@ -145,23 +132,7 @@ class AuthController extends Controller
 
     }
 
-    // todo return posts image
-    public function imagesposts(Request $request,$post){
-        if(isset($post)){
-          return $this->returnimageposts($post,$post);}
-        else {return 'null';}
-
-    }
-
-    // todo return machine image
-    public function imagesmachine(Request $request,$machine){
-        if(isset($machine)){
-          return $this->returnimagemachine($machine,$machine);}
-        else {return 'null';}
-
-    }
-
-   ////! ////////////////////////////////////////
+//! ////////////////////////////////////////
 
     // todo Logout Users
     public function logout(Request $request){

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TCRController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ReviveController;
 use App\Http\Controllers\Api\CommentController;
@@ -65,21 +66,20 @@ Route::group(['middleware' => ['api']], function () {
     //! return image post or user or machine // 
     Route::group(['prefix' =>'images','namespace' => 'users'], function () {
     
-    // todo return image post | users | machine //
-    Route::POST('/revive/profilephoto',[AuthController::class, 'profileimage']);
+    // todo edit image post | users  //
     Route::POST('/revive/postimage',[AuthController::class, 'postsimage']);
-    Route::POST('/revive/filesmachineimage',[AuthController::class, 'machineimage']);
         
 //! ////////////////////////////////////////////////////////////////////////////////////////
 
     // todo return image post | users | machine //
     Route::get('/reviveimageusers/{service}',[AuthController::class, 'imagesuser']);
-    Route::get('/reviveimageposts/{service}',[AuthController::class, 'imagesposts']);
-    Route::get('/reviveimagemachine/{service}',[AuthController::class, 'imagesmachine']);
+    Route::get('/reviveimageposts/{service}',[PostController::class, 'imagesposts']);
+    Route::get('/reviveimagemachine/{service}',[MachineLearningController::class, 'imagesmachine']);
+    // todo change photo for users  //
+    Route::PUT('/revive/imgusers',[AuthController::class, 'changeimg']);
 
     });
     //?end//
-
 
 
 
@@ -96,6 +96,16 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::get('/tcr/autocolmpletesearch',[TCRController::class, 'autocolmpletesearch']);
     Route::get('/tcr/restoreindex',[TCRController::class, 'restoreindex']);
     Route::post('/tcr/restore',[TCRController::class, 'restore']);
+    // todo for all users //
+    Route::POST('/users',[UserController::class, 'index']);
+    Route::get('/users/show/{userid}',[UserController::class, 'show']);
+    Route::get('/users/edit/{userid}',[UserController::class, 'edit']);
+    Route::PUT('/users/update/{userid}',[UserController::class, 'update']);
+    Route::PUT('/users/modifyrole',[UserController::class, 'update']);
+    Route::Delete('/users/{userid}',[UserController::class, 'destroy']);
+    // todo autocomplete search  //
+    Route::get('/users/autocolmpletesearch',[UserController::class, 'autocolmpletesearch']);
+
 
 });
 //?end//
@@ -154,6 +164,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/users/following',[FollowController::class, 'showfollowing']);
     Route::get('/users/followers',[FollowController::class, 'showfollowers']);
     Route::Delete('/users/follow',[FollowController::class, 'destroy']);
+    // ? edit user image //
+    Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
+
 
 });
 //?end//
@@ -170,11 +183,11 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     Route::get('/tourism/data/date/{createat}',[TourismController::class, 'show']);
     // ? training Data //
     Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
+    // ? training Data weather //
+    Route::POST('/python/weather',[MachineLearningController::class, 'weather']);
 
 });
 //?end//
-// ! for all users Owner | Client | Admin //
-Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio'])->middleware('auth.guard:api','checksecurity');
 
 //?start//
 // ! all routes / api here must be for machine (revive | tourism | other ) //
@@ -197,7 +210,9 @@ Route::group(['middleware' => ['securitymachine']], function () {
 });
 //?end//
 
-Route::POST('/python',[MachineLearningController::class, 'sayhellow']);
+Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
+// ! for all users Owner | Client | Admin //
+Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio'])->middleware('auth.guard:api','checksecurity');
 
 });
 //?end//

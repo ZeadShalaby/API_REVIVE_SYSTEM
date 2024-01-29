@@ -14,14 +14,18 @@ class Role extends Model
     const TOURISM = "4";
     const COASTAL = "5";
     const REVIVE = "6";
+    const FCI = "7";
+    const WEATHER = '8';
+    const OTHER = "9";
     const EXPIRE = "1";
     const NOTEXPIRE = "0";
     const GOOGLE ="google"; 
     const GITHUB = "github";
-    const PATH_PYTHON = '/public/code_python/code_model/python.py';
-    const PATH_PYTHON_dioxide = '/public/code_python/code_model/dioxide_ratio.py';
-    const PATH_PYTHON_training = '/public/code_python/code_model/training_data.py';
-
+    const TESTPY = "1";
+    const DIOXIDEPY = "2";
+    const TRAINGPY = "3";
+    const WEATHERPY = "4";
+    const CHATPY = "5";
    
 
 }
