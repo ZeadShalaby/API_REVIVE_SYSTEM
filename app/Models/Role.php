@@ -21,7 +21,11 @@ class Role extends Model
     const NOTEXPIRE = "0";
     const GOOGLE ="google"; 
     const GITHUB = "github";
-   
+    const TESTPY = "1";
+    const DIOXIDEPY = "2";
+    const TRAINGPY = "3";
+    const WEATHERPY = "4";
+    const CHATPY = "5";
    
 
 }

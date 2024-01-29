@@ -11,11 +11,12 @@ use App\Models\Machine;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 class TCRController extends Controller
 {
-    use MethodconTrait,ResponseTrait;
+    use MethodconTrait,ResponseTrait,TestAuth;
      /** 
      * todo Show the form for creating a new resource.
      * ! only admin can add a new revive | tourism hardware
@@ -23,13 +24,7 @@ class TCRController extends Controller
      public function newtcr(Request $request)
      {
           //! rules
-          $rules = [
-             "name" => "required|unique:machines,name",
-             "owner_id" => "required|exists:users,id",
-             "location" => "required|unique:machines,location",
-             "type" => 'required|integer|min:5|max:7',
-            ];
- 
+          $rules = $this->rulestcr();
          // ! valditaion
          $validator = Validator::make($request->all(),$rules);
      

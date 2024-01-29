@@ -7,6 +7,7 @@ use App\Traits\ExellTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Traits\MachineLearningTrait;
 use Symfony\Component\Process\Process;
 use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -14,34 +15,35 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class MachineLearningController extends Controller
 {
     //
-    use ResponseTrait , ExellTrait;
+    use ResponseTrait , ExellTrait  , MachineLearningTrait ;
 
     //! finally its work //
     public function sayhellow(Request $request)
     {
-        
-        $process = new Process(['python', base_path() . env("API_VALIDATION","/public/code_python/code_model/python.py")]);
-        $process->run();
-        if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
-
-        return response()->download($filename, $filename, $headers);
-       // return $process->getOutput();
+        $data = [
+            'name' => 'zead',
+            'age' => 22,
+            'city' => 'spania'
+        ];
+        $output = $this->sendDataPy($data , Role::TESTPY);
+        return $this-> returnData("Python Output" , $output);
+      // return response()->download($filename, $filename, $headers);
 
     }
-
-
-   
-
 
   //! dioxide ratio (Co2) //
   public function dioxide_ratio(Request $request)
   {
       
-      $process = new Process(['python', base_path() . env("PATH_PYTHON_dioxide","/public/code_python/code_model/dioxide_ratio.py")]);
-      $process->run();
-      if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
-      $this->ReadFile_dioxide($process->getOutput());
-      return $process->getOutput();
+        $data = [
+            'foodprint' => "yes",
+            'co2' => 22 ,
+            'co' => 12,
+            'o2' => 19,
+            'degree' => 32,
+        ];
+        $output = $this->sendDataPy($data , Role::DIOXIDEPY);
+        return $this-> returnData("Python Output" , $output);
 
   }
 
@@ -51,11 +53,14 @@ class MachineLearningController extends Controller
     public function tranining(Request $request)
     {
     
-        $process = new Process(['python', base_path() . env("PATH_PYTHON_training","/public/code_python/code_model/training_data.py")]);
-        $process->run();
-        if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
-        $this->ReadFile_training($process->getOutput());
-        return $process->getOutput();
+        $data = [
+            'co2' => 22 ,
+            'co' => 12,
+            'o2' => 19,
+            'degree' => 32,
+        ];
+        $output = $this->sendDataPy($data , Role::TRAINGPY);
+        return $this-> returnData("Python Output" , $output);
 
     }
 
@@ -65,15 +70,35 @@ class MachineLearningController extends Controller
      public function weather(Request $request)
      {
      
-         $process = new Process(['python', base_path() . env("PATH_PYTHON_weather","/public/code_python/code_model/weather.py")]);
-         $process->run();
-         if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
-         $this->ReadFile_weather($process->getOutput());
-         return $process->getOutput();
+        $data = [
+            'storm' => "yes",
+            'rain' => "no",
+            'sunny' => "no",
+        ];
+        $output = $this->sendDataPy($data , Role::WEATHERPY);
+        return $this-> returnData("Python Output" , $output);
  
      }
  
+    //! Chat auto and learning from question , libarry //
+    public function chat(Request $request)
+    {
 
+        $data = [
+            'question' => "weather is good !?",
+            'answer'  => "yes its good",
+        ];
+        $output = $this->sendDataPy($data , Role::CHATPY);
+        return $this-> returnData("Python Output" , $output);
 
+    }
+
+     // todo return machine image
+     public function imagesmachine(Request $request,$machine){
+        if(isset($machine)){
+          return $this->returnimagemachine($machine,$machine);}
+        else {return 'null';}
+
+    }
 
 }

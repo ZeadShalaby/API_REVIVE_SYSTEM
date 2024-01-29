@@ -23,17 +23,17 @@ class AuthController extends Controller
 {
     use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
 
+
    // todo Register to api natural user
    public function register(Request $request){
-   
+
    $rules = $this->rulesRegist();    
     // ! valditaion
     $validator = Validator::make($request->all(),$rules);
-
     if($validator->fails()){
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
-        }
+    }
     $path = $this->checkuserpath($request->gender);
     // todo Register New Account //    
     $customer = User::create([
@@ -42,9 +42,9 @@ class AuthController extends Controller
         'email' => $request->email,
         'password'  => $request->password,
         'role' => Role::CUSTOMER,
-        'gmail'=> $request->email,
+        'gmail'=> $request->gmail,
         'password' => $request->password , //! password
-        'phone'=> $request->password,
+        'phone'=> $request->phone,
         'profile_photo'=>$path,
         'Personal_card' => $request->Personal_card,
         'birthday' => $request->birthday,
@@ -92,23 +92,19 @@ class AuthController extends Controller
    {
        //
        $users = user::find(auth()->user()->id);
-       $rules = [
-           "profile_photo" => "required|image|mimes:jpg,png,gif|max:2048"
-       ];
+       $rules = [ "profile_photo" => "required|image|mimes:jpg,png,gif|max:2048"];
        // ! valditaion
        $validator = Validator::make($request->all(),$rules);
-
        if($validator->fails()){
-               $code = $this->returnCodeAccordingToInput($validator);
-               return $this->returnValidationError($code,$validator);
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
            }
        else{
            $folder = 'images/users';
-           $image_name = time().'.'.$request->file->extension();
-           $images = $request->file->move(public_path($folder),$image_name) ;
-           $path = env("APP_URL").env("Path_imgUsers").$image_name;
+           $path = 'reviveimageusers';
+           $path = $this->saveimage($request->profile_photo , $folder , $path);
            $users->update([
-               'path'  => $path ,
+               'profile_photo'  => $path ,
            ]);
        }    
        $msg = "users : ".$users->name." , Change Photo successfully .";
@@ -119,40 +115,14 @@ class AuthController extends Controller
 
 
 
-////! ////////////////////////////////////////////////
+////! //////////////////////////////////////
    // todo return users details
    public function profile(Request $request){
     $user = auth()->user();
     return $this->returnData("user",$user);
-   }
+   } 
 
-    // todo profileimage image
-    public function profileimage(Request $request){
-    //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());          
-    //   required|image|mimes:jpeg,png,jpg|max:2048
-    $folder = 'images/users';
-    $image_name = time().'.'.$request->file->extension();
-    $images = $request->file->move(public_path($folder),$image_name) ;
-    return $this->returnData('file name',$image_name);
-   }
-
-   // todo postsimage image
-   public function postsimage(Request $request){
-    $folder = 'images/posts';
-    $image_name = time().'.'.$request->file->extension();
-    $images = $request->file->move(public_path($folder),$image_name) ;
-    return $this->returnData('file name',$image_name);
-   }
-
-   // todo machineimage image
-   public function machineimage(Request $request){
-    $folder = 'images/machine';
-    $image_name = time().'.'.$request->file->extension();
-    $images = $request->file->move(public_path($folder),$image_name) ;
-    return $this->returnData('file name',$image_name);
-   }
-
-//! ////////////////////////////////////////////////////////////
+//! ////////////////////////////////////////
 
     // todo return users image
     public function imagesuser(Request $request,$user){
@@ -162,16 +132,7 @@ class AuthController extends Controller
 
     }
 
-
-    // todo return machine image
-    public function imagesmachine(Request $request,$machine){
-        if(isset($machine)){
-          return $this->returnimagemachine($machine,$machine);}
-        else {return 'null';}
-
-    }
-
-   ////! ////////////////////////////////////////
+//! ////////////////////////////////////////
 
     // todo Logout Users
     public function logout(Request $request){

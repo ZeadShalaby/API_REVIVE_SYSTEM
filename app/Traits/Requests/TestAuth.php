@@ -20,9 +20,10 @@ trait TestAuth
         "email" => "required|unique:users,email",
         "password" => "required",
         "gmail"=> "required|unique:users,gmail",
-        "phone"=> "required",
-        "Personal_card" => "required",
+        "phone"=> "required|integer",
+        "Personal_card" => "required|integer",
         "birthday" => "required",
+        "gender" => "required"
     ];
     }
     // todo rules of store posts 
@@ -72,5 +73,17 @@ trait TestAuth
       'birthday' => "required",
   ];
   }
+
+    // todo rules Tcr Machines
+    protected function reilestcr(){
+      return  [
+        "name" => "required|unique:machines,name",
+        "owner_id" => "required|exists:users,id",
+        "location" => "required|unique:machines,location",
+        "type" => 'required|integer|min:5|max:7',
+       ];
+    }
+  
+
 
 }

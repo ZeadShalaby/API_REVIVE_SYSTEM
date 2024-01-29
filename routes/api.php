@@ -66,23 +66,20 @@ Route::group(['middleware' => ['api']], function () {
     //! return image post or user or machine // 
     Route::group(['prefix' =>'images','namespace' => 'users'], function () {
     
-    // todo return image post | users | machine //
-    Route::POST('/revive/profilephoto',[AuthController::class, 'profileimage']);
+    // todo edit image post | users  //
     Route::POST('/revive/postimage',[AuthController::class, 'postsimage']);
-    Route::POST('/revive/filesmachineimage',[AuthController::class, 'machineimage']);
         
 //! ////////////////////////////////////////////////////////////////////////////////////////
 
     // todo return image post | users | machine //
     Route::get('/reviveimageusers/{service}',[AuthController::class, 'imagesuser']);
     Route::get('/reviveimageposts/{service}',[PostController::class, 'imagesposts']);
-    Route::get('/reviveimagemachine/{service}',[AuthController::class, 'imagesmachine']);
+    Route::get('/reviveimagemachine/{service}',[MachineLearningController::class, 'imagesmachine']);
     // todo change photo for users  //
     Route::PUT('/revive/imgusers',[AuthController::class, 'changeimg']);
 
     });
     //?end//
-
 
 
 
@@ -167,6 +164,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/users/following',[FollowController::class, 'showfollowing']);
     Route::get('/users/followers',[FollowController::class, 'showfollowers']);
     Route::Delete('/users/follow',[FollowController::class, 'destroy']);
+    // ? edit user image //
+    Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
+
 
 });
 //?end//
@@ -210,7 +210,7 @@ Route::group(['middleware' => ['securitymachine']], function () {
 });
 //?end//
 
-Route::POST('/python/s',[MachineLearningController::class, 'sayhellow']);
+Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
 // ! for all users Owner | Client | Admin //
 Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio'])->middleware('auth.guard:api','checksecurity');
 

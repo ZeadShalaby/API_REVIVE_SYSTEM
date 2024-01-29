@@ -17,7 +17,7 @@ class emailmailer extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(private string $name)
     {
         //
     }
@@ -38,7 +38,8 @@ class emailmailer extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.testmail',
+            with: ['name' => $this->name]
         );
     }
 

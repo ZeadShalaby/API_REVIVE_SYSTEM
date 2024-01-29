@@ -3,13 +3,14 @@
 namespace App\Traits;
 
 use App\Models\Role;
+use App\Traits\ImageTrait;
 use App\Traits\ResponseTrait;
 
 
 trait MethodconTrait
 
 {  
-   use ResponseTrait;
+   use ResponseTrait , ImageTrait;
    // todo only post following
    public function postfollowers($posts , $folowers)
    {
@@ -76,6 +77,7 @@ trait MethodconTrait
       elseif ($checktype == "CUSTOMER") {
          return Role::CUSTOMER;
       }
+      else{return FALSE;}
 
    }
 
@@ -85,20 +87,26 @@ trait MethodconTrait
 
       if($gender == "MALE"){
          if($role == "ADMIN"){
-            return randomElement(['admin.jpg', 'maleadmin.jpg','maleadmin1.jpg']) ;
+            $randomElement = $this->random(array('admin.jpg', 'maleadmin.jpg','maleadmin1.jpg'));
+            return $randomElement; 
          }
          elseif ($role == "OWNER") {
-            return randomElement(['maleowner.jpg']) ;
+            $randomElement = $this->random(array('maleowner.jpg'));
+            return $randomElement; 
          }
       }
-      elseif ($checktype == "FEMALE") {
+      elseif ($gender == "FEMALE") {
          if($role == "ADMIN"){
-            return randomElement(['femaleadmin.jpg']) ;
+            $randomElement = $this->random(array('femaleadmin.jpg'));
+            return $randomElement; 
          }
          elseif ($role == "OWNER") {
-            return randomElement(['femaleowner.jpg']) ;
+            $randomElement = $this->random(array('femaleowner.jpg'));
+            return $randomElement; 
          }
       }
+      else{return FALSE;}
+
    }
 
 
@@ -106,13 +114,15 @@ trait MethodconTrait
    public function checkuserpath($gender){
 
       if($gender == "MALE"){
-            return randomElement(['male.jpg', 'male1.png','male2.png']) ;
-        
+         $randomElement = $this->random(array('male.jpg', 'male1.png','male2.png'));
+         return $randomElement;        
       }
-      elseif ($checktype == "FEMALE") {
-            return randomElement(['female.png','female1.png','female2.png','female3.png','female4.png','female5.png']) ;
-      }
-         
+      elseif ($gender == "FEMALE") {
+         $randomElement = $this->random(array('female.png','female1.png','female2.png','female3.png','female4.png','female5.png')); 
+         return $randomElement;      
+      } 
+      else{return FALSE;}
+
         
    }
 }

@@ -11,5 +11,5 @@ data_dict = json.loads(data)
 
 
 #! Process the data
-print('Test weather its good or not')
+print("Question is very good :)")
 print(data_dict)
