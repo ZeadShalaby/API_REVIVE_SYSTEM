@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('profile_photo');
             $table->string('social_type')->nullable();
             $table->string('social_id')->nullable();
+            $table->bigInteger('code')->unsigned()->nullable();
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable();
         //  $table->rememberToken();

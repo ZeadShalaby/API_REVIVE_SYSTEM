@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use Validator;
 use App\Models\Role;
 use App\Traits\LoginTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use Auth,Validator,Exception;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 
 class ServiceController extends Controller
 {
-    use ResponseTrait , LoginTrait ;
+    use ResponseTrait , LoginTrait , TestAuth ;
 
     //? social service //
     public function redirect($service){
@@ -24,6 +25,13 @@ class ServiceController extends Controller
     //! githup //
     public function githubcallback(){
     $user =  Socialite::driver('github')->user();
+    $users = $this->infouser($user);
+    $rules = $this->rulesservice();
+    $validator = Validator::make($users,$rules);
+    if($validator->fails()){
+        $code = $this->returnCodeAccordingToInput($validator);
+        return $this->returnValidationError($code,$validator);
+    }
     $checkuser = $this->CheckLogin($user,Role::GITHUB);
     return $this->returnData("users",$checkuser);
 
@@ -31,7 +39,15 @@ class ServiceController extends Controller
 
     //! google 
     public function googlecallback(){  
+
     $user =  Socialite::driver('google')->user();
+    $users = $this->infouser($user);
+    $rules = $this->rulesservice();
+    $validator = Validator::make($users,$rules);
+    if($validator->fails()){
+        $code = $this->returnCodeAccordingToInput($validator);
+        return $this->returnValidationError($code,$validator);
+    }
     $checkuser = $this->CheckLogin($user,Role::GOOGLE);
     return $this->returnData("users",$checkuser);
 

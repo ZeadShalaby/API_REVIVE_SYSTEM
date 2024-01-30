@@ -8,21 +8,21 @@ use Exception;
 use Validator;
 use App\Models\Role;
 use App\Models\User;
-use App\Traits\Requests\TestAuth;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
+use App\Traits\Requests\TestAuth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Symfony\Component\Console\Input\Input;
+use App\Http\Controllers\Api\EmailController;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
     use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
-
 
    // todo Register to api natural user
    public function register(Request $request){
@@ -132,6 +132,52 @@ class AuthController extends Controller
 
     }
 
+
+    //! forget pass // 
+    // todo check code 
+    public function checkcode(Request $request){
+    
+        $rules = ["code" =>"required|integer|min:6"];
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+        else{
+        $code = User::where("code",$request->code)->value('code');
+        if($code)
+        return $this->returnSuccessMessage(True);
+        else {
+            $msg = "OOPS :( , your code not correct sorry :( ..!";
+            return $this->returnError("C404",$msg);
+        }}
+    }
+
+    // todo forget pass  
+    public function forget(Request $request){
+
+        $rules = ["password" =>"required|min:8",'gmail'=>"required|exists:users,gmail"];
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+
+        $id = User::where("gmail",$request->gmail)->orwhere('email',$request->gmail)->value('id');
+        $user = User::find($id);
+        $user->update([
+            'password' => $request->password,
+        ]);
+         
+        $msg = " Update successfully .";
+        return $this->returnSuccessMessage($msg);      
+    //   return $this->returnData("users",$user);
+    
+    }
+
+
 //! ////////////////////////////////////////
 
     // todo Logout Users
@@ -157,5 +203,6 @@ class AuthController extends Controller
         }
     }
 
+    
 
 }

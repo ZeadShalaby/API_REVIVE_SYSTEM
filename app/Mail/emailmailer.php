@@ -17,7 +17,7 @@ class Emailmailer extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private string $code)
+    public function __construct(private  $code)
     {
         //
     }

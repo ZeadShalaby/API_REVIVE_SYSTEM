@@ -170,6 +170,16 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     // ? edit user image //
     Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
 
+});
+//?end//
+
+//?start//
+// ! all routes / api here must be users info//
+Route::group(['middleware' => ['checksecurity']], function () {
+
+    // ? users 
+    Route::POST('/forget/pass',[AuthController::class, 'forget']);
+    Route::POST('/check/code',[AuthController::class, 'checkcode']);
 
 });
 //?end//
