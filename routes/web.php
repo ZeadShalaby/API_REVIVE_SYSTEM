@@ -21,11 +21,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/testroute', function () {
-    $name = "Funny Coder";
 
-    Mail::to('zeadshalaby1@gmail.com')->send(new emailmailer($name));
-});
 
 
 

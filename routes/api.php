@@ -1,10 +1,13 @@
 <?php
 
+use App\Mail\Emailmailer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TCRController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\EmailController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\ReviveController;
 use App\Http\Controllers\Api\CommentController;
@@ -218,4 +221,4 @@ Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_
 //?end//
 
 
-   
+Route::get('/send/mail',[EmailController::class ,'sendmail'] );

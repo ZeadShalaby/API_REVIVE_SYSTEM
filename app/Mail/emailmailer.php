@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class emailmailer extends Mailable
+class Emailmailer extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,7 +17,7 @@ class emailmailer extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private string $name)
+    public function __construct(private string $code)
     {
         //
     }
@@ -39,7 +39,7 @@ class emailmailer extends Mailable
     {
         return new Content(
             view: 'mail.testmail',
-            with: ['name' => $this->name]
+            with: ['code' => $this->code],
         );
     }
 
