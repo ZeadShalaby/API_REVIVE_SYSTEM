@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\Request\TestAuth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
@@ -48,9 +49,16 @@ trait LoginTrait
 
     //todo count of Favouritess for users
     protected function singithub($element){
+        $nickname = $this->nickname($element);
+        $rule = $this->rulesservice();
+        $validator = Validator::make($element->all(),$rules);
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
         User::create([
             'name'=> $element->name,
-            'username'=> $element->nickname,
+            'username'=> $nickname,
             'email'=> $element->email,
             'gmail'=>$element->email,
             'profile_photo'=>$element->avatar,
@@ -68,9 +76,10 @@ trait LoginTrait
 
     //todo count of commit for users
     protected function singgoogle($element){
+        $nickname = $this->nickname($element);
         User::create([
             'name'=> $element->name,
-            'username'=> $element->nickname,
+            'username'=> $nickname,
             'email'=> $element->email,
             'gmail'=>$element->email,
             'profile_photo'=>$element->avatar,
@@ -136,6 +145,25 @@ trait LoginTrait
         //return " Email : ".$element->email. " id : ".$element->id;
 
      }
+
+     // todo check nickname null or not 
+     public function nickname($element){
+        $nickname ;
+        if($element->nickname){
+            $nickname = $element->nickname;
+        }else {
+            $nickname = $element->name;
+
+        }
+        return $nickname;
+     }
+     
+     // todo change type user to array to validate him before signup with service //
+     protected function infouser($user){
+        $user =  array("name"=>$user->name , "email"=>$user->email , "gmail"=>$user->email,"profile_photo"=>$user->avatar,"password"=>$user->id);
+        return $user;
+     }
+     
      // todo check login with phone or email //
      protected function Check($request)
      {
@@ -164,4 +192,5 @@ trait LoginTrait
          
      }   
 
+  
 }

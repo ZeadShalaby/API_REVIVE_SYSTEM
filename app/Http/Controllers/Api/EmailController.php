@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\MailCode;
 use App\Mail\Emailmailer;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -15,9 +16,11 @@ class EmailController extends Controller
     use ResponseTrait , TestMail;
     public function sendmail(Request $request){
         $info = $this->checkmail($request->gmail);
-        $msg = "Hey sir : ".$info->username.",Welcome in revive app your code is : ".$info->code." ,Have a nice day";
-        Mail::to($request->gmail)->send(new Emailmailer($msg));
+        event(new MailCode($info));   
+        Mail::to($request->gmail)->send(new Emailmailer($info));
         return $this->returnSuccessMessage("Send Successfully sir : ".$info->username." lock in inbox");
     }
+
+    
 
 }

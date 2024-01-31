@@ -30,7 +30,7 @@ trait TestAuth
     protected function rulesPosts(){
       return [
         'description' => 'required|min:5|max:250',
-        'file' => 'required|file',
+        'file' => 'required|file|max:30000|mimes:doc,docx,pdf,jpeg,png,jpg',
     ];
     }
 
@@ -75,7 +75,7 @@ trait TestAuth
   }
 
     // todo rules Tcr Machines
-    protected function reilestcr(){
+    protected function rulestcr(){
       return  [
         "name" => "required|unique:machines,name",
         "owner_id" => "required|exists:users,id",
@@ -83,7 +83,18 @@ trait TestAuth
         "type" => 'required|integer|min:5|max:7',
        ];
     }
-  
+
+    // todo rules Tcr Machines
+    protected function rulesservice(){
+      return  [
+        "name" => "required|unique:users,name",
+        "email" => "required|unique:users,email",
+        "gmail" => "required|unique:users,gmail",
+        'profile_photo' => 'required',
+        "password" => 'required|min:8'
+       ];
+    }
+   
 
 
 }
