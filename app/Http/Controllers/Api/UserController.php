@@ -122,6 +122,7 @@ class UserController extends Controller
             return $this->returnSuccessMessage($msg); 
 
     }
+    
     /**
      * todo Remove the specified resource from storage.
      */

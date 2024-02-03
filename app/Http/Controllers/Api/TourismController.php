@@ -9,13 +9,17 @@ use Validator;
 use App\Models\Role;
 use App\Models\Machine;
 use App\Models\Tourism;
+use App\Traits\ErrorTrait;
+use App\Traits\ReportTrait;
+use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 class TourismController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait,TestAuth,ReportTrait ,MachineTrait,ErrorTrait;
 
      /**
      * todo Display a listing of the resource.
@@ -54,24 +58,26 @@ class TourismController extends Controller
         $validator = Validator::make($request->all(),$rules);
 
         if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
         }
         
         // ? calculate o2 ratio //
         $o2 = (100 - ($request->co + $request->co2 ));
     
-        $check = $this->report();
-            if($check == FALSE){
-
-            }
-            
+        //! //
+        //?to check readings & type of machine its correct or not //
+        $checkreadings = $this->checkreadings($request,Role::REVIVE);
+        $checktype = $this->checktype($request->machineids,Role::REVIVE);
+        if($checktype == true){return $this->returnError("EM403","Machine type not : Revive");}
+   
         $posts = Tourism::create([
             "machine_id" => $request->machineids,
             "co2" => $request->co2,
             "co" => $request->co,
             "o2" => $o2,
             "degree" => $request->degree,
+            "humidity" => $request->humidity
         ]);
 
         $msg = " insert successfully .";

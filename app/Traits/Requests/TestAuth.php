@@ -16,9 +16,9 @@ trait TestAuth
     protected function rulesRegist(){
       return [
         "name" => "required",
-        "username" => "required",
+        "username" => "required|unique:users,username",
         "email" => "required|unique:users,email",
-        "password" => "required",
+        "password" => "required|min:8",
         "gmail"=> "required|unique:users,gmail",
         "phone"=> "required|integer",
         "Personal_card" => "required|integer",

@@ -13,9 +13,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        //! column expire expire after 24 hour daily()
+        // $schedule->command('inspire')->hourly(); //->everyTenSeconds();	daily()
         //todo call the name of command to run code after 24 hours //
-        $schedule->command('revive:expire')->daily();
+        $schedule->command('revive:expire')->everyFiveSeconds();
+
+        //! Mailcode expire after 30 second everyThirtySeconds
+        //todo call the name of command to run code after 24 hours //
+        $schedule->command('mailCode:expire')->everyFiveSeconds();
+
+        //! check machine work after 1 hour ->hourly()
+        //todo call the name of command to run code after 24 hours //
+        $schedule->command('machine:checkwork')->everyFiveSeconds();
     }
 
     /**

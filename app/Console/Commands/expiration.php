@@ -21,7 +21,7 @@ class expiration extends Command
      *
      * @var string
      */
-    protected $description = 'expire data every 24 hours automatically where insert from revive|tourism';
+    protected $description = 'expire data every 24 hours automatically where insert from revive|tourism|other';
 
     /**
      * Execute the console command.
@@ -29,16 +29,18 @@ class expiration extends Command
     public function handle()
     {
         //todo collection of Revives
-        $revives = Revive::where('expire',0)->get();
+        $revives = Revive::where('expire',1)->get();
         foreach ($revives as $revive) {
-            $revive -> update(['expire' => 1]);
+            $revive -> update(['expire' => 0]);
         }
 
         //! Tourism //
         //todo collection of Tourism
-        $tourisms = Tourism::where('expire',0)->get();
+        $tourisms = Tourism::where('expire',1)->get();
         foreach ($tourisms as $tourism) {
-            $tourism -> update(['expire' => 1]);
+            $tourism -> update(['expire' => 0]);
         }
+        
+
     }
 }

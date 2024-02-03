@@ -32,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
         'Personal_card',
         'social_type',
         'social_id',
+        'code',
         'email_verified_at',
     ];
 

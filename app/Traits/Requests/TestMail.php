@@ -13,7 +13,7 @@ trait TestMail
         if ($userid > 0){
             $info->code = random_int(100000, 999999);
             return  $info;
-        }else {return 0;}
+        }else {return null;}
     }
 
 

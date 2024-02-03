@@ -48,6 +48,7 @@ class AuthController extends Controller
         'profile_photo'=>$path,
         'Personal_card' => $request->Personal_card,
         'birthday' => $request->birthday,
+        'gender' =>$request->gender
      ]);
      if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
      else{return $this->returnError('R001','Some Thing Wrong .');}
@@ -113,6 +114,32 @@ class AuthController extends Controller
    }
 
 
+   /**
+     * todo Update the information users.
+     */
+    public function update(Request $request)
+    {
+        // ? update user //
+        $user = User::find($request->id);
+        if(asset($user->social_id)){
+        $rules = $this->rulesUpdateUsers();
+        }
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        $old_post->update([
+                'description' => $request->description,
+            ]);
+             
+            $msg = " Update successfully .";
+            return $this->returnSuccessMessage($msg); 
+
+    }
+
 
 
 ////! //////////////////////////////////////
@@ -177,6 +204,19 @@ class AuthController extends Controller
     
     }
 
+
+     /**
+      * ! only users can do that
+     * todo Remove the specified resource from storage.
+     */
+    public function destroy(Request $request)
+    {
+        // ? delete users //
+        $user = User::find($request->id);
+        $user ->delete();
+        $msg = " delete users : " .$request->name . "  " ."successfully .";
+        return $this->returnSuccessMessage($msg);
+    }
 
 //! ////////////////////////////////////////
 
