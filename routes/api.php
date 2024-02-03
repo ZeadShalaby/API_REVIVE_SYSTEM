@@ -101,7 +101,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::post('/tcr/restore',[TCRController::class, 'restore']);
     // todo for all users //
     Route::POST('/users',[UserController::class, 'index']);
-    Route::get('/users/show/{userid}',[UserController::class, 'show']);
+    Route::get('/users/shows',[UserController::class, 'show']);
     Route::get('/users/edit/{userid}',[UserController::class, 'edit']);
     Route::PUT('/users/update/{userid}',[UserController::class, 'update']);
     Route::PUT('/users/modifyrole',[UserController::class, 'update']);
@@ -131,8 +131,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-rol
 //?start//
 // ! all routes / api here must be role = Customer //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.customer-role']], function () {
-
-
+    //? delete my account
+    Route::Delete('/users/destroy/myaccount',[AuthController::class, 'destroy']);
 
 });
 //?end//
@@ -148,7 +148,6 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
     Route::get('/posts/edit/{id}',[PostController::class, 'edit']);
-    Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
 
@@ -169,7 +168,14 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::Delete('/users/follow',[FollowController::class, 'destroy']);
     // ? edit user image //
     Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
+    // ? user info 
+    Route::get('/users/edits/myaccount',[AuthController::class, 'edit']);
+    Route::PUT('/users/updates/myaccount',[AuthController::class, 'update']);
+    Route::get('/users/checkvalidate/password',[AuthController::class, 'checkvalidatepass']);
+    Route::get('/users/edits/pasword',[AuthController::class, 'editpass']);
+    Route::PUT('/users/updates/password',[AuthController::class, 'updatepass']);
 
+    
 });
 //?end//
 

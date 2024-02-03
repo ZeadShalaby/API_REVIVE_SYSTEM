@@ -15,12 +15,12 @@ trait TestAuth
     // todo rules of users registers
     protected function rulesRegist(){
       return [
-        "name" => "required",
+        "name" => "required|min:4|max:20",
         "username" => "required|unique:users,username",
         "email" => "required|unique:users,email",
         "password" => "required|min:8",
         "gmail"=> "required|unique:users,gmail",
-        "phone"=> "required|integer",
+        "phone"=> "required|numeric|digits:10",
         "Personal_card" => "required|integer",
         "birthday" => "required",
         "gender" => "required"
@@ -47,7 +47,7 @@ trait TestAuth
     // todo rules of machine revive
     protected function rulesMachineUpdate(){
       return  [
-        "name" => "required",
+        "name" => "required|min:4|max:20",
         "owner_id" => "required|exists:users,id",
         "location" => "required",
         "type" => 'required|integer|min:5|max:7',
@@ -67,10 +67,21 @@ trait TestAuth
    // todo rules update users
    protected function rulesUpdateUsers(){
     return  [
-      'name' => 'required|min:5|max:20',
-      'username' => 'required|min:5|max:20|unique:users:username',
-      "phone" => "required|unique:users,phone",
+      'name' => 'required|min:4|max:20',
+      "phone" => "required|numeric|digits:10",
       'birthday' => "required",
+      'gender' => "required",
+      'gmail' => "required|email"
+  ];
+  }
+
+  // todo rules update users
+  protected function rulessocialusers(){
+    return  [
+      'name' => 'required|min:4|max:20',
+      "phone" => "required|numeric|digits:10",
+      'birthday' => "required",
+      'gender' => "required",
   ];
   }
 

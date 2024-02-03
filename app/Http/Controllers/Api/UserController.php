@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use validator;
+use App\Models\Role;
 use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
@@ -23,12 +24,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // ? return  usres where role == "Admin" | "owner" | "Customer" //
-        if($request->role){
+        if($request->type){
             $role = $this->checkTypeUsers($request->type);
-            $users = User::where('id','!=',Role::ADMIN)->where('role',$role)->get();
+            $users = User::where('username','!=',Role::ADMINNAME)->where('role',$role)->get();
         }
          // ? return all usres //
-        else{$users = User::where('role',(Role::OWNER||Role::CUSTOMER))->get();}
+        else{$users = User::where('role',"!=",Role::ADMIN)->get();}
         return $this->returnData("users",$users);
     }
 
@@ -53,7 +54,7 @@ class UserController extends Controller
     /**
      * todo Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(Request $request )
     {
         // ? show info for user 
         $user = User::find($request->id);
@@ -66,7 +67,7 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
-        // ? 
+        // ? return data info for user
         $user = User::find($request->id);
         return  $this->returnData("users" , $user);
     }
