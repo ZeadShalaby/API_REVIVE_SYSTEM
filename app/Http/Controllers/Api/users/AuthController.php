@@ -15,6 +15,7 @@ use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Input\Input;
 use App\Http\Controllers\Api\EmailController;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -113,6 +114,16 @@ class AuthController extends Controller
    
    }
 
+    /**
+     * todo return info users .
+     */
+    public function edit(Request $request)
+    {
+        // ? 
+       // $user = User::find($request->id);
+       $user = auth()->user();
+       return  $this->returnData("users" , $user);
+    }
 
    /**
      * todo Update the information users.
@@ -120,10 +131,76 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         // ? update user //
-        $user = User::find($request->id);
+        $user = auth()->user();
         if(asset($user->social_id)){
         $rules = $this->rulesUpdateUsers();
         }
+        // ? if users login with googel or github //
+        else{ $rules = $this->rulessocialusers();}
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+        if(asset($user->social_id )){
+        $user->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'gender' => $request->gender,
+                'gmail' => $request->gmail,
+                'birthday' => $request->birthday
+            ]);}
+        else{
+            $user->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'gender' => $request->gender,
+                'birthday' => $request->birthday
+            ]);
+        }
+
+            $msg = " Update successfully .";
+            return $this->returnSuccessMessage($msg); 
+
+    }
+
+     /**
+     * todo edit my account pass (return my pass).
+     */
+    public function checkvalidatepass(Request $request)
+    {
+        // ? 
+        if(Hash::check($request->password, auth()->user()->password)){
+            return  $this->returnSuccessMessage(true);
+        }
+       else{return $this->returnError("406" , "Something Wrong" );}
+    
+    }
+
+    /**
+     * todo edit my account pass (return my pass).
+     */
+    public function editpass(Request $request)
+    {
+        // ? 
+       // $user = User::find($request->id);
+       $user = auth()->user()->password;
+       return  $this->returnData("password" , $user);
+    }
+
+   /**
+     * todo Update the My accont password .
+     */
+    public function updatepass(Request $request)
+    {
+        // ? update user //
+        $user = User::find(auth()->user()->id);
+        if($user->social_id){
+            return $this->returnError("P403","Can Not do that Some thing Wrongs :( !.");
+        }
+        $rules = ["password" => "required|min:8"];
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -131,8 +208,8 @@ class AuthController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
-        $old_post->update([
-                'description' => $request->description,
+        $user->update([
+                'password' => $request->password,
             ]);
              
             $msg = " Update successfully .";
@@ -212,9 +289,10 @@ class AuthController extends Controller
     public function destroy(Request $request)
     {
         // ? delete users //
-        $user = User::find($request->id);
+        $user = auth()->user();
+        //$user = User::find($request->id);
         $user ->delete();
-        $msg = " delete users : " .$request->name . "  " ."successfully .";
+        $msg = " delete Your Account Sir : " .$user->username . "  " ."successfully .";
         return $this->returnSuccessMessage($msg);
     }
 
