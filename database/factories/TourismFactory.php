@@ -29,6 +29,7 @@ class TourismFactory extends Factory
             'co'=>fake()->numberBetween($min = 20, $max = 30),
             'o2'=>fake()->numberBetween($min = 15, $max = 25),
             'degree'=>fake()->numberBetween($min = 20, $max = 60),
+            'humidity'=>fake()->numberBetween($min = 20, $max = 60),
         ];
      
     }

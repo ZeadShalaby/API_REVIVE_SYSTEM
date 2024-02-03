@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('location')->unique();
             $table->bigInteger('type')->unsigned();
             $table->index('type');
+            $table->bigInteger('warning')->unsigned()->nullable();
             $table->timestamps();
         });
     }

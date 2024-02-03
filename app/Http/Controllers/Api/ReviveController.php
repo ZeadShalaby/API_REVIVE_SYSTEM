@@ -6,16 +6,21 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Exception;
 use Validator;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\Revive;
 use App\Models\Machine;
+use App\Traits\ErrorTrait;
+use App\Traits\ReportTrait;
+use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
 
 class ReviveController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait,TestAuth ,ReportTrait , MachineTrait , ErrorTrait;
 
      //!
      /**
@@ -72,25 +77,30 @@ class ReviveController extends Controller
     {
         //! rules
         $rules = $this->rulesRevive();
+
         // ? calculate o2 ratio //
         $o2 = (100 - ($request->co + $request->co2 )-20);
-        //return $this->returnData("o2",$o2);
+
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
         }
-        $check = $this->report();
-        if($check == FALSE){
 
-        }
+        //! //
+        //?to check readings & type of machine its correct or not //
+        $checkreadings = $this->checkreadings($request,Role::REVIVE);
+        $checktype = $this->checktype($request->machineids,Role::REVIVE);
+        if($checktype == false){return $this->returnError("EM403","Machine type not : Revive");}
+
         $posts = Revive::create([
             "machine_id" => $request->machineids,
             "co2" => $request->co2,
             "co" => $request->co,
             "o2" => $o2,
             "degree" => $request->degree,
+            "humidity" => $request->humidity
         ]);
 
         $msg = " insert successfully .";
@@ -112,3 +122,7 @@ class ReviveController extends Controller
    
 
 }
+
+// ? return date now //
+// $now = Carbon::now();
+// return $this->returnData("now",$now);

@@ -232,3 +232,4 @@ Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_
 
 
 Route::get('/send/mail',[EmailController::class ,'sendmail'] );
+Route::get('/send/mail/error/machine',[EmailController::class ,'errormachine'] );

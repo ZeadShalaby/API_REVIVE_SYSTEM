@@ -44,7 +44,7 @@ class PostsVieweer
         ];
     }
 
-
+    // todo change num watcheing post // 
     function updateVieweer($views){
         
         $views -> view = $views -> view + 1;

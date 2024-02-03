@@ -6,7 +6,7 @@ use App\Models\Machine;
 trait MachineTrait
 
 {  
-    //todo count of machinevalidate for machine to insert data
+    //todo count of machinevalidate for machine to insert data in (middleware) 
     protected function machinevalidate($element){
       $all_machine = Machine::get('id');
       foreach ($all_machine as $data) {
@@ -16,6 +16,15 @@ trait MachineTrait
         }
       }
       return "oops";
+    }
+
+     // todo check type of machine //
+     protected function checktype($machinetype,$type){
+      $typemachine = Machine::find($machinetype);
+      if($typemachine->type == $type){
+        return true;
+      }
+      return false;
     }
 
    

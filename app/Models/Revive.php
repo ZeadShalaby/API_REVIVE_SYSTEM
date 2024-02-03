@@ -17,6 +17,7 @@ class Revive extends Model
         'co',
         'o2',
         'degree',
+        'humidity',
         'expire',
     ];
 

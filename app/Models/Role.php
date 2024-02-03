@@ -26,6 +26,6 @@ class Role extends Model
     const TRAINGPY = "3";
     const WEATHERPY = "4";
     const CHATPY = "5";
-   
+    const MailRevive = "revivecarbon@gmail.com";
 
 }

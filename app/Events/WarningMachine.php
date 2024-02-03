@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Models\Role;
-use App\Models\User;
+use App\Models\Machine;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -12,22 +12,24 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MailCode
+class WarningMachine
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public $info ;
-    public function __construct(User $user)
+    public $warning ;
+    public function __construct(Machine $machine)
     {
-        // todo pass the code and gmail in value gmail , code to insert code in data //
-        $this -> info = $user;
-        if($user->role != Role::ADMIN){
-        $this -> postcode($this ->info );}
+        //
+        $this -> warning = $machine;
+        if($machine->user->role != Role::ADMIN){
+            $this -> postwarning($this ->warning );}
         else{}  
-    }
+            
+        }  
+    
 
     /**
      * Get the channels the event should broadcast on.
@@ -40,10 +42,15 @@ class MailCode
             new PrivateChannel('channel-name'),
         ];
     }
-    
-    // todo add new code in your data to this email //
-    public function postcode($info){
-        $info -> code = $info->code;
-        $info -> save();
+
+    // todo insert warning in this machine //
+    public function postwarning($warning){
+        if($warning ->warning == 5){
+            $warning -> warning = null ;
+            $warning -> save();
+        }else{
+            $warning -> warning = $warning->warning +1 ;
+            $warning -> save();
+        }
     }
 }

@@ -23,6 +23,7 @@ class Tourism extends Model
         'co',
         'o2',
         'degree',
+        'humidity',
         'expire',
     ];
 

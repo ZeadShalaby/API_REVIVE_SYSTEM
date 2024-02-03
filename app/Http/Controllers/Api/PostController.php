@@ -75,8 +75,8 @@ class PostController extends Controller
     public function show(Request $request , Post $post)
     {
         // ? show only psot by id and +view //
-        $post = Post::find($request->id) ;
-        event(new PostsVieweer($post));   
+        $post = Post::find($request->post) ;
+        if($post){event(new PostsVieweer($post));}
         return $this->returnData("post",$post);
     }
 
