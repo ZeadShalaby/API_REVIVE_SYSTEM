@@ -1,16 +1,18 @@
 <?php
 namespace App\Traits;
 
+use App\Models\Role;
+
 trait ResponseTrait
 
 {  
-    // return Locale for languages
+    // todo return Locale for languages
     public function getCurrentLang()
     {
         return app()->getLocale();
     }
 
-    // return Errors for All Api
+    // todo return Errors for All Api
     public function returnError($errNum , $msg)
     {
         return response()->json([
@@ -20,7 +22,7 @@ trait ResponseTrait
         ]);
     }
 
-    // return success messages
+    // todo return success messages
     public function returnSuccessMessage(  $msg  , $errNum = "S000" )
     {
         return [
@@ -30,7 +32,7 @@ trait ResponseTrait
         ];
     }
 
-    // return All Data I Want
+    // todo return All Data I Want
     public function returnData($key , $value , $msg = "" )
     {
         return response()->json([
@@ -41,9 +43,7 @@ trait ResponseTrait
         ]);
     }
 
-    
-   
-    
+    // todo return info
     public function profiles()
     {
 
@@ -51,15 +51,27 @@ trait ResponseTrait
        
     }
 
+    // todo return msg for typerole
+    public function typerole($role , $username)
+    {
+
+        $msg = "Change role type for this user : $username to : ";
+        if($role == Role::ADMIN){$msg =$msg."Admin"; }
+        elseif($role == Role::OWNER){$msg =$msg."Owner"; }
+        elseif($role == Role::CUSTOMER){$msg =$msg."Customer"; }
+        return $msg;
+       
+    }
+
     /////////////////////////////////////////////
 
-    // return Validation Errors
+    // todo return Validation Errors
     public function returnValidationError($code = "E001", $validator)
     {
         return $this->returnError($code, $validator->errors()->first());
     }
 
-   // return 
+   // todo return 
     public function returnCodeAccordingToInput($validator)
     {
         $inputs = array_keys($validator->errors()->toArray());
@@ -67,7 +79,7 @@ trait ResponseTrait
         return $code;
     }
    
-    // return error for code 
+    // todo return error for code 
     public function getErrorCode($input)
     {
         if ($input == "name")

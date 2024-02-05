@@ -117,7 +117,7 @@ trait LoginTrait
     //todo add github email for users
     protected function addphone($user , $phone){
         $rules = [
-            "phone" => "required|unique:users,phone"
+            "phone" => "required|numeric|digits:10"
         ];
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);

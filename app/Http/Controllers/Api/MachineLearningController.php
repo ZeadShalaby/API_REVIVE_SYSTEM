@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Role;
+use App\Models\Machine;
 use App\Traits\ExellTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Events\CarbonFootprint;
 use App\Http\Controllers\Controller;
 use App\Traits\MachineLearningTrait;
 use Symfony\Component\Process\Process;
@@ -83,14 +85,19 @@ class MachineLearningController extends Controller
       //!  dioxide ratio (Co2) footprint for ( factory ) classfication , model //
       public function carbon_footprint(Request $request)
       {
-      
-         $data = [
+        
+        $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
+        $machine = Machine::find($machineids);
+        $users = $machine->user;
+        $data = [
              'transport' => "yes",
              'oil' => "yes",
              'day' => "30",
          ];
-         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY);
-         return $this-> returnData("Python Output" , $output);
+        $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY);
+        $machine ->carbon_footprint = 35 /*$output*/; 
+        $carbon_footprint = event(new CarbonFootprint($machine));
+         return $this-> returnData("Python Output" , $machine);
   
       }
  
