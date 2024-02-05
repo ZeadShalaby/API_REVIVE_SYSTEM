@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Role;
 use App\Models\Machine;
 use App\Traits\ExellTrait;
+use App\Traits\ReportTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Events\CarbonFootprint;
@@ -17,7 +18,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class MachineLearningController extends Controller
 {
     //
-    use ResponseTrait , ExellTrait  , MachineLearningTrait ;
+    use ResponseTrait , ExellTrait  , MachineLearningTrait , ReportTrait ;
 
     //! finally its work //
     public function sayhellow(Request $request)
@@ -94,11 +95,11 @@ class MachineLearningController extends Controller
              'oil' => "yes",
              'day' => "30",
          ];
-        $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY);
-        $machine ->carbon_footprint = 35 /*$output*/; 
+        $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY); 
+        $report = $this->check_rcf_factory($machine , 37); /*$output*/;
+        $machine ->ratio = 37 ;    /*$output*/;
         $carbon_footprint = event(new CarbonFootprint($machine));
          return $this-> returnData("Python Output" , $machine);
-  
       }
  
     //! Chat auto and learning from question , libarry //
