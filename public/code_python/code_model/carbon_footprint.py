@@ -11,5 +11,6 @@ data_dict = json.loads(data)
 
 
 #! Process the data
-print("carbon_footprint for factory Ratio With Laravel")
-print(data_dict)
+#print("carbon_footprint for factory Ratio With Laravel")
+print(#data_dict
+    30 )

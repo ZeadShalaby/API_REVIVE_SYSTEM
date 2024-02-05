@@ -9,6 +9,7 @@ use App\Models\Tourism;
 use App\Mail\AdminReport;
 use App\Mail\Reportmailer;
 use App\Events\WarningMachine;
+use App\Mail\CarbonFootprintFactory;
 use Illuminate\Support\Facades\Mail;
 
 trait ReportTrait
@@ -33,13 +34,12 @@ trait ReportTrait
     if (($request->co2 > $data->co2)||($request->co > $data->co)) 
     {
       $machine =  Machine::find($data->machine_id);
-      // todo belongs to with model orders //
+      // todo belongs to with model machine //
       $machines = $machine->user;
       event(new WarningMachine($machine)); 
       $report =  $this->report($machine);
       return $report;
     }
-    
     else{}
   }
 
@@ -53,6 +53,23 @@ trait ReportTrait
       Mail::to($machine->user->gmail)->send(new Reportmailer($machine));
       if($machine ->warning == 5){Mail::to(env('MAIL_FROM_ADDRESS',Role::MailRevive))->send(new AdminReport($machine));}
     }}
+
+
+    // todo send report mail to owner and admin for report carbon footprint factory //
+    protected function check_rcf_factory($machine ,$ratio){
+      if($machine->carbon_footprint != null){
+      if($machine->carbon_footprint < $ratio){ $this->rcf_factory($machine);}
+      else{}}
+    }
+
+
+    // todo send report mail to owner and admin for report carbon footprint factory //
+    protected function rcf_factory($machine){
+      $date = Carbon::now();  
+      $machine -> date = $date;
+      Mail::to($machine->user->gmail)->send(new CarbonFootprintFactory($machine));
+      Mail::to(env('MAIL_FROM_ADDRESS',Role::MailRevive))->send(new CarbonFootprintFactory($machine));
+    }
 
    
 }
