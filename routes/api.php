@@ -102,10 +102,10 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     // todo for all users //
     Route::POST('/users',[UserController::class, 'index']);
     Route::get('/users/shows',[UserController::class, 'show']);
-    Route::get('/users/edit/{userid}',[UserController::class, 'edit']);
-    Route::PUT('/users/update/{userid}',[UserController::class, 'update']);
-    Route::PUT('/users/modifyrole',[UserController::class, 'update']);
-    Route::Delete('/users/{userid}',[UserController::class, 'destroy']);
+    Route::get('/users/edit/{user}',[UserController::class, 'edit']);
+    Route::PUT('/users/updatepass/{user}',[UserController::class, 'updatepass']);
+    Route::PUT('/users/modifyrole/{user}',[UserController::class, 'modifyrole']);
+    Route::Delete('/users/destroy/{user}',[UserController::class, 'destroy']);
     // todo autocomplete search  //
     Route::get('/users/autocolmpletesearch',[UserController::class, 'autocolmpletesearch']);
 
@@ -121,7 +121,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
 // ! all routes / api here must be role = Owner //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-role']], function () {
 
-
+    // ? training Data carbon footprint for factory //
+    Route::POST('/python/carbon/footprint/factory',[MachineLearningController::class, 'carbon_footprint']);
 
 });
 //?end//
@@ -230,8 +231,16 @@ Route::group(['middleware' => ['securitymachine']], function () {
 //?end//
 
 Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
+
+//?start//
 // ! for all users Owner | Client | Admin //
-Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio'])->middleware('auth.guard:api','checksecurity');
+Route::group(['middleware' => ['checksecurity','auth.guard:api']], function () {
+
+Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio']);
+Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
+
+});
+//?end//
 
 });
 //?end//

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use validator;
+use Exception;
+use Validator;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\ImageTrait;
@@ -65,23 +66,25 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
+    public function edit(Request $request , User $user)
     {
         // ? return data info for user
+       // return $this->returnData("users",$user);
         $user = User::find($request->id);
         return  $this->returnData("users" , $user);
     }
 
     /**
-     * todo Update the specified resource in storage.
+     * todo Update the users password .
      */
-    public function update(Request $request)
+    public function updatepass(Request $request)
     {
         // ? update user //
         $user = User::find($request->id);
-        if(asset($user->social_id)){
-        $rules = $this->rulesUpdateUsers();
+        if($user->social_id){
+            return $this->returnError("P403","Can Not do that Some thing Wrongs :( !.");
         }
+        $rules = ["password" => "required|min:8"];
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -89,8 +92,8 @@ class UserController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
-        $old_post->update([
-                'description' => $request->description,
+        $user->update([
+                'password' => $request->password,
             ]);
              
             $msg = " Update successfully .";
@@ -98,16 +101,14 @@ class UserController extends Controller
 
     }
 
+
     /**
      * todo Update the specified resource in storage.
      */
     public function modifyrole(Request $request)
     {
         $user = User::find($request->id);
-        if(asset($user->social_id)){
-        $rules = [
-            'name' => 'required|integer',
-        ];}
+        $rules = ['role' => 'required|integer',];
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -115,12 +116,12 @@ class UserController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
-        $old_post->update([
+        $user->update([
                 'role' => $request->role,
             ]);
-             
-            $msg = " change role successfully .";
-            return $this->returnSuccessMessage($msg); 
+
+        $msg = $this->typerole($request->role ,$user->username); 
+        return $this->returnSuccessMessage($msg); 
 
     }
     
@@ -131,9 +132,12 @@ class UserController extends Controller
     {
         // ? delete users //
         $user = User::find($request->id);
-        $user ->delete();
         $msg = " delete users : " .$request->name . "  " ."successfully .";
-        return $this->returnSuccessMessage($msg);
+        if($user){
+            $user ->delete();    
+            return $this->returnSuccessMessage($msg);
+        }
+        else{return $this->returnError("U404" , "This users not fount");}
     }
 
     /**
@@ -151,27 +155,7 @@ class UserController extends Controller
     
     }
 
-//////////////////////////////////////////////////////////! ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////// ! users owners  only do this /////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////! ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-     // todo return users details
-   public function profile(Request $request){
-        $user = auth()->user();
-        return $this->returnData("user",$user);
-   }
-
-
-
-    // todo POST image
-    public function profileimage(Request $request){
-        //  return $this->returnData("sss",$filename = $request->file('file')->getClientOriginalName());
-        $folder = 'images/users';
-        $image_name = time().'.'.$request->file->extension();
-        $images = $request->file->move(public_path($folder),$image_name) ;
-        return $this->returnData('file name',$image_name);
-    }
 
 
 }

@@ -10,7 +10,7 @@ trait MachineLearningTrait
 {  
     //todo count of Orders for users
     protected function sendDataPy( $data , $path ){
-    
+
     $path = $this->codePath($path);    
     $jsonData = json_encode($data);
     $process = new Process(['python', base_path() . env($path[0],$path[1])]);
@@ -41,9 +41,13 @@ trait MachineLearningTrait
         case 4:
           return array("PATH_PYTHON_weather","/public/code_python/code_model/weather.py");
           break; 
-          //? return path Chat python
+        //? return path Chat python
         case 5:
           return array("PATH_PYTHON_chat","/public/code_python/code_model/chat.py");
+          break; 
+        //? return path Chat python
+        case 6:
+          return array("PATH_PYTHON_footprint_factory","/public/code_python/code_model/carbon_footprint.py");
           break; 
         //? return path default python
         default:
