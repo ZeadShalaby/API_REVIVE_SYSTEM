@@ -17,6 +17,8 @@ class Machine extends Model
         'owner_id',
         'location',
         'type',
+        'warning',
+        'carbon_footprint',
     ];
 
      /**

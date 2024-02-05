@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     use HasFactory;
-    const ADMINNAME = 'Admin';
+    const ADMINNAME = 'Admin Revive';
     const ADMIN = "1" ;
     const OWNER = '2' ; 
     const CUSTOMER = "3" ;
@@ -27,6 +27,7 @@ class Role extends Model
     const TRAINGPY = "3";
     const WEATHERPY = "4";
     const CHATPY = "5";
+    const FOOTPRINTFACTORY = "6";
     const MailRevive = "revivecarbon@gmail.com";
 
 }

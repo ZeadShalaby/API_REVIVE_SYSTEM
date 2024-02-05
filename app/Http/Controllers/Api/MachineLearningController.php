@@ -31,7 +31,7 @@ class MachineLearningController extends Controller
 
     }
 
-  //! dioxide ratio (Co2) //
+  //! dioxide ratio (Co2) footprint for person //
   public function dioxide_ratio(Request $request)
   {
       
@@ -79,6 +79,20 @@ class MachineLearningController extends Controller
         return $this-> returnData("Python Output" , $output);
  
      }
+
+      //!  dioxide ratio (Co2) footprint for ( factory ) classfication , model //
+      public function carbon_footprint(Request $request)
+      {
+      
+         $data = [
+             'transport' => "yes",
+             'oil' => "yes",
+             'day' => "30",
+         ];
+         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY);
+         return $this-> returnData("Python Output" , $output);
+  
+      }
  
     //! Chat auto and learning from question , libarry //
     public function chat(Request $request)

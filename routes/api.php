@@ -204,7 +204,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
     // ? training Data weather //
     Route::POST('/python/weather',[MachineLearningController::class, 'weather']);
-
+    // ? training Data carbon footprint for factory //
+    Route::POST('/python/carbon/footprint/factory',[MachineLearningController::class, 'carbon_footprint']);
 });
 //?end//
 
@@ -230,8 +231,16 @@ Route::group(['middleware' => ['securitymachine']], function () {
 //?end//
 
 Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
+
+//?start//
 // ! for all users Owner | Client | Admin //
-Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio'])->middleware('auth.guard:api','checksecurity');
+Route::group(['middleware' => ['checksecurity','auth.guard:api']], function () {
+
+Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio']);
+Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
+
+});
+//?end//
 
 });
 //?end//

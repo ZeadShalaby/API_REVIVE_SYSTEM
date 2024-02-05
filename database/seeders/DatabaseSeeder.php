@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         //// todo add one admin ////
         $defAdmin = User::factory()->create([
             'name' => 'Admin',
-            'username' => 'Admin',
+            'username' => 'Admin Revive',
             'email' => 'Admin@Admin.rev',
             'password' => Hash::make('admin'), 
             'role' =>'1',
