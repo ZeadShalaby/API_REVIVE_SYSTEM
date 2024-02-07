@@ -24,32 +24,41 @@ class ServiceController extends Controller
 
     //! githup //
     public function githubcallback(){
-    $user =  Socialite::driver('github')->user();
-    $users = $this->infouser($user);
-    $rules = $this->rulesservice();
-    $validator = Validator::make($users,$rules);
-    if($validator->fails()){
-        $code = $this->returnCodeAccordingToInput($validator);
-        return $this->returnValidationError($code,$validator);
-    }
-    $checkuser = $this->CheckLogin($user,Role::GITHUB);
-    return $this->returnData("users",$checkuser);
+        $user =  Socialite::driver('github')->user();
+        $users = $this->infouser($user);
+        // ?check login
+        $token = $this->login($user);
+        if($token == TRUE){ $userinfo =  Auth::guard('api')->user(); $userinfo -> api_token = $token; return $this->returnData("users",$userinfo);}
+        //! validate
+        $rules = $this->rulesservice();
+        $validator = Validator::make($users,$rules);
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+
+        $checkuser = $this->CheckLogin($user,Role::GITHUB);
+        return $this->returnData("users",$checkuser);
 
     }
 
     //! google 
     public function googlecallback(){  
 
-    $user =  Socialite::driver('google')->user();
-    $users = $this->infouser($user);
-    $rules = $this->rulesservice();
-    $validator = Validator::make($users,$rules);
-    if($validator->fails()){
-        $code = $this->returnCodeAccordingToInput($validator);
-        return $this->returnValidationError($code,$validator);
-    }
-    $checkuser = $this->CheckLogin($user,Role::GOOGLE);
-    return $this->returnData("users",$checkuser);
+        $user =  Socialite::driver('google')->user();
+        $users = $this->infouser($user);
+        // ?check login
+        $token = $this->login($user);
+        if($token == TRUE){ $userinfo =  Auth::guard('api')->user(); $userinfo -> api_token = $token; return $this->returnData("users",$userinfo);}
+        // ! validate
+        $rules = $this->rulesservice();
+        $validator = Validator::make($users,$rules);
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+        $checkuser = $this->CheckLogin($user,Role::GOOGLE);
+        return $this->returnData("users",$checkuser);
 
     }
 

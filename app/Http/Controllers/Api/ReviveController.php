@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\Revive;
 use App\Models\Machine;
+use App\Models\Tourism;
 use App\Traits\ErrorTrait;
 use App\Traits\ReportTrait;
 use App\Traits\MachineTrait;
@@ -52,15 +53,15 @@ class ReviveController extends Controller
     {
         // ? show data not expire //
         if(auth()->user()->role !=Role::ADMIN ){
-            $filterResult = Revive::where('machine_id' , $request -> machineid)/*->where('expire',Role::EXPIRE)*/->get();
+            $filterResult = Revive::where('machine_id' , $request -> machineid)->where('expire','!=',Role::EXPIRE)->get();
             foreach ($filterResult as $belong) {
                 $machine = $belong->machine; 
                 $machines = $machine->user; 
             }
+       if(var_dump(isset($filterResult))){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
             return $this->returnData("data",$filterResult);
         }
-        $query = $request->get('query');
-        $filterResult = Revive::/*->where('expire',Role::EXPIRE)*/get();
+        $filterResult = Revive::where('machine_id' , $request -> machineid)->get();
         foreach ($filterResult as $belong) {
             $machine = $belong->machine; 
             $machines = $machine->user; 
@@ -113,12 +114,24 @@ class ReviveController extends Controller
      */
     public function show(Request $request)
     {
-        // ? show data revive by date //
-          $datarevive = Revive::where('machine_id',$request->machineid)
-          ->whereDate('created_at',$request->createat)->get()->toArray();
-          return $this->returnData("Data",$datarevive);
-    }
+        //! rules
+        $rules = $this->rulesdate();
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
 
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+        // ? show data revive by date //
+        $datarevive = Revive::where('machine_id',$request->machineid)->whereDate("created_at",$request->created_at)->get();
+        foreach ($datarevive as $belong) {
+            $machine = $belong->machine; 
+            $machines = $machine->user; 
+        }
+       if(isset($datarevive) && $datarevive->count() != 0){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
+        return $this->returnData("Data",$datarevive);
+    }
    
 
 }
