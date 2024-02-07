@@ -197,10 +197,10 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     // ?revive //
     Route::get('/revive/data',[ReviveController::class, 'index']);
     Route::get('/revive/machine/data',[ReviveController::class, 'machineindex']);
-    Route::get('/revive/data/date/{createat}',[ReviveController::class, 'show']);
+    Route::get('/revive/data/date/revive',[ReviveController::class, 'show']);
     // ? tourism //
     Route::get('/tourism/data',[TourismController::class, 'index']);
-    Route::get('/tourism/data/date/{createat}',[TourismController::class, 'show']);
+    Route::get('/tourism/data/date/machines',[TourismController::class, 'show']);
     // ? training Data //
     Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
     // ? training Data weather //

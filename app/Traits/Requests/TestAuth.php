@@ -105,6 +105,15 @@ trait TestAuth
         "password" => 'required|min:8'
        ];
     }
+
+     // todo rules show bydate readings machines
+     protected function rulesdate(){
+      return  [
+        "machineid" => "required|exists:machines,id",
+        "created_at" => "required|date",
+        
+       ];
+    }
    
 
 

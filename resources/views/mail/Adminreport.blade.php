@@ -46,7 +46,7 @@
           color: #0d0925;
           margin-bottom: 20px;
         ">
-            Lorem Ipsum Dolor
+            the machine {{ $report->name }}
         </div>
         <div class="blog-slider__text" style="color: #4e4a67; margin-bottom: 30px; line-height: 1.5em">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae

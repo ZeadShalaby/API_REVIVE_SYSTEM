@@ -29,17 +29,19 @@ class TourismController extends Controller
         // todo search by 
         
         if(auth()->user()->role !=Role::ADMIN){
-            $filterResult = Tourism::where('machine_id', $request->machineid)->get();
+            $filterResult = Tourism::where('machine_id', $request->machineid)->where('expire','!=',Role::EXPIRE)->get();
             foreach ($filterResult as $belong) {
                 $machine = $belong->machine; 
                 $machines = $machine->user; 
             }    
+        if(var_dump(isset($filterResult))){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
         return $this->returnData("data",$filterResult);
         }
         $query = $request->get('query');
-        $filterResult = Tourism::where('type',ROLE::REVIVE)/*->where('expire',Role::EXPIRE)*/->get();
+        $filterResult = Tourism::where('machine_id', $request->machineid)->get();
         foreach ($filterResult as $belong) {
             $machine = $belong->machine; 
+            $machines = $machine->user; 
         }
         return $this->returnData("data",$filterResult);
 
@@ -91,10 +93,23 @@ class TourismController extends Controller
      */
     public function show(Request $request)
     {
-        //
-        $datarevive = Tourism::where('machine_id',$request->machineid)
-        ->whereDate('created_at',$request->createat)->get()->toArray();
-        return $this->returnData("Data",$datarevive);
+       //! rules
+       $rules = $this->rulesdate();
+       // ! valditaion
+       $validator = Validator::make($request->all(),$rules);
+
+       if($validator->fails()){
+           $code = $this->returnCodeAccordingToInput($validator);
+           return $this->returnValidationError($code,$validator);
+       }
+       // ? show data revive by date //
+       $datamachines = Tourism::where('machine_id',$request->machineid)->whereDate("created_at",$request->created_at)->get();
+       foreach ($datamachines as $belong) {
+           $machine = $belong->machine; 
+           $machines = $machine->user; 
+       }
+       if(isset($datamachines) && $datamachines->count() != 0){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
+       return $this->returnData("Data",$datamachines);
     }
 
    

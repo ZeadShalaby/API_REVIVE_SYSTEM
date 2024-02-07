@@ -18,8 +18,8 @@ class Role extends Model
     const FCI = "7";
     const WEATHER = '8';
     const OTHER = "9";
-    const EXPIRE = "1";
-    const NOTEXPIRE = "0";
+    const EXPIRE = "0";
+    const NOTEXPIRE = "1";
     const GOOGLE ="google"; 
     const GITHUB = "github";
     const TESTPY = "1";

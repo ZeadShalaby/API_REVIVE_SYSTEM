@@ -2,6 +2,7 @@
 namespace App\Traits;
 
 use Carbon\Carbon;
+use App\Models\Role;
 use App\Models\Revive;
 use App\Models\Machine;
 use App\Models\Tourism;
@@ -15,8 +16,8 @@ trait ErrorTrait
     //todo count of Orders for users
     protected function checkwork(){
 
-       $tourism = Tourism::get()->pluck('machine_id')->toArray();
-       $revive = Revive::get()->pluck('machine_id')->toArray();
+       $tourism = Tourism::where('expire','!=',Role::EXPIRE)->orWhere("created_at",Carbon::today()->toDateString())->get()->pluck('machine_id')->toArray();
+       $revive = Revive::where('expire','!=',Role::EXPIRE)->orWhere("created_at",Carbon::today()->toDateString())->get()->pluck('machine_id')->toArray();
        $arry_merge = array_merge($tourism,$revive);
        $arry_unique = array_unique($arry_merge); 
        //? id machine not work //
