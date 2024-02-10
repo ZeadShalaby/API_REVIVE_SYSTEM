@@ -58,7 +58,7 @@ class ReviveController extends Controller
                 $machine = $belong->machine; 
                 $machines = $machine->user; 
             }
-       if(var_dump(isset($filterResult))){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
+       if(isset($filterResult)&& $filterResult->count() != 0){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
             return $this->returnData("data",$filterResult);
         }
         $filterResult = Revive::where('machine_id' , $request -> machineid)->get();

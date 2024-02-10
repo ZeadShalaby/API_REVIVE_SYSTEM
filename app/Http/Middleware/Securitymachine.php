@@ -21,10 +21,10 @@ class Securitymachine
     {
         $checkmachineid = $this->machinevalidate($request->machineids);
         if($request->securitymachine != env("API_SEC_Machine",'NPd1nyozbX9qGyfAqKkCDlDY5Fn8CGr')){
-            return $this->returnError('U100','Unauthenticated Machine OOPS :( ...!'); 
+            return $this->returnError('U100','Unauthenticated Machine OOPS 🤕 :( ...!'); 
         }
         if($request->machineids != $checkmachineid){
-            return $this->returnError('U100','Unauthenticated Machine OOPS :( ...!' .$checkmachineid); 
+            return $this->returnError('U100','Unauthenticated Machine OOPS 🤕 :( ...!'); 
         }
        
         

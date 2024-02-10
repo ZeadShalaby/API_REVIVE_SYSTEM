@@ -19,11 +19,15 @@ class Authusers
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $role = auth()->user()->role;
+        if(isset(auth()->user()->role)){
+            $role = auth()->user()->role;
         if($role)
-        if($role!= (Role::OWNER||Role::CUSTOMER)) {
-            return $this->returnError('403','UnAuthorization .');
+        if($role == Role::ADMIN) {
+            return $this->returnError('403','UnAuthorization  oops 🚫 :( !...');
         }
-        return $next($request);    
+        return $next($request); 
+       }
+        return $this->returnError('403','Some thimg Wrong  oops 🤕 :( !...');
+   
     }
 }
