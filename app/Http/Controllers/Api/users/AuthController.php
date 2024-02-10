@@ -290,7 +290,6 @@ class AuthController extends Controller
     {
         // ? delete users //
         $user = auth()->user();
-        //$user = User::find($request->id);
         $user ->delete();
         $msg = " delete Your Account Sir : " .$user->username . "  " ."successfully .";
         return $this->returnSuccessMessage($msg);

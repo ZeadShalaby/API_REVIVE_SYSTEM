@@ -33,6 +33,8 @@ class User extends Authenticatable implements JWTSubject
         'social_type',
         'social_id',
         'code',
+        'created_at',
+        'updated_at',
         'email_verified_at',
     ];
 
@@ -43,7 +45,12 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
        // 'password',
+        'social_type',
+        'social_id',
+        'created_at',
+        'updated_at',
         'remember_token',
+        'email_verified_at',
     ];
 
     /**

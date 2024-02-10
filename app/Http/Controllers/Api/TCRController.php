@@ -17,6 +17,10 @@ use App\Http\Controllers\Controller;
 class TCRController extends Controller
 {
     use MethodconTrait,ResponseTrait,TestAuth;
+
+
+
+    
      /** 
      * todo Show the form for creating a new resource.
      * ! only admin can add a new revive | tourism hardware

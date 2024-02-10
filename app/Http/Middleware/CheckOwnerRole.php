@@ -19,11 +19,15 @@ class CheckOwnerRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $role = auth()->user()->role;
-        if($role)
-        if($role!= Role::OWNER) {
-            return $this->returnError('403','UnAuthorization .');
-        }
-        return $next($request);
+        if(isset(auth()->user()->role)){
+
+            $role = auth()->user()->role;
+            if($role)
+            if($role!= Role::OWNER) {
+                return $this->returnError('403','UnAuthorization  oops 🚫 :( !...');
+            }
+            return $next($request);
+    }
+            return $this->returnError('403','Some thimg Wrong  oops 🤕 :( !...');
     }
 }

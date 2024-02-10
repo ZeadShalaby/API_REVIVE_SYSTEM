@@ -85,7 +85,7 @@ trait MethodconTrait
    // todo check type of path owner || admin (tcr) //
    public function checkpath($gender , $role){
 
-      if($gender == "MALE"){
+      if($gender == "MALE" || $gender == "male" || $gender == "Male"){
          if($role == "ADMIN"){
             $randomElement = $this->random(array('admin.jpg', 'maleadmin.jpg','maleadmin1.jpg'));
             return $randomElement; 
@@ -95,7 +95,7 @@ trait MethodconTrait
             return $randomElement; 
          }
       }
-      elseif ($gender == "FEMALE") {
+      elseif ($gender == "FEMALE" || $gender == "female" || $gender == "Female") {
          if($role == "ADMIN"){
             $randomElement = $this->random(array('femaleadmin.jpg'));
             return $randomElement; 
@@ -113,11 +113,11 @@ trait MethodconTrait
    // todo check type of path owner || admin (tcr) //
    public function checkuserpath($gender){
 
-      if($gender == "MALE"){
+      if($gender == "MALE" || $gender == "male" || $gender == "Male"){
          $randomElement = $this->random(array('male.jpg', 'male1.png','male2.png'));
          return $randomElement;        
       }
-      elseif ($gender == "FEMALE") {
+      elseif ($gender == "FEMALE" || $gender == "female" || $gender == "Female" ) {
          $randomElement = $this->random(array('female.png','female1.png','female2.png','female3.png','female4.png','female5.png')); 
          return $randomElement;      
       } 

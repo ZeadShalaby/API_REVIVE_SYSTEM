@@ -133,7 +133,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-rol
 // ! all routes / api here must be role = Customer //
 Route::group(['middleware' => ['checksecurity','auth.guard:api','check.customer-role']], function () {
     //? delete my account
-    Route::Delete('/users/destroy/myaccount',[AuthController::class, 'destroy']);
+    Route::Delete('/users/delete/myaccounts',[AuthController::class, 'destroy']);
 
 });
 //?end//
@@ -230,6 +230,7 @@ Route::group(['middleware' => ['securitymachine']], function () {
 });
 //?end//
 
+//? test code python //
 Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
 
 //?start//
