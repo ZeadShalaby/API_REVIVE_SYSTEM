@@ -14,7 +14,9 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TourismController;
 use App\Http\Controllers\Api\FavouriteController;
+use App\Http\Controllers\Api\SavedPostsController;
 use App\Http\Controllers\Api\users\AuthController;
+use App\Http\Controllers\Api\ReportsPostsController;
 use App\Http\Controllers\Api\MachineLearningController;
 
 /*
@@ -108,7 +110,10 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::Delete('/users/destroy/{user}',[UserController::class, 'destroy']);
     // todo autocomplete search  //
     Route::get('/users/autocolmpletesearch',[UserController::class, 'autocolmpletesearch']);
-
+    // todo report posts //
+    Route::get('/reports/posts',[ReportsPostsController::class, 'reportposts']);
+    Route::PUT('/skip/report/posts',[ReportsPostsController::class, 'skipreport']);
+    Route::Delete('/posts/destroy',[ReportsPostsController::class, 'destroy']);
 
 });
 //?end//
@@ -152,7 +157,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
 
-    //? Favourite & Comment & Follow route //
+    //? Favourite & Comment & Follow & saved & report routes //
     Route::POST('/posts/favourite',[FavouriteController::class, 'store']);
     Route::get('/posts/favourite',[FavouriteController::class, 'showfavourite']);
     Route::Delete('/posts/favourite',[FavouriteController::class, 'destroy']);
@@ -167,6 +172,12 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/users/following',[FollowController::class, 'showfollowing']);
     Route::get('/users/followers',[FollowController::class, 'showfollowers']);
     Route::Delete('/users/follow',[FollowController::class, 'destroy']);
+    // ? saved posts (favourite posts) //
+    Route::POST('/saved/post',[SavedPostsController::class, 'store']);
+    Route::get('/show/posts/saved',[SavedPostsController::class, 'showsaved']);
+    Route::Delete('/unsaved/posts',[SavedPostsController::class, 'destroy']);
+    // ? report posts //
+    Route::POST('/add/report/posts',[ReportsPostsController::class, 'store']);
     // ? edit user image //
     Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
     // ? user info 

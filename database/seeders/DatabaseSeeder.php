@@ -12,6 +12,7 @@ use App\Models\Comment;
 use App\Models\Machine;
 use App\Models\Tourism;
 use App\Models\Favourite;
+use App\Models\SavedPosts;
 use App\Models\Filemachine;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -120,6 +121,9 @@ class DatabaseSeeder extends Seeder
 
     //// todo add user customer ////
     $favourite = Favourite::factory()->count(9)->create();
+
+    //// todo add user customer ////
+    $savedposts = SavedPosts::factory()->count(9)->create();
 
     //// todo add user customer ////
     $filemachine = Filemachine::factory()->count(9)->create();

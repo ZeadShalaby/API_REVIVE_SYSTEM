@@ -128,7 +128,6 @@ class PostController extends Controller
         else {return 'null';}
 
     }
-
     /**
      * todo Remove the specified resource from storage.
      */
