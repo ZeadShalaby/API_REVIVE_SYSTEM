@@ -23,8 +23,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('mailCode:expire')->everyThirtySeconds();
 
         //! check machine work after 1 hour ->hourly()
-        //todo call the name of command to run code after 24 hours //
-        $schedule->command('machine:checkwork')->hourly();
+        //todo call the name of command to run code every day at 1.00 clock ->dailyAt('1:00'), hourly//
+        $schedule->command('machine:checkwork')->dailyAt('1:00');
     }
 
     /**

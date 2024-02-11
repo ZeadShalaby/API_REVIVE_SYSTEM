@@ -1,15 +1,16 @@
 <?php
 namespace App\Traits;
 
-use Auth,Validator,Exception;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use Auth,Validator,Exception;
 use App\Traits\Request\TestAuth;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
@@ -66,7 +67,8 @@ trait LoginTrait
             'password'=> $element->id,
             'role'=>Role::CUSTOMER,
             'social_id'=>Hash::make($element->id),
-            'social_type'=>Role::GOOGLE,
+            'social_type'=>Role::GITHUB,
+            'email_verified_at' => Carbon::now() ,
          ]); 
 
          $userinfo = $this->login($element);
@@ -87,6 +89,7 @@ trait LoginTrait
             'role'=>Role::CUSTOMER,
             'social_id'=>Hash::make($element->id),
             'social_type'=>Role::GOOGLE,
+            'email_verified_at' => Carbon::now() ,
          ]); 
 
          $userinfo = $this->login($element);
