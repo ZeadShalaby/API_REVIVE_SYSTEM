@@ -124,7 +124,7 @@ trait ResponseTrait
         else if ($input == "promocode")
             return 'E014';
 
-        else if ($input == "doctor_id")
+        else if ($input == "owner_id")
             return 'E015';
 
         else if ($input == "payment_method" || $input == "payment_method_id")

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\users;
 use Auth;
 use Exception;
 use Validator;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\ImageTrait;
@@ -49,7 +50,8 @@ class AuthController extends Controller
         'profile_photo'=>$path,
         'Personal_card' => $request->Personal_card,
         'birthday' => $request->birthday,
-        'gender' =>$request->gender
+        'gender' =>$request->gender,
+        'email_verified_at' => Carbon::now() ,
      ]);
      if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
      else{return $this->returnError('R001','Some Thing Wrong .');}
@@ -132,11 +134,11 @@ class AuthController extends Controller
     {
         // ? update user //
         $user = auth()->user();
-        if(asset($user->social_id)){
-        $rules = $this->rulesUpdateUsers();
+        if(isset($user->social_id) && $user->social_id->count() != 0 ){
+        $rules = $this->rulessocialusers();
         }
         // ? if users login with googel or github //
-        else{ $rules = $this->rulessocialusers();}
+        else{ $rules = $this->rulesUpdateUsers();}
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -144,19 +146,19 @@ class AuthController extends Controller
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
         }
-        if(asset($user->social_id )){
+        if(isset($user->social_id ) && $user->social_id->count() != 0){
         $user->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'gender' => $request->gender,
-                'gmail' => $request->gmail,
                 'birthday' => $request->birthday
             ]);}
-        else{
+        else{               
             $user->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'gender' => $request->gender,
+                'gmail' => $request->gmail,
                 'birthday' => $request->birthday
             ]);
         }
