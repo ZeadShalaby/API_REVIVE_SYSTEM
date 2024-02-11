@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -26,6 +18,14 @@ return new class extends Migration
         });
 
         Schema::table('favourites', function (Blueprint $table) {
+
+            $table->foreign('posts_id')->references('id')->on('posts');
+
+            $table->foreign('user_id')->references('id')->on('users');
+
+        });
+
+        Schema::table('saved_posts', function (Blueprint $table) {
 
             $table->foreign('posts_id')->references('id')->on('posts');
 
