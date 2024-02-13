@@ -18,11 +18,11 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $userids = User::where('role', '2')->pluck('id')->toArray();
-        $img = array("o (1).jfif","o (1).gif","o (1).png","o (4).png","o (5).png","o (16).jpg","o (17).jpg","o (18).jpg","o (19).jpg","o (20).jpg","o (21).jpg","o (22).jpg","o (23).jpg","o (24).jpg","o (25).jpg","o (26).jpg","o (27).jpg","o (28).jpg","o (29).jpg","o (30).jpg","o (31).jpg","o (32).jpg","o (33).jpg","o (34).jpg","o (35).jpg");
+        $img = array("a (1).jfif","a (1).gif","a (1).png","a (4).png","a (5).png","a (16).jpg","a (17).jpg","a (18).jpg","a (19).jpg","a (20).jpg","a (21).jpg","a (22).jpg","a (23).jpg","a (24).jpg","a (25).jpg","a (26).jpg","a (27).jpg","a (28).jpg","a (29).jpg","a (30).jpg","a (31).jpg","a (32).jpg","a (33).jpg","a (34).jpg","a (35).jpg");
         $increment = random_int(0,24);
         $destination_path = '/api/rev/images/reviveimageposts/';
-        $http_address = env('APP_URL');
-        $path = $http_address.$destination_path.$img[$increment];
+        $http_address = env('APP_URL','http://127.0.0.1:8000');
+        $path = $destination_path.$img[$increment];
         return [
             'description'=>fake()->text(),
             'user_id' => $this->faker->randomElement($userids),

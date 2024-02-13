@@ -50,15 +50,16 @@ class FollowController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
+        
         $checkfollow = $this->checkfollow($request->following_id , auth()->user()->id);
-        if($checkfollow !=TRUE){return $this->returnError('F001',"Cant do that Sir  !!..:("); }
+        if($checkfollow !=true){return $this->returnError('F001',"Cant do that Sir  !!..:("); }
 
         $postfav = Follow::create([
             'following_id'  => $request->following_id,
             'followers_id' =>auth()->user()->id,
             
         ]);
-        $msg = " Create successfully .";
+        $msg = " Following successfully .";
         return $this->returnSuccessMessage($msg); 
     }
 
@@ -78,7 +79,7 @@ class FollowController extends Controller
 
         $following = Follow::Where('followers_id',auth()->user()->id)->get('following_id');
         foreach ($following as $belong) {
-        $followinfo = $belong->user;
+        $followinfo = $belong->userfollowing;
         }
         return $this->returnData("following" , $following);
     }
@@ -118,14 +119,16 @@ class FollowController extends Controller
      */
     public function destroy(Request $request)
     {
-        //
+        // ? un follow users //
         $user = Follow::where('followers_id',auth()->user()->id)
         ->where('following_id',$request->userfollowing)->get();
+        if(isset($user) && $user ->count() != 0){
         foreach ($user as $user) {
           $user->delete();
          }
         $msg = " UnFollow User successfully .";
-        return $this->returnSuccessMessage($msg);  
+        return $this->returnSuccessMessage($msg);}
+        return $this-> returnError("F404" , "Something Wrong Sir :( ! ..."); 
     }
 
     /**

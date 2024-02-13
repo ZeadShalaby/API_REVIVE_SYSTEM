@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Exception;
 use Validator;
+use App\Models\Role;
+use App\Models\Follow;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\MethodconTrait;
 use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {
-    use ResponseTrait;
+    use ResponseTrait , MethodconTrait;
 
     //
      /**
@@ -37,11 +40,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //! rules
-        $rules = [
-            'posts_id' => 'required|exists:posts,id',
-            'comment' => 'required|min:5|max:200',
-        ];
-
+        $rules = $this->rulesComment();
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -49,7 +48,10 @@ class CommentController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
-        
+
+        $checkfollowing = $this->checkfollowing($request->posts_id );
+        if($checkfollowing != true){return $this->returnError('F001',"Cant do that Sir  !!..:("); }
+
         $postfav = Comment::create([
             'posts_id'  => $request->posts_id,
             'user_id' =>auth()->user()->id,
@@ -89,7 +91,7 @@ class CommentController extends Controller
     {
         //
         $comment = Comment::find($request->comentid);
-        if($comment->user_id != auth()->user()->id){return $this->returnError('C403',"UnAuthorization to do that !!...:(");}
+        if(($comment->user_id != auth()->user()->id )||(isset($comment) && $comment ->count() == 0 )){return $this->returnError('C4000',"Something Wrong Sir :( !...");}
         return $this->returnData("Comments",$comment);
 
     }
@@ -104,9 +106,7 @@ class CommentController extends Controller
         $comment = Comment::find($request->commentid);
         if($comment->user_id != auth()->user()->id){return $this->returnError('C403',"UnAuthorization to do that !!...:(");}
         
-        $rules = [
-            'comment' => 'required|max:200',
-        ];
+        $rules = ['comment' => 'required|max:200',];
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
     
@@ -118,7 +118,7 @@ class CommentController extends Controller
                 'comment' => $request->comment,
             ]);
              
-            $msg = " Update Comment successfully ." ."new comment : " .$request->comment;
+            $msg = " Update Comment successfully ," ."new comment : " .$request->comment;
             return $this->returnSuccessMessage($msg); 
     }
 
@@ -128,10 +128,11 @@ class CommentController extends Controller
     public function destroy(Request $request)
     {
         //
-        $comment = Comment::find($request->commentid);
-        if($comment->user_id != auth()->user()->id){return $this->returnError('C403',"UnAuthorization to do that !!...:(");}
-        $comment->delete();
         $msg = " Delete Comment successfully .";
+        $comment = Comment::find($request->commentid);
+        if(auth()->user()->role != Role::ADMIN){
+        if(($comment->user_id != auth()->user()->id )|| (isset($comment) && $comment ->count() == 0)){return $this->returnError('C400',"Something Wrong Sir :( !...");}$comment->delete();return $this->returnSuccessMessage($msg);}
+        $comment->delete();
         return $this->returnSuccessMessage($msg); 
     }
 }

@@ -18,6 +18,17 @@ class Post extends Model
         'report',
         'view',
     ];
+
+     
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'updated_at',
+        'deleted_at',
+    ];
     /**
      * The attributes that are mass assignable.
      *
