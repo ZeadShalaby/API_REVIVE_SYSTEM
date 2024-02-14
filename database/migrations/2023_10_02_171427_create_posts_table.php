@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
+            $table->id();//! to start in value ->startingValue(1755) //
             $table->string('description');
             $table->bigInteger('user_id')->unsigned();
             $table->index('user_id');
             $table->string('path');
             $table->bigInteger('view')->unsigned()->nullable();
+            $table->index('view');
+            $table->bigInteger('report')->unsigned()->nullable();
+            $table->index('report');
             $table->timestamps();
         });
     }

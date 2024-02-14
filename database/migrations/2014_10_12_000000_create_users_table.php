@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id();// ! to start in value ->startingValue(1755) //
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
@@ -20,13 +20,18 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('role')->unsigned();
             $table->index('role');
-            $table->bigInteger('phone')->unique();
+            $table->string('gender')->nullable();;
+            $table->bigInteger('phone')->unique()->nullable();
             $table->index('phone');
+            $table->string('Personal_card')->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('profile_photo');
             $table->string('social_type')->nullable();
             $table->string('social_id')->nullable();
-            $table->string('profile_photo');
-            $table->string('Personal card')->nullable();
-            $table->date('birthday')->nullable();
+            $table->bigInteger('code')->unsigned()->nullable();
+            $table->index('code');
+            $table->bigInteger('carbon_footprint')->unsigned()->nullable();
+            $table->index('carbon_footprint');
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable();
         //  $table->rememberToken();

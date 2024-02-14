@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tourisms', function (Blueprint $table) {
-            $table->id();
+            $table->id();// ! to start in value ->startingValue(1755) //
             $table->bigInteger('machine_id')->unsigned();
             $table->index('machine_id');
             $table->bigInteger('co')->unsigned();
@@ -23,7 +23,9 @@ return new class extends Migration
             $table->index('o2');
             $table->bigInteger('degree')->unsigned();
             $table->index('degree');
-            $table->bigInteger('expire')->unsigned()->default(0);
+            $table->bigInteger('humidity')->unsigned();
+            $table->index('humidity');
+            $table->bigInteger('expire')->unsigned()->default(1);
             $table->index('expire');
             $table->timestamps();
         });

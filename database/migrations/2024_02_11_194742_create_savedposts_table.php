@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('follows', function (Blueprint $table) {
+        Schema::create('saved_posts', function (Blueprint $table) {
             $table->id();// ! to start in value ->startingValue(1755) //
-            $table->bigInteger('following_id')->unsigned();
-            $table->index('following_id');
-            $table->bigInteger('followers_id')->unsigned();
-            $table->index('followers_id');
+            $table->bigInteger('posts_id')->unsigned();
+            $table->index('posts_id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->index('user_id');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('follows');
+        Schema::dropIfExists('saved_posts');
     }
 };

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('filemachines', function (Blueprint $table) {
-            $table->id();
+            $table->id();// ! to start in value ->startingValue(1755) //
             $table->string('file');
             $table->bigInteger('user_id')->unsigned();
             $table->index('user_id');

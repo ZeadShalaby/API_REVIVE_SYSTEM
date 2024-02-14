@@ -18,7 +18,7 @@ class ReviveFactory extends Factory
      */
     public function definition(): array
     {
-        $machineids = Machine::pluck('id')->toArray();
+        $machineids = Machine::where('type','6')->pluck('id')->toArray();
 
         return [
             //
@@ -27,6 +27,8 @@ class ReviveFactory extends Factory
             'co'=>fake()->numberBetween($min = 20, $max = 30),
             'o2'=>fake()->numberBetween($min = 15, $max = 25),
             'degree'=>fake()->numberBetween($min = 20, $max = 60),
+            'humidity'=>fake()->numberBetween($min = 20, $max = 60),
+
         ];
     }
 }

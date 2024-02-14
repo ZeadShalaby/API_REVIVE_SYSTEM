@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('machines', function (Blueprint $table) {
-            $table->id();
+            $table->id();// ! to start in value ->startingValue(1755) //
             $table->string("name")->unique();
             $table->bigInteger('owner_id')->unsigned();
             $table->index('owner_id');
             $table->string('location')->unique();
             $table->bigInteger('type')->unsigned();
             $table->index('type');
+            $table->bigInteger('warning')->unsigned()->nullable();
+            $table->index('warning');
+            $table->bigInteger('carbon_footprint')->unsigned()->nullable();
+            $table->index('carbon_footprint');
             $table->timestamps();
         });
     }
