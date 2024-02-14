@@ -2,7 +2,10 @@
 
 namespace App\Traits;
 
+use App\Models\Post;
 use App\Models\Role;
+use App\Models\Follow;
+use App\Models\Favourite;
 use App\Traits\ImageTrait;
 use App\Traits\ResponseTrait;
 
@@ -39,8 +42,9 @@ trait MethodconTrait
 
    // todo check the person cant be follow it self //
    public function checkfollow($following , $followers){
-
-      if(($followers == $following)||($following == Role::ADMIN)){
+      
+      $follow = Follow::where("following_id",$following)->where("followers_id",$followers)->get();
+      if(($followers == $following)||($following == Role::ADMIN)||(isset($follow)&&$follow->count() != 0)){
         return FALSE;
       }
       else{
@@ -48,7 +52,39 @@ trait MethodconTrait
       }
 
    }   
+
+   // todo check if i can add comment in this post  //
+   public function checkfollowing($postid){
+
+      $followers = Follow::where('followers_id',auth()->user()->id)->get();
+      $posts = Post::find($postid);
+
+      foreach ($followers as $follower) {
+         // ? check if i follow this person to do insert comment //
+          if($posts->user_id == $follower->following_id)
+          {
+              return true;
+          }
+      }
+      return false ;
+      
+   }   
    
+   // todo check if i can add comment in this post  //
+   public function checkfav($postid , $userid){
+
+      $favourite = Favourite::where('posts_id',$postid)->where("user_id",$userid)->get();
+         // ? check if i follow this person to do insert comment //
+         foreach ($favourite as $fav) {
+            if( isset($fav->id) )
+            {
+               return false;
+            }
+         }
+      return true ;
+      
+   }   
+
    // todo check type of machine (tcr) //
    public function checkTypeMachine($checktype){
 
@@ -84,24 +120,24 @@ trait MethodconTrait
 
    // todo check type of path owner || admin (tcr) //
    public function checkpath($gender , $role){
-
+      $funreturn = "reviveimageusers";
       if($gender == "MALE" || $gender == "male" || $gender == "Male"){
          if($role == "ADMIN"){
-            $randomElement = $this->random(array('admin.jpg', 'maleadmin.jpg','maleadmin1.jpg'));
+            $randomElement = $this->random(array('admin.jpg', 'maleadmin.jpg','maleadmin1.jpg'),$funreturn);
             return $randomElement; 
          }
          elseif ($role == "OWNER") {
-            $randomElement = $this->random(array('maleowner.jpg'));
+            $randomElement = $this->random(array('maleowner.jpg'),$funreturn);
             return $randomElement; 
          }
       }
       elseif ($gender == "FEMALE" || $gender == "female" || $gender == "Female") {
          if($role == "ADMIN"){
-            $randomElement = $this->random(array('femaleadmin.jpg'));
+            $randomElement = $this->random(array('femaleadmin.jpg'),$funreturn);
             return $randomElement; 
          }
          elseif ($role == "OWNER") {
-            $randomElement = $this->random(array('femaleowner.jpg'));
+            $randomElement = $this->random(array('femaleowner.jpg'),$funreturn);
             return $randomElement; 
          }
       }
@@ -111,14 +147,15 @@ trait MethodconTrait
 
 
    // todo check type of path owner || admin (tcr) //
-   public function checkuserpath($gender){
+   public function checkuserpaths($gender){
 
+      $funreturn = "reviveimageusers";
       if($gender == "MALE" || $gender == "male" || $gender == "Male"){
-         $randomElement = $this->random(array('male.jpg', 'male1.png','male2.png'));
+         $randomElement = $this->random(array('male.jpg', 'male1.png','male2.png'),$funreturn);
          return $randomElement;        
       }
       elseif ($gender == "FEMALE" || $gender == "female" || $gender == "Female" ) {
-         $randomElement = $this->random(array('female.png','female1.png','female2.png','female3.png','female4.png','female5.png')); 
+         $randomElement = $this->random(array('female.png','female1.png','female2.png','female3.png','female4.png','female5.png'),$funreturn); 
          return $randomElement;      
       } 
       else{return FALSE;}

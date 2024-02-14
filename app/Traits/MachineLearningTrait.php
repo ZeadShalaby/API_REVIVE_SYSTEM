@@ -56,4 +56,18 @@ trait MachineLearningTrait
 
    }
 
+    // todo check the old ratio biger then new ratio or not //
+    protected function check_rcp_person($user , $ratio){
+
+      if(isset($user->carbon_footprint) && $user->carbon_footprint != null){
+          if($user->carbon_footprint >= $ratio){
+            return "Your Safe Sir : $user->username your Carbon footprint its perfect";
+          }
+          else{       
+            return "Your Are In Dangerous Sir : $user->username your Carbon footprint it's bigger in usually";
+          }}
+      else{return "Its your First Time To Check CarbonFootprint Enjoying Sir : $user->username";}
+
+    }
+
 }    

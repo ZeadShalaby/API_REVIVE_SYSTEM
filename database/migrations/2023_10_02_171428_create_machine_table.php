@@ -20,7 +20,9 @@ return new class extends Migration
             $table->bigInteger('type')->unsigned();
             $table->index('type');
             $table->bigInteger('warning')->unsigned()->nullable();
+            $table->index('warning');
             $table->bigInteger('carbon_footprint')->unsigned()->nullable();
+            $table->index('carbon_footprint');
             $table->timestamps();
         });
     }

@@ -2,8 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\Role;
-use App\Models\Machine;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -12,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CarbonFootprint
+class FootprintPerson
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,14 +19,14 @@ class CarbonFootprint
      * Create a new event instance.
      */
     public $ratio ;
-    public function __construct(Machine $machine)
+    public function __construct(User $user)
     {
+        //
          // todo change or insert ratio carbon footprint //
-        $this -> ratio = $machine;
-        if($machine->user->role != Role::ADMIN){
-        $this -> postratio($this ->ratio );}
-        else{}  
+         $this -> ratio = $user;
+         $this -> postratio($this ->ratio );
     }
+
     /**
      * Get the channels the event should broadcast on.
      *
@@ -40,10 +39,10 @@ class CarbonFootprint
         ];
     }
 
-     // todo add new ratio (Carbon Footprint Factory) in this machine  //
+     // todo add new ratio (Carbon Footprint Person)   //
      public function postratio($ratio){
         $ratio -> carbon_footprint = $ratio ->ratio;
-        unset($ratio['ratio'],$ratio['date']);
+        unset($ratio['ratio']);
         $ratio -> save();
     }
 }

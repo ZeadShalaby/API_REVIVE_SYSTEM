@@ -33,6 +33,17 @@ class PostController extends Controller
         return $this->returnData("posts",$postfollow);
     }
 
+    //
+     /**
+     * todo Display a listing of the My posts.
+     */
+    public function showmyposts()
+    {
+        // ? show all post of follwing //
+        $posts = Post::where("user_id",auth()->user()->id)->get();
+        return $this->returnData("posts",$posts);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -57,8 +68,8 @@ class PostController extends Controller
         }
 
         // todo move image to folder images/posts //
-        $folder = 'images/posts';
-        $path = $this->saveimage($request->file,$folder);
+        $folder = 'images/posts';$path = 'reviveimageposts';
+        $path = $this->saveimage($request->file,$folder ,$path);
         //! Add into database //
         $posts = Post::create([
             'description' => $request->description,

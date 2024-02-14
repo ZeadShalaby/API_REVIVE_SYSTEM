@@ -36,7 +36,7 @@ class AuthController extends Controller
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
     }
-    $path = $this->checkuserpath($request->gender);
+    $path = $this->checkuserpaths($request->gender);
     // todo Register New Account //    
     $customer = User::create([
         'name' => $request->name,

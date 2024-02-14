@@ -153,6 +153,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/posts',[PostController::class, 'index']);
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
+    Route::get('/posts/show/myposts',[PostController::class, 'showmyposts']);
     Route::get('/posts/edit/{id}',[PostController::class, 'edit']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
@@ -164,9 +165,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     // ? comment //
     Route::POST('/posts/comment',[CommentController::class, 'store']);
     Route::get('/posts/comment',[CommentController::class, 'showcomment']);
-    Route::get('/posts/comment/edit/{comentid}',[CommentController::class, 'edit']);
-    Route::PUT('/posts/comment',[CommentController::class, 'update']);
-    Route::Delete('/posts/comment',[CommentController::class, 'destroy']);
+    Route::get('/posts/comment/edit',[CommentController::class, 'edit']);
+    Route::PUT('/posts/comment/update',[CommentController::class, 'update']);
+    Route::Delete('/posts/comment/destroy',[CommentController::class, 'destroy']);
     // ? follow //
     Route::POST('/users/follow',[FollowController::class, 'store']);
     Route::get('/users/following',[FollowController::class, 'showfollowing']);

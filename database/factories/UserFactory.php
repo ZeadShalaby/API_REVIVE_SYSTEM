@@ -22,7 +22,7 @@ class UserFactory extends Factory
         $increment = random_int(0,24);
         $destination_path = env('path_url','/api/rev/images/reviveimageusers/');
         $http_address = env('APP_URL','http://127.0.0.1:8000');
-        $path = $http_address.$destination_path.$img[$increment];
+        $path = $destination_path.$img[$increment];
         return [
             'name' => fake()->name(),
             'username' => fake()->name(),

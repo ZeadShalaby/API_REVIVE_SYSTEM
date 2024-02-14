@@ -1,6 +1,8 @@
 <?php
 namespace App\Traits;
 
+use App\Models\SavedPosts;
+
 trait CountTrait
 
 {  
@@ -54,4 +56,17 @@ trait CountTrait
       return $data;
 
     }  
+
+    
+    //todo count of commit for users
+    protected function checksaved($posts_id , $user){
+      $saved = SavedPosts::where("user_id",$user->id)->where("posts_id" , $posts_id)->get();
+      if( $saved->count() != 0 ){
+      return true;
+    }
+      else{return false;}
+
+    }
+
+    
 }

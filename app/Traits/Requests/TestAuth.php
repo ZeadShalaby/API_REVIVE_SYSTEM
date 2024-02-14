@@ -114,6 +114,17 @@ trait TestAuth
         
        ];
     }
+
+
+    // todo rules store comments 
+    protected function rulesComment(){
+      return  [
+        'posts_id' => 'required|exists:posts,id',
+        'comment' => 'required|min:5|max:200',
+      ];
+    }
+
+    
    
 
 
