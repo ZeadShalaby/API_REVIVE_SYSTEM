@@ -9,6 +9,7 @@ use App\Traits\ReportTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Events\CarbonFootprint;
+use App\Events\FootprintPerson;
 use App\Http\Controllers\Controller;
 use App\Traits\MachineLearningTrait;
 use Symfony\Component\Process\Process;
@@ -46,7 +47,10 @@ class MachineLearningController extends Controller
             'degree' => 32,
         ];
         $output = $this->sendDataPy($data , Role::DIOXIDEPY);
-        return $this-> returnData("Python Output" , $output);
+        $report = $this->check_rcp_person(auth()->user() , 45); /*$output*/;
+        $user = auth()->user(); $user->ratio = 45; // ? ratio in output return code machine //
+        $person_footprint = event(new FootprintPerson($user));
+        return $this-> returnData("Python Output" , $output ,$report);
 
   }
 

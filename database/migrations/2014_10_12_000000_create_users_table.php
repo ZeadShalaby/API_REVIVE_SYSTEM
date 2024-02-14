@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('social_type')->nullable();
             $table->string('social_id')->nullable();
             $table->bigInteger('code')->unsigned()->nullable();
+            $table->index('code');
+            $table->bigInteger('carbon_footprint')->unsigned()->nullable();
+            $table->index('carbon_footprint');
             $table->timestamps();
             $table->timestamp('email_verified_at')->nullable();
         //  $table->rememberToken();
