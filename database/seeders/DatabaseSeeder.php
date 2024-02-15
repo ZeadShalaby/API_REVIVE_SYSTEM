@@ -14,8 +14,15 @@ use App\Models\Tourism;
 use App\Models\Favourite;
 use App\Models\SavedPosts;
 use App\Models\Filemachine;
+use App\Models\footprintperson;
+use App\Models\footprintfactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+
+
+
+
+
 
 
 class DatabaseSeeder extends Seeder
@@ -104,30 +111,35 @@ class DatabaseSeeder extends Seeder
         ]); 
 
 
-    //// todo add user customer ////
+    //// todo add users posts ////
     $posts = Post::factory()->count(9)->create();
 
-    //// todo add user customer ////
+    //// todo add readings Revive ////
     $revive = Revive::factory()->count(9)->create();
 
-    //// todo add tourism machine ////
+    //// todo add tourism readings ////
     $tourism = Tourism::factory()->count(9)->create();
 
-    //// todo add user customer ////
+    //// todo add user follows ////
     $follow = Follow::factory()->count(9)->create();
 
-    //// todo add user customer ////
+    //// todo add user comment ////
     $comment = Comment::factory()->count(9)->create();
 
-    //// todo add user customer ////
+    //// todo add post favourite ////
     $favourite = Favourite::factory()->count(9)->create();
 
-    //// todo add user customer ////
+    //// todo add posts saved ////
     $savedposts = SavedPosts::factory()->count(9)->create();
 
-    //// todo add user customer ////
+    //// todo add files machines learning ////
     $filemachine = Filemachine::factory()->count(9)->create();
 
+    //// todo add Carbon Footprint Factory for Person  ////
+    $filemachine = footprintperson::factory()->count(50)->create();
+    
+    //// todo add Carbon Footprint Factory for Product Factory  ////
+    $filemachine = footprintfactory::factory()->count(50)->create();
 
     //// todo add  machine coastal ////
     $machinecoastal = MAchine::factory()
