@@ -73,6 +73,17 @@ return new class extends Migration
 
         });
 
+        Schema::table('footprintpeople', function (Blueprint $table) {
+
+            $table->foreign('user_id')->references('id')->on('users');
+
+        });
+
+        Schema::table('footprintfactories', function (Blueprint $table) {
+
+            $table->foreign('machine_id')->references('id')->on('machines');
+
+        });
 
         
     }
