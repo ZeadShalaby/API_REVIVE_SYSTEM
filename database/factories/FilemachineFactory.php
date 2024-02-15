@@ -22,7 +22,7 @@ class FilemachineFactory extends Factory
         $destination_path = '/api/rev/images/reviveimagemachine/';
         $http_address = env('APP_URL','http://127.0.0.1:8000');
         $path = $destination_path.$img[$increment];
-        $userids = User::where('role', '>','1')->pluck('id')->toArray();
+        $userids = User::pluck('id')->toArray();
         return [
             //
             'user_id' => $this->faker->randomElement($userids),
