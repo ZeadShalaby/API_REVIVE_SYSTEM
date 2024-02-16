@@ -124,6 +124,22 @@ trait TestAuth
       ];
     }
 
+    // todo rules store comments 
+    protected function rulescfpperson(){
+    return  [
+      'user_id' => 'required|exists:users,id',
+      'carbon_footprint' => 'required|integer',
+      ];
+    } 
+ 
+    // todo rules store comments 
+    protected function rulescfpfactory(){
+      return  [
+        'machine_id' => 'required|exists:machines,id',
+        'carbon_footprint' => 'required|integer',
+      ];
+    }
+
     
    
 

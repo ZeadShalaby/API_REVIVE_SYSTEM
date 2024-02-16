@@ -9,10 +9,11 @@ use App\Models\Tourism;
 use App\Mail\AdminReport;
 use App\Mail\Reportmailer;
 use App\Events\WarningMachine;
+use App\Traits\MachineLearningTrait;
 use App\Mail\CarbonFootprintFactory;
 use Illuminate\Support\Facades\Mail;
 
-trait ReportTrait
+trait ReportTrait 
 
 {  
     // todo check if data less then last data // (warning must co2 less then last co2 data)//
@@ -57,11 +58,11 @@ trait ReportTrait
 
     // todo send report mail to owner and admin for report carbon footprint factory //
     protected function check_rcf_factory($machine ,$ratio){
+      $this->insertcfpfactory($machine->id ,$ratio);
       if($machine->carbon_footprint != null){
       if($machine->carbon_footprint < $ratio){ $this->rcf_factory($machine);}
       else{}}
     }
-
 
     // todo send report mail to owner and admin for report carbon footprint factory //
     protected function rcf_factory($machine){

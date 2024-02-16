@@ -9,7 +9,9 @@ use App\Traits\ReportTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Events\CarbonFootprint;
-use App\Events\FootprintPerson;
+use App\Events\FootprintPeople;
+use App\Models\footprintperson;
+use App\Models\footprintfactory;
 use App\Http\Controllers\Controller;
 use App\Traits\MachineLearningTrait;
 use Symfony\Component\Process\Process;
@@ -35,10 +37,10 @@ class MachineLearningController extends Controller
 
     }
 
-  //! dioxide ratio (Co2) footprint for person //
-  public function dioxide_ratio(Request $request)
-  {
-      
+    //! dioxide ratio (Co2) footprint for person //
+    public function dioxide_ratio(Request $request)
+    {
+        
         $data = [
             'foodprint' => "yes",
             'co2' => 22 ,
@@ -47,13 +49,22 @@ class MachineLearningController extends Controller
             'degree' => 32,
         ];
         $output = $this->sendDataPy($data , Role::DIOXIDEPY);
-        $report = $this->check_rcp_person(auth()->user() , 45); /*$output*/;
-        $user = auth()->user(); $user->ratio = 45; // ? ratio in output return code machine //
-        $person_footprint = event(new FootprintPerson($user));
+        $report = $this->check_rcp_person(auth()->user() , 47); /*$output*/;
+        $user = auth()->user(); $user->ratio = 47; // ? ratio in output return code machine //
+        $person_footprint = event(new FootprintPeople($user));
         return $this-> returnData("Python Output" , $output ,$report);
 
-  }
+    }
 
+
+     //! training carbon footprint for ( factory ) in years or weeak  (tcfpf) => (training carbon footprint factory ) //
+     public function tcfpperson_years(Request $request)
+     {
+       $user_footprint = footprintperson::where("user_id",auth()->user()->id)->get(); 
+       $output = $this->sendDataPy($user_footprint , Role::TRAININGFOOTPRINTPERSON); 
+       return $this-> returnData("Python Output" , $output);
+       
+     }
 
 
     //! Training Data classfication , model //
@@ -87,25 +98,44 @@ class MachineLearningController extends Controller
  
      }
 
-      //!  dioxide ratio (Co2) footprint for ( factory ) classfication , model //
-      public function carbon_footprint(Request $request)
-      {
-        
+    //!  dioxide ratio (Co2) footprint for ( factory ) regression , model //
+    public function carbon_footprint(Request $request)
+    {
+    
         $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
         $machine = Machine::find($machineids);
         $users = $machine->user;
         $data = [
-             'transport' => "yes",
-             'oil' => "yes",
-             'day' => "30",
-         ];
+                'transport' => "yes",
+                'oil' => "yes",
+                'day' => "30",
+            ];
         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY); 
         $report = $this->check_rcf_factory($machine , 37); /*$output*/;
         $machine ->ratio = 37 ;    /*$output*/;
         $carbon_footprint = event(new CarbonFootprint($machine));
-         return $this-> returnData("Python Output" , $machine);
-      }
+        return $this-> returnData("Python Output" , $output);
+    
+    }
+
+    //! training carbon footprint for ( factory ) in years or weeak  (tcfpf) => (training carbon footprint factory ) //
+    public function tcfpfactory_years(Request $request)
+    {
+        // ! validation remmember ziad its important 
+        if(auth()->user()->role == Role::ADMIN){
+           
+        }
+
+        $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
+        $footprintfactory = footprintfactory::find($machineids);
+        $machines = $footprintfactory->machine;
+        return $footprintfactory;
+        $output = $this->sendDataPy($footprintfactory , Role::TRAININGFOOTPRINTFACTORY); 
+        return $this-> returnData("Python Output" , $output);
+
+    }
  
+
     //! Chat auto and learning from question , libarry //
     public function chat(Request $request)
     {
@@ -119,10 +149,11 @@ class MachineLearningController extends Controller
 
     }
 
-     // todo return machine image
-     public function imagesmachine(Request $request,$machine){
+
+    // todo return machine image
+    public function imagesmachine(Request $request,$machine){
         if(isset($machine)){
-          return $this->returnimagemachine($machine,$machine);}
+        return $this->returnimagemachine($machine,$machine);}
         else {return 'null';}
 
     }

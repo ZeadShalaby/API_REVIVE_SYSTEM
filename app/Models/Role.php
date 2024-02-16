@@ -28,6 +28,8 @@ class Role extends Model
     const WEATHERPY = 4;
     const CHATPY = 5;
     const FOOTPRINTFACTORY = 6;
+    const TRAININGFOOTPRINTPERSON = 7;
+    const TRAININGFOOTPRINTFACTORY = 8;
     const MailRevive = 'revivecarbon@gmail.com';
 
 }

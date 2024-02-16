@@ -16,6 +16,15 @@ class footprintfactory extends Model
     ];
 
      /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'updated_at',
+    ];
+
+     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -30,6 +39,6 @@ class footprintfactory extends Model
      */
     public function machine()
     {
-        return $this->belongsTo(Machine::class, 'user_id');
+        return $this->belongsTo(Machine::class, 'machine_id');
     }
 }

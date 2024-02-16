@@ -14,6 +14,15 @@ class footprintperson extends Model
         'user_id',
         'carbon_footprint',
     ];
+  
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'updated_at',
+    ];
 
      /**
      * The attributes that are mass assignable.
