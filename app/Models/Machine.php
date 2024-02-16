@@ -21,20 +21,33 @@ class Machine extends Model
         'carbon_footprint',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'updated_at',
+        'deleted_at',
+    ];
+
      /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $dates =['delete_at'];
+    protected $dates =['deleted_at'];
    
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
+     
     public function user()
     {
         return $this->belongsTo(User::class, 'owner_id');
     }
+    
 }

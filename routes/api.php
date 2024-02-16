@@ -217,6 +217,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
     // ? training Data weather //
     Route::POST('/python/weather',[MachineLearningController::class, 'weather']);
+    // ? training Data footprint product //
+    Route::POST('/python/trainng/footprint/product',[MachineLearningController::class, 'tcfpfactory_years']);
 
 });
 //?end//
@@ -248,8 +250,9 @@ Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
 //?start//
 // ! for all users Owner | Client | Admin //
 Route::group(['middleware' => ['checksecurity','auth.guard:api']], function () {
-
+    
 Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio']);
+Route::POST('/python/trainng/footprint/person',[MachineLearningController::class, 'tcfpperson_years']);
 Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 
 });
@@ -257,7 +260,6 @@ Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 
 });
 //?end//
-
 
 Route::get('/send/mail',[EmailController::class ,'sendmail'] );
 Route::get('/send/mail/error/machine',[EmailController::class ,'errormachine'] );
