@@ -88,14 +88,23 @@ trait MethodconTrait
    // todo check type of machine (tcr) //
    public function checkTypeMachine($checktype){
 
-      if($checktype == "TOURISM"){
+      if($checktype == "TOURISM" || "Tourism" || "tourism"){
          return Role::TOURISM;
       }
-      elseif ($checktype == "COASTAL") {
+      elseif ($checktype == "COASTAL" || "Coastal" || "coastal") {
          return Role::COASTAL;
       }
-      elseif ($checktype == "REVIVE") {
+      elseif ($checktype == "REVIVE" || "Revive" || "revive") {
          return Role::REVIVE;
+      }
+      elseif ($checktype == "FCI" || "Fci" || "fci") {
+         return Role::FCI;
+      }
+      elseif ($checktype == "WEATHER" || "Weather" || "weather") {
+         return Role::FCI;
+      }
+      elseif ($checktype == "OTHER" || "Other" || "other") {
+         return Role::FCI;
       }
 
    }
@@ -104,13 +113,13 @@ trait MethodconTrait
    // todo check type of machine (tcr) //
    public function checkTypeUsers($checktype){
 
-      if($checktype == "ADMIN"){
+      if($checktype == "ADMIN" || "Admin" || "admin"){
          return Role::ADMIN;
       }
-      elseif ($checktype == "OWNER") {
+      elseif ($checktype == "OWNER" || "Owner" || "owner") {
          return Role::OWNER;
       }
-      elseif ($checktype == "CUSTOMER") {
+      elseif ($checktype == "CUSTOMER" || "Customer" || "customer") {
          return Role::CUSTOMER;
       }
       else{return FALSE;}
@@ -159,8 +168,6 @@ trait MethodconTrait
          return $randomElement;      
       } 
       else{return FALSE;}
-
-        
    }
 }
 

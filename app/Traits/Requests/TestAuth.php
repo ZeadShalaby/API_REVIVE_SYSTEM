@@ -2,8 +2,9 @@
 namespace App\Traits\Requests;
 
 trait TestAuth
-
 {  
+
+
     // todo rules of login for users
     protected function rulesLogin(){
       return [
@@ -140,8 +141,16 @@ trait TestAuth
       ];
     }
 
+
+    // todo rules store comments 
+    protected function rulessms(){
+      return  [
+        'country_code'  => 'required|integer|digits_between:2,3',
+        'phone' => 'required|numeric|digits:10|exists:users,phone'
+      ];
+    }
+
     
    
-
 
 }

@@ -4,6 +4,7 @@ use App\Mail\Emailmailer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\SmsController;
 use App\Http\Controllers\Api\TCRController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
@@ -29,10 +30,10 @@ use App\Http\Controllers\Api\MachineLearningController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
 
 //?start//
 // ! all routes / api here must be authentcated
@@ -261,5 +262,6 @@ Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 });
 //?end//
 
+Route::get('/send/sms',[SmsController::class ,'sendsms'] );
 Route::get('/send/mail',[EmailController::class ,'sendmail'] );
 Route::get('/send/mail/error/machine',[EmailController::class ,'errormachine'] );
