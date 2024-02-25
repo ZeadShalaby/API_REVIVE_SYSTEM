@@ -19,7 +19,7 @@ class UserController extends Controller
     use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
 
     /** 
-     * 
+     * todo return users with type or deafult all users.
      * todo Display a listing of the resource.
      */
     public function index(Request $request)
@@ -53,6 +53,7 @@ class UserController extends Controller
     }
 
     /**
+     * todo show info users
      * todo Display the specified resource.
      */
     public function show(Request $request )
@@ -64,7 +65,8 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * todo Edit Users 
+     * todo Show the form for editing the specified resource.
      */
     public function edit(Request $request , User $user)
     {
@@ -103,6 +105,7 @@ class UserController extends Controller
 
 
     /**
+     * todo change Role Users to Admin or Owner
      * todo Update the specified resource in storage.
      */
     public function modifyrole(Request $request)
@@ -126,6 +129,7 @@ class UserController extends Controller
     }
     
     /**
+     * todo Delete Users
      * todo Remove the specified resource from storage.
      */
     public function destroy(Request $request)
@@ -150,6 +154,7 @@ class UserController extends Controller
         $filterResult = User::where('name', 'LIKE', '%'. $query. '%')
         ->orwhere( 'username', 'LIKE', '%'. $query. '%')
         ->orwhere( 'phone', 'LIKE', '%'. $query. '%')
+        ->orwhere( 'Personal_card', 'LIKE', '%'. $query. '%')
         ->get();
             return $this->returnData("users",$filterResult);
     

@@ -86,7 +86,7 @@ class TourismController extends Controller
         $msg = " insert successfully .";
         return $this->returnSuccessMessage($msg);
     
-}
+    }
 
     /**
      * todo Display the specified resource.
