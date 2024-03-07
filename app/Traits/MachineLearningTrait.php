@@ -7,7 +7,7 @@ use App\Models\footprintperson;
 use App\Models\footprintfactory;
 use App\Traits\Requests\TestAuth;
 use Symfony\Component\Process\Process;
-use robertogallea\LaravelPython\Services\LaravelPython;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 trait MachineLearningTrait
@@ -16,16 +16,21 @@ trait MachineLearningTrait
   use TestAuth;
     //todo count of Orders for users
     protected function sendDataPy( $data , $path ){
-
+  
     $path = $this->codePath($path);    
-    $jsonData = json_encode($data);
-    $process = new Process(['python', base_path() . env($path[0],$path[1])]);
-    $process ->setInput($jsonData);
-    $process->run();
-    if (!$process->isSuccessful()) { throw new ProcessFailedException($process);}
-    return $process->getOutput();
-
-    }
+    $pythonScriptPath = base_path($path[1]);
+    
+        // Check if the script file exists
+    if (file_exists($pythonScriptPath)) {
+        
+        $jsonData = json_encode($data);
+        Storage::disk('json')->put('data.json', $jsonData);
+        // Execute the Python script
+        exec('python ' . escapeshellarg($pythonScriptPath), $output, $returnCode);
+        return $output;
+        }
+  
+  }
 
    //todo count of Orders for users
    protected function codePath($code){

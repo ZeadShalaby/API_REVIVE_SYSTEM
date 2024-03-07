@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Barter;
 
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,8 @@ class CarbonFootprintController extends Controller
     */
     public function index(Request $request){
 
-        return $this->returnData(" barter index done");
+        $barter = CarbonFootprint::get();
+        return $this->returnData("$Barter",$barter);
 
     } 
 
@@ -26,9 +28,8 @@ class CarbonFootprintController extends Controller
      * todo show All My Barter process (عمليات المقايضه) 
     */
     public function ShowBarter(Request $request){
-
-        return $this->returnData(" barter ShowBarter done");
-
+        
+         
     } 
 
     /**
@@ -37,7 +38,7 @@ class CarbonFootprintController extends Controller
     */
     public function Show(Request $request){
      
-        return $this->returnData(" barter Show done");
+        return $this->returnData(""," barter Show done");
 
     } 
 
@@ -47,7 +48,7 @@ class CarbonFootprintController extends Controller
     */
     public function Store (Request $request){
 
-        return $this->returnData(" barter Store done");
+        return $this->returnData(""," barter Store done");
 
     } 
 
@@ -57,7 +58,7 @@ class CarbonFootprintController extends Controller
     */
     public function edit(Request $request){
 
-        return $this->returnData(" barter edit done");
+        return $this->returnData(""," barter edit done");
 
 
     } 
@@ -68,7 +69,7 @@ class CarbonFootprintController extends Controller
     */
     public function update(Request $request){
 
-        return $this->returnData(" barter update done");
+        return $this->returnData(""," barter update done");
 
 
     } 
@@ -79,7 +80,7 @@ class CarbonFootprintController extends Controller
     */
     public function destroy(Request $request){
 
-        return $this->returnData(" barter destroy done");
+        return $this->returnData(""," barter destroy done");
 
     } 
 
@@ -89,7 +90,7 @@ class CarbonFootprintController extends Controller
     */
     public function restoreindex(Request $request){
 
-        return $this->returnData(" barter restoreindex done");
+        return $this->returnData(""," barter restoreindex done");
 
 
     } 
@@ -100,7 +101,7 @@ class CarbonFootprintController extends Controller
     */
     public function restore(Request $request){
 
-        return $this->returnData(" barter restore done");
+        return $this->returnData(""," barter restore done");
 
 
     } 
@@ -110,7 +111,7 @@ class CarbonFootprintController extends Controller
      */
     public function autocolmpletesearch(Request $request)
     {
-        return $this->returnData(" barter autocolmpletesearch done");
+        return $this->returnData(""," barter autocolmpletesearch done");
 
         // ? search by Seller || location Buyer // 
         $query = $request->get('query');
