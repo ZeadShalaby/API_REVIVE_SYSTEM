@@ -85,6 +85,14 @@ return new class extends Migration
 
         });
 
+        Schema::table('purchasing_carbon_footprint', function (Blueprint $table) {
+
+            $table->foreign('seller_id')->references('id')->on('users');
+
+            $table->foreign('buyer_id')->references('id')->on('users');
+
+        });
+
         
     }
 

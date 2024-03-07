@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\SavedPostsController;
 use App\Http\Controllers\Api\users\AuthController;
 use App\Http\Controllers\Api\ReportsPostsController;
 use App\Http\Controllers\Api\MachineLearningController;
+use App\Http\Controllers\Api\Barter\CarbonFootprintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,6 +116,15 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::get('/reports/posts',[ReportsPostsController::class, 'reportposts']);
     Route::PUT('/skip/report/posts',[ReportsPostsController::class, 'skipreport']);
     Route::Delete('/posts/destroy',[ReportsPostsController::class, 'destroy']);
+//?start//
+    // todo Barter process CarbonFootprint //
+    // todo prefix in all routes *BarterProcess* //
+    Route::group(['prefix' =>'BarterProcess'], function () {
+
+    Route::POST('/CarbonFootprint',[CarbonFootprintController::class, 'index']);
+
+});
+//?end//
 
 });
 //?end//
@@ -129,6 +139,20 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-rol
 
     // ? training Data carbon footprint for factory //
     Route::POST('/python/carbon/footprint/factory',[MachineLearningController::class, 'carbon_footprint']);
+//?start//
+    // todo Barter process CarbonFootprint //
+    // todo prefix in all routes *BarterProcess* //
+    Route::group(['prefix' =>'BarterProcess'], function () {
+
+      Route::get('/mine',[CarbonFootprintController::class, 'ShowBarter']);
+      Route::POST('/Store',[CarbonFootprintController::class, 'Store']);
+      Route::get('/edit',[CarbonFootprintController::class, 'edit']);
+      Route::PUT('/update',[CarbonFootprintController::class, 'update']);
+      Route::Delete('/delete',[CarbonFootprintController::class, 'destroy']);
+
+      
+    });
+//?end//
 
 });
 //?end//
@@ -220,6 +244,18 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     Route::POST('/python/weather',[MachineLearningController::class, 'weather']);
     // ? training Data footprint product //
     Route::POST('/python/trainng/footprint/product',[MachineLearningController::class, 'tcfpfactory_years']);
+//?start//
+    // todo Barter process CarbonFootprint //
+    // todo prefix in all routes *BarterProcess* //
+    Route::group(['prefix' =>'BarterProcess'], function () {
+
+        Route::get('/mine/show',[CarbonFootprintController::class, 'Show']);
+        Route::get('/restoreindex',[CarbonFootprintController::class, 'restoreindex']);
+        Route::POST('/restore',[CarbonFootprintController::class, 'restore']);
+        Route::get('/autocolmpletesearch',[CarbonFootprintController::class, 'autocolmpletesearch']);
+
+    });
+    //?end//
 
 });
 //?end//

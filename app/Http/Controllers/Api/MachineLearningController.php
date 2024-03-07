@@ -15,7 +15,6 @@ use App\Models\footprintfactory;
 use App\Http\Controllers\Controller;
 use App\Traits\MachineLearningTrait;
 use Symfony\Component\Process\Process;
-use robertogallea\LaravelPython\Services\LaravelPython;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class MachineLearningController extends Controller
@@ -101,7 +100,7 @@ class MachineLearningController extends Controller
     //!  dioxide ratio (Co2) footprint for ( factory ) regression , model //
     public function carbon_footprint(Request $request)
     {
-    
+        
         $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
         $machine = Machine::find($machineids);
         $users = $machine->user;
@@ -129,7 +128,6 @@ class MachineLearningController extends Controller
         $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
         $footprintfactory = footprintfactory::find($machineids);
         $machines = $footprintfactory->machine;
-        return $footprintfactory;
         $output = $this->sendDataPy($footprintfactory , Role::TRAININGFOOTPRINTFACTORY); 
         return $this-> returnData("Python Output" , $output);
 
@@ -144,6 +142,7 @@ class MachineLearningController extends Controller
             'question' => "weather is good !?",
             'answer'  => "yes its good",
         ];
+        
         $output = $this->sendDataPy($data , Role::CHATPY);
         return $this-> returnData("Python Output" , $output);
 

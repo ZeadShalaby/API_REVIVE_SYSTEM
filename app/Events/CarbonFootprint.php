@@ -42,6 +42,7 @@ class CarbonFootprint
 
      // todo add new ratio (Carbon Footprint Factory) in this machine  //
      public function postratio($ratio){
+        
         $ratio -> carbon_footprint = $ratio ->ratio;
         unset($ratio['ratio'],$ratio['date']);
         $ratio -> save();

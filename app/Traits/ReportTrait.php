@@ -72,5 +72,7 @@ trait ReportTrait
       Mail::to(env('MAIL_FROM_ADDRESS',Role::MailRevive))->send(new CarbonFootprintFactory($machine));
     }
 
+    
+
    
 }
