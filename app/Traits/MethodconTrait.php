@@ -103,6 +103,9 @@ trait MethodconTrait
       elseif ($checktype == "WEATHER" || "Weather" || "weather") {
          return Role::FCI;
       }
+      elseif ($checktype == "GREENTREE" || "GreenTree" || "greentree") {
+         return Role::GREENTREE;
+      }
       elseif ($checktype == "OTHER" || "Other" || "other") {
          return Role::FCI;
       }
@@ -113,14 +116,17 @@ trait MethodconTrait
    // todo check type of machine (tcr) //
    public function checkTypeUsers($checktype){
 
-      if($checktype == "ADMIN" || "Admin" || "admin"){
+      if(($checktype == "ADMIN") ||($checktype == "Admin") ||($checktype == "admin")){
          return Role::ADMIN;
       }
-      elseif ($checktype == "OWNER" || "Owner" || "owner") {
+      elseif (($checktype == "OWNER") ||($checktype == "Owner") ||($checktype == "owner")) {
          return Role::OWNER;
       }
-      elseif ($checktype == "CUSTOMER" || "Customer" || "customer") {
+      elseif (($checktype == "CUSTOMER") ||($checktype == "Customer") ||($checktype == "customer")) {
          return Role::CUSTOMER;
+      }
+      elseif (($checktype == "AOC") ||($checktype == "Aoc") ||($checktype == "aoc")) {
+         return "";
       }
       else{return FALSE;}
 

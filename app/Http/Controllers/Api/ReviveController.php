@@ -91,9 +91,9 @@ class ReviveController extends Controller
 
         //! //
         //?to check readings & type of machine its correct or not //
-        $checkreadings = $this->checkreadings($request,Role::REVIVE);
         $checktype = $this->checktype($request->machineids,Role::REVIVE);
         if($checktype == false){return $this->returnError("EM403","Machine type not : Revive");}
+        $checkreadings = $this->checkreadings($request,Role::REVIVE);
 
         $posts = Revive::create([
             "machine_id" => $request->machineids,

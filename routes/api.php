@@ -301,3 +301,4 @@ Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 Route::get('/send/sms',[SmsController::class ,'sendsms'] );
 Route::get('/send/mail',[EmailController::class ,'sendmail'] );
 Route::get('/send/mail/error/machine',[EmailController::class ,'errormachine'] );
+Route::POST('/send/mail/users',[EmailController::class ,'SendAll'] );

@@ -18,6 +18,7 @@ class Role extends Model
     const FCI = 7;
     const WEATHER = 8;
     const OTHER = 9;
+    const GREENTREE = 10;
     const EXPIRE = 0;
     const NOTEXPIRE = 1;
     const GOOGLE = 'google'; 

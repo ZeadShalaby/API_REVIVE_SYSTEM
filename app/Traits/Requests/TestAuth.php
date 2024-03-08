@@ -42,6 +42,7 @@ trait TestAuth
         "co2" => 'required|integer',
         "co" => 'required|integer',
         "degree" => 'required|integer',
+        "humidity" => 'required|integer'
     ];
     }
 
@@ -150,7 +151,12 @@ trait TestAuth
       ];
     }
 
-    
+    // todo rules of type for users todo send mail
+    protected function rulestype(){
+      return [
+        "type" => "required|max:12",
+        ];
+    }
    
 
 }

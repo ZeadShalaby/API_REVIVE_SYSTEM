@@ -13,7 +13,7 @@ trait ErrorTrait
 
 {  
 
-    //todo count of Orders for users
+    //todo check machine work or not 
     protected function checkwork(){
 
        $tourism = Tourism::where('expire','!=',Role::EXPIRE)->orWhere("created_at",Carbon::today()->toDateString())->get()->pluck('machine_id')->toArray();
