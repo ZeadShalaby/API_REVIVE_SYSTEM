@@ -36,12 +36,13 @@ class TCRController extends Controller
                  $code = $this->returnCodeAccordingToInput($validator);
                  return $this->returnValidationError($code,$validator);
          }
- 
+         $type = $this->checkTypeMachine($request->type);
+         if($type == null){return $this->returnError("T404","OOPS Write Correct Type :(...!");}
          $machines = Machine::create([
              "name" => $request->name,
              "owner_id" => $request->owner_id,
              "location" => $request->location,
-             "type" => $request->type,
+             "type" => $type,
          ]);
  
          $msg = " Create : " .$request->name . " machine " ."successfully .";
@@ -80,11 +81,13 @@ class TCRController extends Controller
                 $code = $this->returnCodeAccordingToInput($validator);
                 return $this->returnValidationError($code,$validator);
         }
+        $type = $this->checkTypeMachine($request->type);
+        if($type == null){return $this->returnError("T404","OOPS Write Correct Type :(...!");}
         $machine->update([
             "name" => $request->name,
             "owner_id" => $request->owner_id,
             "location" => $request->location,
-            "type" => $request->type,
+            "type" => $type,
         ]);
              
         $msg = " Update : " .$request->name . " machine " ."successfully .";
@@ -114,7 +117,9 @@ class TCRController extends Controller
     {
         // ? search by name || location machine // 
         $query = $request->get('query');
+
         if($request->type != NULL){
+
             $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)
             ->where('name', 'LIKE', '%'. $query. '%')

@@ -86,46 +86,47 @@ trait MethodconTrait
    }   
 
    // todo check type of machine (tcr) //
-   public function checkTypeMachine($checktype){
-
-      if($checktype == "TOURISM" || "Tourism" || "tourism"){
+   public function checkTypeMachine($type){
+      $checktype = strtolower($type);
+      if($checktype == "tourism"){
          return Role::TOURISM;
       }
-      elseif ($checktype == "COASTAL" || "Coastal" || "coastal") {
+      elseif ($checktype =="coastal") {
          return Role::COASTAL;
       }
-      elseif ($checktype == "REVIVE" || "Revive" || "revive") {
+      elseif ($checktype == "revive") {
          return Role::REVIVE;
       }
-      elseif ($checktype == "FCI" || "Fci" || "fci") {
+      elseif ($checktype =="fci") {
          return Role::FCI;
       }
-      elseif ($checktype == "WEATHER" || "Weather" || "weather") {
-         return Role::FCI;
+      elseif ($checktype =="weather") {
+         return Role::WEATHER;
       }
-      elseif ($checktype == "GREENTREE" || "GreenTree" || "greentree") {
+      elseif ($checktype == "greentree") {
          return Role::GREENTREE;
       }
-      elseif ($checktype == "OTHER" || "Other" || "other") {
-         return Role::FCI;
+      elseif ($checktype == "other") {
+         return Role::OTHER;
       }
+      else{return null;}
 
    }
 
 
    // todo check type of machine (tcr) //
-   public function checkTypeUsers($checktype){
-
-      if(($checktype == "ADMIN") ||($checktype == "Admin") ||($checktype == "admin")){
+   public function checkTypeUsers($type){
+      $checktype = strtolower($type);
+      if($checktype == "admin"){
          return Role::ADMIN;
       }
-      elseif (($checktype == "OWNER") ||($checktype == "Owner") ||($checktype == "owner")) {
+      elseif ($checktype == "owner"){
          return Role::OWNER;
       }
-      elseif (($checktype == "CUSTOMER") ||($checktype == "Customer") ||($checktype == "customer")) {
+      elseif ($checktype == "customer"){
          return Role::CUSTOMER;
       }
-      elseif (($checktype == "AOC") ||($checktype == "Aoc") ||($checktype == "aoc")) {
+      elseif ($checktype == "aoc") {
          return "";
       }
       else{return FALSE;}
@@ -134,9 +135,11 @@ trait MethodconTrait
 
 
    // todo check type of path owner || admin (tcr) //
-   public function checkpath($gender , $role){
+   public function checkpath($checkgender , $role){
+
+      $gender = strtolower($checkgender);
       $funreturn = "reviveimageusers";
-      if($gender == "MALE" || $gender == "male" || $gender == "Male"){
+      if($gender == "male"){
          if($role == "ADMIN"){
             $randomElement = $this->random(array('admin.jpg', 'maleadmin.jpg','maleadmin1.jpg'),$funreturn);
             return $randomElement; 
@@ -146,7 +149,7 @@ trait MethodconTrait
             return $randomElement; 
          }
       }
-      elseif ($gender == "FEMALE" || $gender == "female" || $gender == "Female") {
+      elseif ($gender == "female") {
          if($role == "ADMIN"){
             $randomElement = $this->random(array('femaleadmin.jpg'),$funreturn);
             return $randomElement; 
@@ -162,18 +165,20 @@ trait MethodconTrait
 
 
    // todo check type of path owner || admin (tcr) //
-   public function checkuserpaths($gender){
+   public function checkuserpaths($checkgender){
 
+      $gender = strtolower($checkgender);
       $funreturn = "reviveimageusers";
-      if($gender == "MALE" || $gender == "male" || $gender == "Male"){
+      if($gender == "male"){
          $randomElement = $this->random(array('male.jpg', 'male1.png','male2.png'),$funreturn);
          return $randomElement;        
       }
-      elseif ($gender == "FEMALE" || $gender == "female" || $gender == "Female" ) {
+      elseif ( $gender == "female" ) {
          $randomElement = $this->random(array('female.png','female1.png','female2.png','female3.png','female4.png','female5.png'),$funreturn); 
          return $randomElement;      
       } 
       else{return FALSE;}
+
    }
 }
 
