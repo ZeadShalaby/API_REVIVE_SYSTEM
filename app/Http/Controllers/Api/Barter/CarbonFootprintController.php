@@ -19,8 +19,8 @@ class CarbonFootprintController extends Controller
     public function index(Request $request){
 
         $barter = CarbonFootprint::get();
-        return $this->returnData("$Barter",$barter);
-
+        return $this->returnData("Barter",$barter);
+ 
     } 
 
     /**
@@ -111,20 +111,19 @@ class CarbonFootprintController extends Controller
      */
     public function autocolmpletesearch(Request $request)
     {
-        return $this->returnData(""," barter autocolmpletesearch done");
+        // return $this->returnData(""," barter autocolmpletesearch done");
 
         // ? search by Seller || location Buyer // 
         $query = $request->get('query');
 
-        if(auth()->user()->role != Role::ADMIN){
 
         $filterResult = User::where('name', 'LIKE', '%'. $query. '%')
         ->orwhere( 'username', 'LIKE', '%'. $query. '%')
         ->orwhere( 'phone', 'LIKE', '%'. $query. '%')
         ->orwhere( 'Personal_card', 'LIKE', '%'. $query. '%')
         ->values('id');
-            return $this->returnData("users",$filterResult);
-        }
+        return $this->returnData("users",$filterResult);
+        
 
     }
 

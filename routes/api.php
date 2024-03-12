@@ -281,8 +281,6 @@ Route::group(['middleware' => ['securitymachine']], function () {
 });
 //?end//
 
-//? test code python //
-Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
 
 //?start//
 // ! for all users Owner | Client | Admin //
@@ -291,6 +289,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api']], function () {
 Route::POST('/python/dioxide/ratio',[MachineLearningController::class, 'dioxide_ratio']);
 Route::POST('/python/trainng/footprint/person',[MachineLearningController::class, 'tcfpperson_years']);
 Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
+
+//? test code python //
+Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
 
 });
 //?end//
