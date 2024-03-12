@@ -52,7 +52,7 @@ trait TestAuth
         "name" => "required|min:4|max:20",
         "owner_id" => "required|exists:users,id",
         "location" => "required",
-        "type" => 'required|integer|min:5|max:7',
+        "type" => 'required|min:5|max:10',
     ];
     }
     
@@ -93,7 +93,7 @@ trait TestAuth
         "name" => "required|unique:machines,name",
         "owner_id" => "required|exists:users,id",
         "location" => "required|unique:machines,location",
-        "type" => 'required|integer|min:5|max:7',
+        "type" => 'required|min:5|max:10',
        ];
     }
 
