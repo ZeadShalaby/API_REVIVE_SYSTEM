@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('purchasing_carbon_footprint', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('machine_id')->unsigned();
+            $table->index('machine_id');
             $table->bigInteger('seller_id')->unsigned()->nullable();
             $table->index('seller_id');
             $table->bigInteger('buyer_id')->unsigned()->nullable();
