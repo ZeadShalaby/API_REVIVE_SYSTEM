@@ -102,8 +102,9 @@ class TCRController extends Controller
     {
         // ? delete machine //
         $machine = Machine::find($request->machineid);
+        if(!isset($machine)){return $this->returnError("M404","Alredy Deleted Machine :)..!");}
+        $msg = " delete : " .$machine->name . " machine " ."successfully .";
         $machine ->delete();
-        $msg = " delete : " .$request->name . " machine " ."successfully .";
         return $this->returnSuccessMessage($msg);
 
     }
@@ -119,7 +120,6 @@ class TCRController extends Controller
         $query = $request->get('query');
 
         if($request->type != NULL){
-
             $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)
             ->where('name', 'LIKE', '%'. $query. '%')

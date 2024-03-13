@@ -31,6 +31,6 @@ class Role extends Model
     const FOOTPRINTFACTORY = 6;
     const TRAININGFOOTPRINTPERSON = 7;
     const TRAININGFOOTPRINTFACTORY = 8;
-    const MailRevive = 'revivecarbon@gmail.com';
-
+    const MailRevive = 'revivecarbon@gmail.com'; 
+    const co2limit = 100;
 }

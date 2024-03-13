@@ -78,23 +78,21 @@ class ReviveController extends Controller
     {
         //! rules
         $rules = $this->rulesRevive();
-
-        // ? calculate o2 ratio //
-        $o2 = (100 - ($request->co + $request->co2 )-20);
-
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
             $code = $this->returnCodeAccordingToInput($validator);
             return $this->returnValidationError($code,$validator);
         }
+        
+        // ? calculate o2 ratio //
+        $o2 = (100 - ($request->co + $request->co2 )-20);
 
         //! //
         //?to check readings & type of machine its correct or not //
         $checktype = $this->checktype($request->machineids,Role::REVIVE);
         if($checktype == false){return $this->returnError("EM403","Machine type not : Revive");}
         $checkreadings = $this->checkreadings($request,Role::REVIVE);
-
         $posts = Revive::create([
             "machine_id" => $request->machineids,
             "co2" => $request->co2,
@@ -104,7 +102,7 @@ class ReviveController extends Controller
             "humidity" => $request->humidity
         ]);
 
-        $msg = " insert successfully .";
+        $msg = " insert successfully :)...!";
         return $this->returnSuccessMessage($msg);
         
     }
