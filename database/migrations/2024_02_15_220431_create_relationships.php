@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Role;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -85,11 +86,12 @@ return new class extends Migration
 
         });
 
-        Schema::table('purchasing_carbon_footprint', function (Blueprint $table) {
+        Schema::table('purching_c_f_p_s', function (Blueprint $table) {
 
-            $table->foreign('seller_id')->references('id')->on('users');
 
-            $table->foreign('buyer_id')->references('id')->on('users');
+            $table->foreign('machine_seller_id')->references('id')->on('machines');
+            
+            $table->foreign('machine_buyer_id')->references('id')->on('machines');
 
         });
 

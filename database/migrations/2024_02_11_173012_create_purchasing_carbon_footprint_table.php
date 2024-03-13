@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchasing_carbon_footprint', function (Blueprint $table) {
+        Schema::create('purching_c_f_p_s', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('machine_id')->unsigned();
-            $table->index('machine_id');
-            $table->bigInteger('seller_id')->unsigned()->nullable();
-            $table->index('seller_id');
-            $table->bigInteger('buyer_id')->unsigned()->nullable();
-            $table->index('buyer_id');
+            $table->bigInteger('machine_seller_id')->unsigned()->nullable();
+            $table->index('machine_seller_id');
+            $table->bigInteger('machine_buyer_id')->unsigned()->nullable();
+            $table->index('machine_buyer_id');
             $table->bigInteger('carbon_footprint')->unsigned()->nullable();
             $table->index('carbon_footprint');
             $table->bigInteger('expire')->unsigned()->default(1);
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchasing_carbon_footprint');
+        Schema::dropIfExists('purching_c_f_p_s');
     }
 };

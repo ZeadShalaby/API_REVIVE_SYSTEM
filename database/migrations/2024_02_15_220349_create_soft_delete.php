@@ -27,7 +27,7 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('purchasing_carbon_footprint', function (Blueprint $table) {
+        Schema::table('purching_c_f_p_s', function (Blueprint $table) {
             $table->softDeletes();
         });
 

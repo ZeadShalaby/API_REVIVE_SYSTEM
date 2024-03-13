@@ -101,7 +101,7 @@ class MachineLearningController extends Controller
     public function carbon_footprint(Request $request)
     {
         
-        $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
+        $machineids = Machine::where("owner_id",auth()->user()->id)->where("id",$request->maachineid)->value("id");
         $machine = Machine::find($machineids);
         $users = $machine->user;
         $data = [
@@ -111,8 +111,7 @@ class MachineLearningController extends Controller
             ];
         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY); 
         $report = $this->check_rcf_factory($machine , 37); /*$output*/;
-        return $report;
-        $machine ->ratio = 37 ;    /*$output*/;
+        $machine ->ratio = $report ;    /*$output*/;
         $carbon_footprint = event(new CarbonFootprint($machine));
         return $this-> returnData("Python Output" , $output);
     
