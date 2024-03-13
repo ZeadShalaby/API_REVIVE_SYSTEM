@@ -101,7 +101,7 @@ class MachineLearningController extends Controller
     public function carbon_footprint(Request $request)
     {
         
-        $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
+        $machineids = Machine::where("owner_id",auth()->user()->id)->where("id",$request->maachineid)->value("id");
         $machine = Machine::find($machineids);
         $users = $machine->user;
         $data = [

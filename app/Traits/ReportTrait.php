@@ -8,8 +8,8 @@ use App\Models\Machine;
 use App\Models\Tourism;
 use App\Mail\AdminReport;
 use App\Mail\Reportmailer;
+use App\Models\PurchingCFP;
 use App\Events\WarningMachine;
-use App\Models\CarbonFootprint;
 use App\Mail\CarbonFootprintFactory;
 use App\Traits\MachineLearningTrait;
 use Illuminate\Support\Facades\Mail;
@@ -62,8 +62,8 @@ trait ReportTrait
 
     // todo send report mail to owner and admin for report carbon footprint factory //
     protected function check_rcf_factory($machine ,$ratio){
-      return $machine;
       $Barter = $this->checkBarter($machine,$ratio);
+      return $Barter;
       $this->insertcfpfactory($machine->id ,$ratio);
       if($machine->carbon_footprint != null){
       if($machine->carbon_footprint < $ratio){ $this->rcf_factory($machine);}
@@ -88,11 +88,10 @@ trait ReportTrait
      }
      
      // todo check Barter Process // 
-     protected function checkBarter($ratio){
+     protected function checkBarter($machine , $ratio){
+     $Barter = PurchingCFP::where("machine_id",$machine->id)->get();
 
-     $Barter = CarbonFootprint::where();
-
-
+     return $Barter;
 
      }
 
