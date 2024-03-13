@@ -63,11 +63,11 @@ trait ReportTrait
     // todo send report mail to owner and admin for report carbon footprint factory //
     protected function check_rcf_factory($machine ,$ratio){
       $Barter = $this->checkBarter($machine,$ratio);
-      return $Barter;
-      $this->insertcfpfactory($machine->id ,$ratio);
+      $this->insertcfpfactory($machine->id ,$Barter->ratio);
       if($machine->carbon_footprint != null){
-      if($machine->carbon_footprint < $ratio){ $this->rcf_factory($machine);}
+      if($machine->carbon_footprint < $Barter->ratio){ $this->rcf_factory($machine);}
       else{}}
+      return $Barter->ratio;
     }
 
     // todo send report mail to owner and admin for report carbon footprint factory //
@@ -89,9 +89,12 @@ trait ReportTrait
      
      // todo check Barter Process // 
      protected function checkBarter($machine , $ratio){
-     $Barter = PurchingCFP::where("machine_id",$machine->id)->get();
-
-     return $Barter;
+     $Barter_seller = PurchingCFP::where("machine_seller_id",$machine->id)->get();
+     $Barter_buyer = PurchingCFP::where("machine_buyer_id",$machine->id)->get();
+     $Barther_carbonfootprint = 0;
+     if($Barter_buyer->count() != 0){foreach ($Barter_buyer as $Barther) {$Barther_carbonfootprint = $Barther->carbon_footprint;} $Barter_buyer->ratio = abs($Barther_carbonfootprint - $ratio) ;return $Barter_buyer;}
+     elseif($Barter_seller->count() != 0){foreach ($Barter_seller as $Barther) {$Barther_carbonfootprint = $Barther->carbon_footprint;} $Barter_seller->ratio = ($Barther_carbonfootprint + $ratio); return $Barter_seller;}
+     return $Barter_buyer->ratio = $ratio;
 
      }
 
