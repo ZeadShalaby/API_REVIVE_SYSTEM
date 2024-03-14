@@ -157,6 +157,32 @@ trait TestAuth
         "type" => "required|max:12",
         ];
     }
+
+    // todo rules of type for users todo send mail
+    protected function rulesBarterstore(){
+      return [
+        "machine_id" => "required|unique:machines,name",
+        "sellerid" => "required|unique:users,email",
+        "buyerid" => "required|unique:users,email",
+        "carbon_footprint" => "required|unique:users,gmail",
+        "expire" => 'required|min:8',       
+        "time" => 'required|min:8'       
+       ];
+    }
+
+    // todo rules of type for users todo send mail
+    protected function rulesbarterupdate(){
+      return [
+        "machine_id" => "required|unique:machines,name",
+        "sellerid" => "required|unique:users,email",
+        "buyerid" => "required|unique:users,email",
+        "carbon_footprint" => "required|unique:users,gmail",
+        "expire" => 'required|min:8',       
+        "time" => 'required|min:8'       
+       ];
+
+    }
+    
    
 
 }

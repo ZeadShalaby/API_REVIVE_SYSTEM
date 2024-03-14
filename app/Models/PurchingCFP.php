@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Machine;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,8 @@ class PurchingCFP extends Model
         'seller_id',
         'carbon_footprint',
         'buyer_id',
-        'expire'
+        'expire',
+        'updated_at'
     ];
 
        
@@ -26,7 +28,7 @@ class PurchingCFP extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'updated_at',
+       // 'updated_at',
     ];
     
     /**
@@ -34,9 +36,9 @@ class PurchingCFP extends Model
      *
      * @var array<int, string>
      */
-    public function seller()
+    public function machineseller()
     {
-        return $this->belongsTo(User::class, 'seller_id');
+        return $this->belongsTo(Machine::class, 'machine_seller_id');
     }
 
      /**
@@ -44,8 +46,18 @@ class PurchingCFP extends Model
      *
      * @var array<int, string>
      */
-    public function buyer()
+    public function machinebuyer()
     {
-        return $this->belongsTo(User::class, 'buyer_id');
+        return $this->belongsTo(Machine::class, 'machine_buyer_id');
+    }
+    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

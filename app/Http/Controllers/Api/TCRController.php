@@ -122,7 +122,7 @@ class TCRController extends Controller
         if($request->type != NULL){
             $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)
-            ->where('name', 'LIKE', '%'. $query. '%')
+            ->whereAny('name', 'LIKE', '%'. $query. '%')
             ->orwhere( 'type',$type and 'location', 'LIKE', '%'. $query. '%')
             ->get();
              return $this->returnData("machine",$filterResult);

@@ -29,4 +29,10 @@ trait BarterTrait
         return $barter;
     }
 
+    // todo check if Barter daily end or not
+    protected function BarterDaily(){
+
+
+    }
+
 }

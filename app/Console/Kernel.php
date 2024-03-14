@@ -25,6 +25,10 @@ class Kernel extends ConsoleKernel
         //! check machine work after 1 hour ->hourly()
         //todo call the name of command to run code every day at 1.00 clock ->dailyAt('1:00'), hourly//
         $schedule->command('machine:checkwork')->dailyAt('1:00');
+
+        //! check Barter its End or not after daily
+        //todo call the name of command to run code every day at 1.00 clock ->dailyAt('1:00'), hourly//
+        $schedule->command('app:check-barter')->dailyAt('1:00');
     }
 
     /**

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->index('machine_buyer_id');
             $table->bigInteger('carbon_footprint')->unsigned()->nullable();
             $table->index('carbon_footprint');
-            $table->bigInteger('expire')->unsigned()->default(1);
+            $table->bigInteger('expire')->unsigned()->nullable();
             $table->index('expire');
+            $table->string('time')->nullable();
             $table->timestamps();
         });
     }

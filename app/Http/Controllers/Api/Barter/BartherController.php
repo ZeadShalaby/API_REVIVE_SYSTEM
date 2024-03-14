@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api\Barter;
 
+use Exception;
+use Validator;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Machine;
@@ -45,18 +48,42 @@ class BartherController extends Controller
     */
     public function Show(Request $request){
         
-        return $this->returnData(""," barter Show done");
-
+        $barter = PurchingCFP::Where('id',$request->barterid)->get();
+        foreach ($barter as $belong) {
+            $seller = $belong -> machineseller;
+            $buyer  = $belong -> machinebuyer;
+            $users  = $seller -> user;
+            $userb  = $buyer  -> user;
+        }
+        return $this->returnData("Barter" , $barter);
     } 
 
     /**
-     * ! only Owner can do this 
+     * ! only Owner Seller can do this 
      * todo Add My Barter process  (عمليه المقايضه) 
     */
     public function Store (Request $request){
 
-        return $this->returnData(""," barter Store done");
+        //! rules
+        $rules = $this->rulesBarterstore();
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
 
+        if($validator->fails()){
+                $code = $this->returnCodeAccordingToInput($validator);
+                return $this->returnValidationError($code,$validator);
+        }
+        $machines = PurchingCFP::create([
+            "machine_id" => $request->machine_id,
+            "seller_id" => $request->sellerid,
+            "carbon_footprint" => $request->carbon_footprint,
+            "buyer_id" => $request->buyerid,
+            "expire" => $request->expire,
+            "time" => $request->time,
+        ]);
+
+        $msg = " Create : Barter Successfully . ,"."Footprint : ".$request->carbon_footprint." in : ".$request->expire." ".$request->time ;
+        return $this->returnSuccessMessage($msg);
     } 
 
     /**
@@ -65,8 +92,9 @@ class BartherController extends Controller
     */
     public function edit(Request $request){
 
-        return $this->returnData(""," barter edit done");
-
+       // ? return data info for user
+       $barter = PurchingCFP::find($request->id);
+       return  $this->returnData("Barter" , $barter);
     } 
 
     /**
@@ -75,18 +103,44 @@ class BartherController extends Controller
     */
     public function update(Request $request){
 
-        return $this->returnData(""," barter update done");
-
+        // ? update machine //
+        $barter = PurchingCFP::find($request->barterid); 
+        $rules = $this->rulesbarterupdate();
+        // ! valditaion
+        $validator = Validator::make($request->all(),$rules);
+    
+        if($validator->fails()){
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
+        }
+        $barter->update([
+            "machine_id" => $request->machine_id,
+            "seller_id" => $request->sellerid,
+            "carbon_footprint" => $request->carbon_footprint,
+            "buyer_id" => $request->buyerid,
+            "expire" => $request->expire,
+            "time" => $request->time,
+            "updated_at" => Carbon::now(),
+            
+        ]);
+             
+        $msg = " Update : " .$request->name . " machine " ."successfully .";
+        return $this->returnSuccessMessage($msg);
 
     } 
 
     /**
-     * ! only Owner Seller can do this 
+     * ! only Owner Buyer can do this 
      * todo destroy  My Barter process by id (عمليه المقايضه) but after expiration this Barter
     */
     public function destroy(Request $request){
 
-        return $this->returnData(""," barter destroy done");
+        // ? delete posts //
+        $barter = PurchingCFP::find($request->id) ;
+        $machine = Machine::find($barter->machine_buyer_id);
+        if($machine->owner_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong :(...!');} 
+        $barter->delete();
+        return $this->returnSuccessMessage("Delete Barter Successfully .");
 
     } 
 
@@ -110,8 +164,10 @@ class BartherController extends Controller
     */
     public function restore(Request $request){
 
-        return $this->returnData(""," barter restore done");
-
+        $barter = PurchingCFP::withTrashed()->find($request->id);
+        if(!$barter->id){return $this->returnError('P404','Error Some Thing Wrong .');}
+        PurchingCFP::withTrashed()->find($request->id)->restore();
+        return $this->returnSuccessMessage("Restore Barter process Successfully .");
 
     } 
 
@@ -120,18 +176,9 @@ class BartherController extends Controller
      */
     public function autocolmpletesearch(Request $request)
     {
-        // return $this->returnData(""," barter autocolmpletesearch done");
-
         // ? search by Seller || location Buyer // 
         $query = $request->get('query');
-
-
-        $filterResult = User::where('name', 'LIKE', '%'. $query. '%')
-        ->orwhere( 'username', 'LIKE', '%'. $query. '%')
-        ->orwhere( 'phone', 'LIKE', '%'. $query. '%')
-        ->orwhere( 'Personal_card', 'LIKE', '%'. $query. '%')
-        ->values('id');
+        $filterResult = PurchingCFP::whereAny(['created_at','carbon_footprint'], 'LIKE', '%'. $query. '%');
         return $this->returnData("users",$filterResult);
-
     }
 }
