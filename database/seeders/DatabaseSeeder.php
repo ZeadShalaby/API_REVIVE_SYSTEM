@@ -14,9 +14,10 @@ use App\Models\Tourism;
 use App\Models\Favourite;
 use App\Models\SavedPosts;
 use App\Models\Filemachine;
+use App\Models\PurchingCFP;
 use App\Models\footprintperson;
-use App\Models\footprintfactory;
 use Illuminate\Database\Seeder;
+use App\Models\footprintfactory;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -138,7 +139,10 @@ class DatabaseSeeder extends Seeder
     
     //// todo add Carbon Footprint Factory for Product Factory  ////
     $filemachine = footprintfactory::factory()->count(50)->create();
-
+    
+    //// todo add Barter process for Barter Factory  ////
+    $barter = PurchingCFP::factory()->count(7)->create();
+   
     //// todo add  machine coastal ////
     $machinecoastal = MAchine::factory()
     ->coastal()

@@ -151,12 +151,8 @@ class UserController extends Controller
     {
         // ? search by name || location machine // 
         $query = $request->get('query');
-        $filterResult = User::where('name', 'LIKE', '%'. $query. '%')
-        ->orwhere( 'username', 'LIKE', '%'. $query. '%')
-        ->orwhere( 'phone', 'LIKE', '%'. $query. '%')
-        ->orwhere( 'Personal_card', 'LIKE', '%'. $query. '%')
-        ->get();
-            return $this->returnData("users",$filterResult);
+        $filterResult = User::whereAny(['name','username','phone','Personal_card'], 'LIKE', '%'. $query. '%')->get();
+        return $this->returnData("users",$filterResult);
     
     }
 
