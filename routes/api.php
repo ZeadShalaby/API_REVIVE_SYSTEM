@@ -18,8 +18,8 @@ use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\SavedPostsController;
 use App\Http\Controllers\Api\users\AuthController;
 use App\Http\Controllers\Api\ReportsPostsController;
+use App\Http\Controllers\Api\Barter\BartherController;
 use App\Http\Controllers\Api\MachineLearningController;
-use App\Http\Controllers\Api\Barter\CarbonFootprintController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,8 +121,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     // todo prefix in all routes *BarterProcess* //
     Route::group(['prefix' =>'BarterProcess'], function () {
 
-    Route::POST('/CarbonFootprint',[CarbonFootprintController::class, 'index']);
-
+    Route::POST('/CarbonFootprint',[BartherController::class, 'index']);
+    Route::get('/edit',[BartherController::class, 'edit']);
+    Route::PUT('/update',[BartherController::class, 'update']);
 });
 //?end//
 
@@ -144,11 +145,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-rol
     // todo prefix in all routes *BarterProcess* //
     Route::group(['prefix' =>'BarterProcess'], function () {
 
-      Route::get('/mine',[CarbonFootprintController::class, 'ShowBarter']);
-      Route::POST('/Store',[CarbonFootprintController::class, 'Store']);
-      Route::get('/edit',[CarbonFootprintController::class, 'edit']);
-      Route::PUT('/update',[CarbonFootprintController::class, 'update']);
-      Route::Delete('/delete',[CarbonFootprintController::class, 'destroy']);
+      Route::get('/mine',[BartherController::class, 'ShowBarter']);
+      Route::POST('/Store',[BartherController::class, 'Store']);
+      Route::Delete('/delete',[BartherController::class, 'destroy']);
 
       
     });
@@ -249,10 +248,10 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     // todo prefix in all routes *BarterProcess* //
     Route::group(['prefix' =>'BarterProcess'], function () {
 
-        Route::get('/mine/show',[CarbonFootprintController::class, 'Show']);
-        Route::get('/restoreindex',[CarbonFootprintController::class, 'restoreindex']);
-        Route::POST('/restore',[CarbonFootprintController::class, 'restore']);
-        Route::get('/autocolmpletesearch',[CarbonFootprintController::class, 'autocolmpletesearch']);
+        Route::get('/mine/show',[BartherController::class, 'Show']);
+        Route::get('/restoreindex/barter',[BartherController::class, 'restoreindex']);
+        Route::POST('/restore/barter',[BartherController::class, 'restore']);
+        Route::get('/autocolmpletesearch',[BartherController::class, 'autocolmpletesearch']);
 
     });
     //?end//

@@ -167,7 +167,6 @@ class PostController extends Controller
      */
     public function restoreindex()
     {
-       // return all post i deleted it //
        $post = Post::where('user_id',auth()->user()->id)->onlyTrashed()->get();
        return $this->returnData("posts",$post);
     }
@@ -177,7 +176,7 @@ class PostController extends Controller
      */
     public function restore(Request $request)
     {
-       //
+       
        $post = Post::withTrashed()->find($request->id);
        if(!$post->id){return $this->returnError('P404','Error Some Thing Wrong .');}
        if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
