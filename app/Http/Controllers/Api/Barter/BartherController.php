@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Api\Barter;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Machine;
+use App\Models\PurchingCFP;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\Barter\BarterTrait;
 use App\Http\Controllers\Controller;
 
-class CarbonFootprintController extends Controller
+class BartherController extends Controller
 {
-    use ResponseTrait ;
-
+    use ResponseTrait , BarterTrait;
     /**
      * ! only Admins can show this 
      * todo show all Barter process (عمليات المقايضه) 
     */
     public function index(Request $request){
-
-        $barter = CarbonFootprint::get();
+        $barter = PurchingCFP::get();
         return $this->returnData("Barter",$barter);
- 
     } 
 
     /**
@@ -28,8 +28,15 @@ class CarbonFootprintController extends Controller
      * todo show All My Barter process (عمليات المقايضه) 
     */
     public function ShowBarter(Request $request){
-        
-         
+        // ! validate //machineid//
+        $barterSeller = PurchingCFP::where("machine_seller_id",$request->machineid)->get();
+        $barterBuyer  = PurchingCFP::where("machine_buyer_id",$request->machineid)->get();
+        $result = array(
+            'barterSeller' => $barterSeller,
+            'barterBuyer' => $barterBuyer
+        ); 
+    
+        return $result;
     } 
 
     /**
@@ -37,7 +44,7 @@ class CarbonFootprintController extends Controller
      * todo show  My Barter process by id (عمليه المقايضه) 
     */
     public function Show(Request $request){
-     
+        
         return $this->returnData(""," barter Show done");
 
     } 
@@ -53,18 +60,17 @@ class CarbonFootprintController extends Controller
     } 
 
     /**
-     * ! only Owner can do this 
+     * ! only Admin can do this 
      * todo edit My Barter process by id (عمليه المقايضه) 
     */
     public function edit(Request $request){
 
         return $this->returnData(""," barter edit done");
 
-
     } 
 
     /**
-     * ! only Owner can do this 
+     * ! only Admin can do this 
      * todo update My Barter process by id (عمليه المقايضه) 
     */
     public function update(Request $request){
@@ -89,14 +95,17 @@ class CarbonFootprintController extends Controller
      * todo show all My Barter process  destroyed (عمليات المقايضه) 
     */
     public function restoreindex(Request $request){
-
-        return $this->returnData(""," barter restoreindex done");
-
-
+    $barter = "";
+    if(auth()->user()->role != Role::ADMIN ){
+        $barter = $this->RBO();           //? Restore Barter Owner //
+        return $this->returnData("Barter",$barter);
+    }
+        $barter = $this->RBA();           //? Restore Barter Owner //
+        return $this->returnData("Barter",$barter);
     } 
 
     /**
-     * ! only Owner & Admin can show this 
+     * ! only Admin can show this 
      * todo restore My Barter process destroyed by id (عمليه المقايضه) 
     */
     public function restore(Request $request){
@@ -123,14 +132,6 @@ class CarbonFootprintController extends Controller
         ->orwhere( 'Personal_card', 'LIKE', '%'. $query. '%')
         ->values('id');
         return $this->returnData("users",$filterResult);
-        
 
     }
-
-
-
-
-
-
-
 }

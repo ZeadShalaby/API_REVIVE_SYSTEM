@@ -63,11 +63,11 @@ trait ReportTrait
     // todo send report mail to owner and admin for report carbon footprint factory //
     protected function check_rcf_factory($machine ,$ratio){
       $Barter = $this->checkBarter($machine,$ratio);
-      $this->insertcfpfactory($machine->id ,$Barter->ratio);
+      $this->insertcfpfactory($machine->id ,$Barter);
       if($machine->carbon_footprint != null){
-      if($machine->carbon_footprint < $Barter->ratio){ $this->rcf_factory($machine);}
+      if($machine->carbon_footprint < $Barter){ $this->rcf_factory($machine);}
       else{}}
-      return $Barter->ratio;
+      if($Barter > 0){return $Barter;}else{return $ratio;};
     }
 
     // todo send report mail to owner and admin for report carbon footprint factory //
@@ -89,19 +89,35 @@ trait ReportTrait
      
      // todo check Barter Process // 
      protected function checkBarter($machine , $ratio){
-     $Barter_seller = PurchingCFP::where("machine_seller_id",$machine->id)->get();
-     $Barter_buyer = PurchingCFP::where("machine_buyer_id",$machine->id)->get();
-     $Barther_carbonfootprint = 0;
-     if($Barter_buyer->count() != 0){foreach ($Barter_buyer as $Barther) {$Barther_carbonfootprint = $Barther->carbon_footprint;} $Barter_buyer->ratio = abs($Barther_carbonfootprint - $ratio) ;return $Barter_buyer;}
-     elseif($Barter_seller->count() != 0){foreach ($Barter_seller as $Barther) {$Barther_carbonfootprint = $Barther->carbon_footprint;} $Barter_seller->ratio = ($Barther_carbonfootprint + $ratio); return $Barter_seller;}
-     return $Barter_buyer->ratio = $ratio;
-
+      $buyer = $this->BarterBuyer($machine);
+      $seller = $this->BarterSeller($machine);
+      $result = abs($buyer - ($seller + $ratio));
+      return $result;
      }
 
-   
+    // todo calculate Barter Buyer Process // 
+    protected function BarterBuyer($machine){$buyer = 0;
+      $Barter_buyer = PurchingCFP::where("machine_buyer_id",$machine->id)->get();
+      if($Barter_buyer->count() != 0){
+        foreach ($Barter_buyer as $buyers) {
+          $buyer += $buyers->carbon_footprint;
+        }}
+        return $buyer;
+    }
+
+    // todo calculate Barter Seller Process // 
+    protected function BarterSeller($machine){$seller = 0;
+      $Barter_seller = PurchingCFP::where("machine_seller_id",$machine->id)->get();
+      if($Barter_seller->count() != 0){
+        foreach ($Barter_seller as $sellers) {
+          $seller += $sellers->carbon_footprint;
+
+        }}
+        return $seller;
+    }
 
 
-    
+
 
    
 }
