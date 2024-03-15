@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Exception;
 use Validator;
+use App\Models\User;
 use App\Models\Follow;
 use App\Traits\CountTrait;
 use Illuminate\Http\Request;
@@ -12,10 +13,11 @@ use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class FollowController extends Controller
 {
-    use ResponseTrait , MethodconTrait , CountTrait , TestAuth;
+    use ResponseTrait , MethodconTrait , CountTrait , TestAuth , ValidatorTrait;
     //
      /**
      * todo Display a listing of the resource.
@@ -119,6 +121,11 @@ class FollowController extends Controller
      */
     public function destroy(Request $request)
     {
+        // ! valditaion
+        $rules = ['userfollowing' => 'required|exists:follows,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? un follow users //
         $user = Follow::where('followers_id',auth()->user()->id)
         ->where('following_id',$request->userfollowing)->get();
@@ -135,16 +142,24 @@ class FollowController extends Controller
      * todo Autocomplete Search the specified resource from storage.
      */
     public function autocolmpletesearch(Request $request)
-    {
-       //
-    }
+    {  
+        //! Validation
+        $rules = ["query" => "required"];
+        $validator = $this->validate($request, $rules);
+        if ($validator !== true) {return $validator;}
+        
+        $query = $request->get('query');
+        $type = $request->get('type');
+        $funmodel = "user".strtolower($type);
 
-    /**
-     * todo go to profile followers the specified resource from storage.
-     */
-    public function profileinfo(Request $request)
-    {
-       //
+        $userIds = User::where('name', 'LIKE', '%'. $query. '%')
+                       ->orWhere('username', 'LIKE', '%'. $query. '%')
+                       ->pluck('id')->toArray();
+        $filterResult = Follow::whereIn(strtolower($type)."_id", $userIds)->get();
+        foreach ($filterResult as $belong) {$followinfo = $belong->$funmodel;}
+        return $this->returnData("filterResult", $filterResult);
     }
+    
+
 
 }

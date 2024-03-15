@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use Exception;
 use Validator;
+use Carbon\Carbon;
 use App\Events\MailCode;
 use App\Mail\ReviveMail;
 use App\Mail\Emailmailer;
@@ -16,11 +16,12 @@ use App\Traits\Requests\TestAuth;
 use App\Traits\Requests\TestMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use App\Traits\validator\ValidatorTrait;
 
 class EmailController extends Controller
 {
     //
-    use ResponseTrait , TestMail ,TestAuth ,MethodconTrait;
+    use ResponseTrait , TestMail , TestAuth , MethodconTrait , ValidatorTrait;
     
     // todo send mail when i want forget pass he send code into mail //
     public function sendmail(Request $request){
@@ -43,15 +44,12 @@ class EmailController extends Controller
 
     // todo Send Mail For all users or only Owner or Admin or customer in App //
     public function SendAll(Request $request){
-        // ! rules 
-        $rules = $this->rulestype();
+      
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
-
+        $rules = $this->rulestype();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
         $type = $this->checkTypeUsers($request->type);
         $users = $this->checkussersmail($type);
         foreach ($users as $info) {

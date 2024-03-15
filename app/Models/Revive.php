@@ -21,6 +21,11 @@ class Revive extends Model
         'expire',
     ];
 
+    protected $hidden = [
+        // 'updated_at',
+        'deleted_at'
+     ];
+
      /**
      * The attributes that are mass assignable.
      *

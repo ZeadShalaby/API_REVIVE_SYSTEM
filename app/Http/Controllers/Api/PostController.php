@@ -15,10 +15,11 @@ use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class PostController extends Controller
 {
-    use ResponseTrait,MachineTrait,ImageTrait,MethodconTrait,TestAuth;
+    use ResponseTrait , MachineTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait;
 
     //
      /**
@@ -57,15 +58,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //! rules
-        $rules = $this->rulesPosts();
+
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = $this->rulesPosts();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
         // todo move image to folder images/posts //
         $folder = 'images/posts';$path = 'reviveimageposts';
@@ -85,8 +82,13 @@ class PostController extends Controller
      */
     public function show(Request $request , Post $post)
     {
+        // ! valditaion
+        $rules = ['postid' => 'required|exists:posts,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? show only psot by id and +view //
-        $post = Post::find($request->post) ;
+        $post = Post::find($request->postid) ;
         if($post){event(new PostsVieweer($post));}
         return $this->returnData("post",$post);
     }
@@ -96,6 +98,11 @@ class PostController extends Controller
      */
     public function edit(Request $request)
     {
+        // ! valditaion
+        $rules = ['id' => 'required|exists:posts,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? return info post
         $posts = Post::find($request->id) ;
         if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');}
@@ -109,25 +116,19 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        
         $old_post = Post::find($request->post);
         if($old_post->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
-        $rules = [
-            'description' => 'required|max:200',
-        ];
+        
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
-        $old_post->update([
-                'description' => $request->description,
-            ]);
-             
-            $msg = " Update successfully .";
-            return $this->returnSuccessMessage($msg); 
+        $rules = ['description' => 'required|max:200',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
+        // todo update //
+        $old_post->update(['description' => $request->description,]);    
+        $msg = " Update successfully .";
+        return $this->returnSuccessMessage($msg); 
     }
     
     /**
@@ -144,6 +145,11 @@ class PostController extends Controller
      */
     public function destroy(Request $request , $post)
     {
+        // ! valditaion
+        $rules = ['id' => 'required|exists:posts,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? delete posts //
         $posts = Post::find($request->id) ;
         if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
@@ -151,17 +157,7 @@ class PostController extends Controller
         return $this->returnSuccessMessage("Delete Posts Successfully .");
     }
 
-    /**
-     * todo Autocomplete Search the specified resource from storage.
-     */
-     public function autocolmpletesearch()
-     {
-        // search by 
-          $query = $request->get('query');
-          $filterResult = Departments::where('name', 'LIKE', '%'. $query. '%')->get();
-          return $this->returnData("posts",$filterResult);
-     }
-
+    
     /**
      * todo restore index the specified resource from storage.
      */
@@ -176,7 +172,11 @@ class PostController extends Controller
      */
     public function restore(Request $request)
     {
-       
+       // ! valditaion
+       $rules = ['id' => 'required|exists:posts,id',];
+       $validator = $this->validate($request,$rules);
+       if($validator !== true){return $validator;}
+
        $post = Post::withTrashed()->find($request->id);
        if(!$post->id){return $this->returnError('P404','Error Some Thing Wrong .');}
        if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 

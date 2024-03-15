@@ -13,10 +13,11 @@ use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class TCRController extends Controller
 {
-    use MethodconTrait,ResponseTrait,TestAuth;
+    use MethodconTrait , ResponseTrait , TestAuth , ValidatorTrait;
 
 
 
@@ -27,15 +28,11 @@ class TCRController extends Controller
      */// ? tcr mening : Tourism & Revive & Coastal  //
      public function newtcr(Request $request)
      {
-          //! rules
-          $rules = $this->rulestcr();
          // ! valditaion
-         $validator = Validator::make($request->all(),$rules);
-     
-         if($validator->fails()){
-                 $code = $this->returnCodeAccordingToInput($validator);
-                 return $this->returnValidationError($code,$validator);
-         }
+         $rules = $this->rulestcr();
+         $validator = $this->validate($request,$rules);
+         if($validator !== true){return $validator;}
+
          $type = $this->checkTypeMachine($request->type);
          if($type == null){return $this->returnError("T404","OOPS Write Correct Type :(...!");}
          $machines = Machine::create([
@@ -57,6 +54,11 @@ class TCRController extends Controller
      */
     public function edit(Request $request)
     {
+        // ! valditaion
+        $rules = ["machineid" => "required|exists:machines,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? edit machine //
         $machine = Machine::find($request->machineid);
         if(!$machine){return $this->returnError('M001'," Some Thing Wrong :( ..!");}
@@ -73,14 +75,11 @@ class TCRController extends Controller
     {
         // ? update machine //
         $machine = Machine::find($request->machineid);        
-        $rules = $this->rulesMachineUpdate();
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = $this->rulesMachineUpdate();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $type = $this->checkTypeMachine($request->type);
         if($type == null){return $this->returnError("T404","OOPS Write Correct Type :(...!");}
         $machine->update([
@@ -100,6 +99,11 @@ class TCRController extends Controller
      */
     public function destroy(Request $request)
     {
+        // ! valditaion
+        $rules = ["machineid" => "required|exists:machines,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? delete machine //
         $machine = Machine::find($request->machineid);
         if(!isset($machine)){return $this->returnError("M404","Alredy Deleted Machine :)..!");}
@@ -116,6 +120,11 @@ class TCRController extends Controller
      */
     public function autocolmpletesearch(Request $request)
     {
+        // ! valditaion
+        $rules = ["query" => "required"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? search by name || location machine // 
         $query = $request->get('query');
 
@@ -156,6 +165,11 @@ class TCRController extends Controller
      */
     public function restore(Request $request)
     {
+       // ! valditaion
+       $rules = ["mchrestore" => "required|exists:machines,id"];
+       $validator = $this->validate($request,$rules);
+       if($validator !== true){return $validator;}
+
        Machine::withTrashed()->find($request->mchrestore)->restore();
        return $this->returnSuccessMessage("Restore Machine Successfully .");
     }

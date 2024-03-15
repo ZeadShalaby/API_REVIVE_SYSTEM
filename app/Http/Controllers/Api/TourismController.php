@@ -16,10 +16,11 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class TourismController extends Controller
 {
-    use ResponseTrait,TestAuth,ReportTrait ,MachineTrait,ErrorTrait;
+    use ResponseTrait , TestAuth , ReportTrait , MachineTrait , ErrorTrait , ValidatorTrait;
 
      /**
      * todo Display a listing of the resource.
@@ -54,17 +55,11 @@ class TourismController extends Controller
      */
     public function store(Request $request)
     {
-       //! rules
-       $rules = $this->rulesTourism();
-
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
+        $rules = $this->rulesTourism();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
-        //! //
         //?to check readings & type of machine its correct or not //
         $checkreadings = $this->checkreadings($request,Role::REVIVE);
         $checktype = $this->checktype($request->machineids,Role::REVIVE);
@@ -93,15 +88,11 @@ class TourismController extends Controller
      */
     public function show(Request $request)
     {
-       //! rules
-       $rules = $this->rulesdate();
        // ! valditaion
-       $validator = Validator::make($request->all(),$rules);
+       $rules = $this->rulesdate();
+       $validator = $this->validate($request,$rules);
+       if($validator !== true){return $validator;}
 
-       if($validator->fails()){
-           $code = $this->returnCodeAccordingToInput($validator);
-           return $this->returnValidationError($code,$validator);
-       }
        // ? show data revive by date //
        $datamachines = Tourism::where('machine_id',$request->machineid)->whereDate("created_at",$request->created_at)->get();
        foreach ($datamachines as $belong) {

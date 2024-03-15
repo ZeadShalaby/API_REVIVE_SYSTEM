@@ -9,21 +9,32 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Machine;
 use App\Models\PurchingCFP;
+use App\Traits\MachineTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
+use App\Traits\Requests\TestAuth;
 use App\Traits\Barter\BarterTrait;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class BartherController extends Controller
 {
-    use ResponseTrait , BarterTrait;
+    use ResponseTrait , BarterTrait , ValidatorTrait , TestAuth , MachineTrait;
     /**
      * ! only Admins can show this 
      * todo show all Barter process (عمليات المقايضه) 
     */
     public function index(Request $request){
+
         $barter = PurchingCFP::get();
+        foreach ($barter as $belong) {
+            $seller = $belong -> machineseller;
+            $buyer  = $belong -> machinebuyer;
+            $users  = $seller -> user;
+            $userb  = $buyer  -> user;
+        }
         return $this->returnData("Barter",$barter);
+
     } 
 
     /**
@@ -31,7 +42,12 @@ class BartherController extends Controller
      * todo show All My Barter process (عمليات المقايضه) 
     */
     public function ShowBarter(Request $request){
+
         // ! validate //machineid//
+        $rules = ["machineid" => "required|exists:machines,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $barterSeller = PurchingCFP::where("machine_seller_id",$request->machineid)->get();
         $barterBuyer  = PurchingCFP::where("machine_buyer_id",$request->machineid)->get();
         $result = array(
@@ -40,6 +56,7 @@ class BartherController extends Controller
         ); 
     
         return $result;
+
     } 
 
     /**
@@ -48,6 +65,11 @@ class BartherController extends Controller
     */
     public function Show(Request $request){
         
+        // ! valditaion
+        $rules = ["barterid" => "required|exists:purching_c_f_p_s,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $barter = PurchingCFP::Where('id',$request->barterid)->get();
         foreach ($barter as $belong) {
             $seller = $belong -> machineseller;
@@ -56,6 +78,7 @@ class BartherController extends Controller
             $userb  = $buyer  -> user;
         }
         return $this->returnData("Barter" , $barter);
+
     } 
 
     /**
@@ -64,25 +87,24 @@ class BartherController extends Controller
     */
     public function Store (Request $request){
 
-        //! rules
-        $rules = $this->rulesBarterstore();
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
+        $rules = $this->rulesBarterstore();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $machineId = $this->nameMachine($request->Nmachine_Seller,$request->Nmachine_Buyer); 
+        $time = strtolower($request->get('time'));
+        if($machineId['ownerid'][0] != auth()->user()->id){return $this->returnError("U403","Something Wrongs OOPS :(...!");}
+        
         $machines = PurchingCFP::create([
-            "machine_id" => $request->machine_id,
-            "seller_id" => $request->sellerid,
-            "carbon_footprint" => $request->carbon_footprint,
-            "buyer_id" => $request->buyerid,
+            "machine_seller_id" => $machineId['Mseller_id'][0],
+            "machine_buyer_id"  => $machineId['Mbuyer_id'][0],
+            "carbon_footprint"  => $request->carbon_footprint,
             "expire" => $request->expire,
-            "time" => $request->time,
+            "time" => $time,
         ]);
 
-        $msg = " Create : Barter Successfully . ,"."Footprint : ".$request->carbon_footprint." in : ".$request->expire." ".$request->time ;
+        $msg = " Create : Barter Successfully . ,"."Footprint : ".$request->carbon_footprint." in : ".$request->expire." ".$time ;
         return $this->returnSuccessMessage($msg);
     } 
 
@@ -92,8 +114,16 @@ class BartherController extends Controller
     */
     public function edit(Request $request){
 
+       // ! valditaion
+       $rules = ["id" => "required|exists:purching_c_f_p_s,id"];
+       $validator = $this->validate($request,$rules);
+       if($validator !== true){return $validator;}
+
        // ? return data info for user
        $barter = PurchingCFP::find($request->id);
+       $seller = $barter -> machineseller;
+       $buyer  = $barter -> machinebuyer;
+       
        return  $this->returnData("Barter" , $barter);
     } 
 
@@ -103,23 +133,20 @@ class BartherController extends Controller
     */
     public function update(Request $request){
 
-        // ? update machine //
-        $barter = PurchingCFP::find($request->barterid); 
-        $rules = $this->rulesbarterupdate();
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
+        $rules = $this->rulesbarterupdate();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+  
+        // ? update machine //
+        $barter = PurchingCFP::find($request->id); 
+        $machineId = $this->nameMachine($request->Nmachine_Seller,$request->Nmachine_Buyer); 
+        $time = strtolower($request->get('time'));
+        
         $barter->update([
-            "machine_id" => $request->machine_id,
-            "seller_id" => $request->sellerid,
-            "carbon_footprint" => $request->carbon_footprint,
-            "buyer_id" => $request->buyerid,
+            "carbon_footprint"  => $request->carbon_footprint,
             "expire" => $request->expire,
-            "time" => $request->time,
+            "time" => $time,
             "updated_at" => Carbon::now(),
             
         ]);
@@ -135,10 +162,17 @@ class BartherController extends Controller
     */
     public function destroy(Request $request){
 
+        // ! valditaion
+        $rules = ["id" => "required|exists:purching_c_f_p_s,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? delete posts //
         $barter = PurchingCFP::find($request->id) ;
-        $machine = Machine::find($barter->machine_buyer_id);
-        if($machine->owner_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong :(...!');} 
+        if(!isset($barter) || $barter->count() == 0){return $this->returnError('B404','Error Some Thing Wrong :(...!');}
+        $buyer  = $barter -> machinebuyer;
+
+        if($barter->machinebuyer->owner_id != auth()->user()->id){return $this->returnError('U403','Error Some Thing Wrong :(...!');} 
         $barter->delete();
         return $this->returnSuccessMessage("Delete Barter Successfully .");
 
@@ -163,22 +197,34 @@ class BartherController extends Controller
      * todo restore My Barter process destroyed by id (عمليه المقايضه) 
     */
     public function restore(Request $request){
+        //! Validate the request
+        $rules = ["id" => "required|exists:purching_c_f_p_s,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
         $barter = PurchingCFP::withTrashed()->find($request->id);
-        if(!$barter->id){return $this->returnError('P404','Error Some Thing Wrong .');}
-        PurchingCFP::withTrashed()->find($request->id)->restore();
-        return $this->returnSuccessMessage("Restore Barter process Successfully .");
-
-    } 
+        if(!$barter){return $this->returnError('P404', 'Error: Something went wrong.');}
+        $barter->restore();
+    
+        return $this->returnSuccessMessage("Restore Barter process Successfully.");
+    }
+    
+   
 
     /**
      * todo Autocomplete Search the specified resource from storage.
      */
     public function autocolmpletesearch(Request $request)
     {
-        // ? search by Seller || location Buyer // 
+        // ! valditaion
+        $rules = ["query" => "required",];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
+        // ? search by created_at || carbon_footprint  // 
         $query = $request->get('query');
-        $filterResult = PurchingCFP::whereAny(['created_at','carbon_footprint'], 'LIKE', '%'. $query. '%');
-        return $this->returnData("users",$filterResult);
+        $filterResult = PurchingCFP::where('created_at', 'LIKE', '%'. $query. '%')
+        ->orwhere('carbon_footprint', 'LIKE', '%'. $query. '%')->get();
+        return $this->returnData("filterResult",$filterResult);
     }
 }

@@ -9,11 +9,12 @@ use App\Traits\ResponseTrait;
 use Auth,Validator,Exception;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 use Laravel\Socialite\Facades\Socialite;
 
 class ServiceController extends Controller
 {
-    use ResponseTrait , LoginTrait , TestAuth ;
+    use ResponseTrait , LoginTrait , TestAuth , ValidatorTrait ;
 
     //? social service //
     public function redirect($service){
@@ -29,13 +30,10 @@ class ServiceController extends Controller
         // ?check login
         $token = $this->login($user);
         if($token == TRUE){ $userinfo =  Auth::guard('api')->user(); $userinfo -> api_token = $token; return $this->returnData("users",$userinfo);}
-        //! validate
+        // ! valditaion
         $rules = $this->rulesservice();
-        $validator = Validator::make($users,$rules);
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
         $checkuser = $this->CheckLogin($user,Role::GITHUB);
         return $this->returnData("users",$checkuser);
@@ -50,13 +48,11 @@ class ServiceController extends Controller
         // ?check login
         $token = $this->login($user);
         if($token == TRUE){ $userinfo =  Auth::guard('api')->user(); $userinfo -> api_token = $token; return $this->returnData("users",$userinfo);}
-        // ! validate
+        // ! valditaion
         $rules = $this->rulesservice();
-        $validator = Validator::make($users,$rules);
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $checkuser = $this->CheckLogin($user,Role::GOOGLE);
         return $this->returnData("users",$checkuser);
 

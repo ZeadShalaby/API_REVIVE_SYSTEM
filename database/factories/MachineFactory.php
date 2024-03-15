@@ -22,7 +22,7 @@ class MachineFactory extends Factory
 
         return [
             //
-            'name' => $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
+            'name' => strtolower($this->faker->regexify('[A-Z]{5}[0-4]{3}')),
             'owner_id' => $this->faker->randomElement($userids),
             'location'=>$this->faker->address,
             'type'=>Role::REVIVE,

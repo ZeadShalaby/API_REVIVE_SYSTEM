@@ -12,11 +12,12 @@ use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 ////! only admin can do this method on this controller ////
 class UserController extends Controller
 {
-    use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
+    use ResponseTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait; 
 
     /** 
      * todo return users with type or deafult all users.
@@ -58,6 +59,11 @@ class UserController extends Controller
      */
     public function show(Request $request )
     {
+        // ! valditaion
+        $rules = ["id"=> "required|exists:users,id",];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? show info for user 
         $user = User::find($request->id);
         return  $this->returnData("users" , $user);
@@ -70,8 +76,13 @@ class UserController extends Controller
      */
     public function edit(Request $request , User $user)
     {
+        // ! valditaion
+        $rules = ["id"=> "required|exists:users,id",];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? return data info for user
-       // return $this->returnData("users",$user);
+        // return $this->returnData("users",$user);
         $user = User::find($request->id);
         return  $this->returnData("users" , $user);
     }
@@ -86,14 +97,11 @@ class UserController extends Controller
         if($user->social_id){
             return $this->returnError("P403","Can Not do that Some thing Wrongs :( !.");
         }
-        $rules = ["password" => "required|min:8"];
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = ["password" => "required|min:8"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $user->update([
                 'password' => $request->password,
             ]);
@@ -111,14 +119,11 @@ class UserController extends Controller
     public function modifyrole(Request $request)
     {
         $user = User::find($request->id);
-        $rules = ['role' => 'required|integer',];
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = ['role' => 'required|integer',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $user->update([
                 'role' => $request->role,
             ]);
@@ -134,6 +139,11 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
+        // ! valditaion
+        $rules = ["id"=> "required|exists:users,id",];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? delete users //
         $user = User::find($request->id);
         $msg = " delete users : " .$request->name . "  " ."successfully .";
@@ -149,9 +159,18 @@ class UserController extends Controller
      */
     public function autocolmpletesearch(Request $request)
     {
+        // ! valditaion
+        $rules = ["query" => "required"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? search by name || location machine // 
         $query = $request->get('query');
-        $filterResult = User::whereAny(['name','username','phone','Personal_card'], 'LIKE', '%'. $query. '%')->get();
+        $filterResult = User::whereAny('name','LIKE', '%'. $query. '%')
+        ->orwhere('username', 'LIKE', '%'. $query. '%')
+        ->orwhere('phone', 'LIKE', '%'. $query. '%')
+        ->orwhere('Personal_card', 'LIKE', '%'. $query. '%')
+        ->get();
         return $this->returnData("users",$filterResult);
     
     }

@@ -96,14 +96,14 @@ class DatabaseSeeder extends Seeder
 
         //// todo add one Owner ////
         $deftourism = Machine::factory()->create([  
-            'name' => "Tourism",
+            'name' => "tourism",
             'owner_id' => "2",
             'location'=>"Tourism",
             'type'=>Role::TOURISM,
         ]);  
         //// todo add one Owner ////
         $defrevive = Machine::factory()->create([  
-            'name' => "Revive",
+            'name' => "revive",
             'owner_id' => "2",
             'location'=>"Revive",
             'type'=>Role::REVIVE,

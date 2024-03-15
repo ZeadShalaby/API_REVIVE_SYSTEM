@@ -9,10 +9,11 @@ use App\Traits\ResponseTrait;
 use App\Traits\Requests\TestSms;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class SmsController extends Controller
 {
-    use TestSms , TestAuth , ResponseTrait;
+    use TestSms , TestAuth , ResponseTrait , ValidatorTrait;
     // todo send Sms 
 
     public function sendsms(Request $request)
