@@ -18,10 +18,11 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class ReviveController extends Controller
 {
-    use ResponseTrait,TestAuth ,ReportTrait , MachineTrait , ErrorTrait;
+    use ResponseTrait,TestAuth ,ReportTrait , MachineTrait , ErrorTrait , ValidatorTrait;
 
      //!
      /**
@@ -76,15 +77,11 @@ class ReviveController extends Controller
      */
     public function store(Request $request)
     {
-        //! rules
-        $rules = $this->rulesRevive();
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
-        
+        $rules = $this->rulesRevive();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? calculate o2 ratio //
         $o2 = (100 - ($request->co + $request->co2 )-20);
 
@@ -112,15 +109,11 @@ class ReviveController extends Controller
      */
     public function show(Request $request)
     {
-        //! rules
-        $rules = $this->rulesdate();
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
+        $rules = $this->rulesdate();
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
         // ? show data revive by date //
         $datarevive = Revive::where('machine_id',$request->machineid)->whereDate("created_at",$request->created_at)->get();
         foreach ($datarevive as $belong) {

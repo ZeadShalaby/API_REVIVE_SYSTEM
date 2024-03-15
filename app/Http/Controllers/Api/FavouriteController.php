@@ -10,10 +10,11 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class FavouriteController extends Controller
 {
-    use ResponseTrait , MethodconTrait;
+    use ResponseTrait , MethodconTrait , ValidatorTrait;
     //
      /**
      * todo Display a listing of the resource.
@@ -36,18 +37,11 @@ class FavouriteController extends Controller
      */
     public function store(Request $request)
     {
-        //! rules
-        $rules = [
-            'posts_id' => 'required|exists:posts,id',
-        ];
 
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = ['posts_id' => 'required|exists:posts,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
         $checkfav = $this->checkfav($request->posts_id , auth()->user()->id);
         if($checkfav !=true){return $this->returnError('Fv001',"Alredy Liked this posts. :( !.."); }
@@ -79,7 +73,11 @@ class FavouriteController extends Controller
      */
     public function showfavourite(Request $request)
     {
-        //
+        // ! valditaion
+        $rules = ['posts_id' => 'required|exists:posts,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $favourite = Favourite::select('user_id')->where('posts_id',$request->posts_id)->get();
         foreach($favourite as $belong){
           $user = $belong->user; 
@@ -106,24 +104,24 @@ class FavouriteController extends Controller
     /**
      * todo Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
-    {
-        //
+    public function destroy(Request $request){
+
+        // ! valditaion
+        $rules = ['post_id' => 'required|exists:posts,id',];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $msg = " Delete Favourite posts successfully .";
         $postfav = Favourite::where('user_id',auth()->user()->id)
         ->where('posts_id',$request->post_id)->get();
         
         foreach ($postfav as $fav) {
-            
             if( isset($fav->id) )
             {
-              $fav->delete();
-              return $this->returnSuccessMessage($msg);  
-            }
-        }
-        
+                $fav->delete();
+                return $this->returnSuccessMessage($msg);  
+            }}
         return $this->returnError("FV404" , "Something Wrong :( ! ...");
-
     }
 
     

@@ -27,5 +27,21 @@ trait MachineTrait
       return false;
     }
 
+    // todo recevied name machine and return id of this machine //
+    protected function nameMachine($Nmachine_seller , $Nmachine_Buyer){
+      
+      $machineSeller_id = Machine::where("name",strtolower($Nmachine_seller))->pluck('id');
+      $machineBuyer_id = Machine::where("name",strtolower($Nmachine_Buyer))->pluck('id');
+      $checkMSeller = Machine::find($machineSeller_id)->pluck('owner_id');
+
+      $data = array(
+        "Mseller_id" => $machineSeller_id,
+        "Mbuyer_id" => $machineBuyer_id,
+        "ownerid" => $checkMSeller
+      ); 
+
+      return $data;
+    }
+
    
 }

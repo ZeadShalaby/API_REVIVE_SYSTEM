@@ -13,11 +13,11 @@ class PurchingCFP extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'machine_id',
-        'seller_id',
+        'machine_seller_id',
+        'machine_buyer_id',
         'carbon_footprint',
-        'buyer_id',
         'expire',
+        'time',
         'updated_at'
     ];
 
@@ -29,6 +29,7 @@ class PurchingCFP extends Model
      */
     protected $hidden = [
        // 'updated_at',
+       'deleted_at'
     ];
     
     /**

@@ -18,7 +18,7 @@ class PurchingCFPFactory extends Factory
     public function definition(): array
     {
         $machineid = Machine::pluck('id')->toArray();
-        $text = array("month","weak", "day");
+        $text = array("month","week", "day");
         $increment = random_int(0,2);
         $time = $text[$increment];
         return [

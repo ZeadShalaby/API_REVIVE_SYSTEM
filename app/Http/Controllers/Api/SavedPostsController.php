@@ -9,29 +9,24 @@ use App\Traits\CountTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Controllers\Controller;
+use App\Traits\validator\ValidatorTrait;
 
 class SavedPostsController extends Controller
 {
 
-    use ResponseTrait ,CountTrait ;
+    use ResponseTrait , CountTrait , ValidatorTrait ;
 
      /**
      * todo Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //! rules
-        $rules = [
-            'posts_id' => 'required|exists:posts,id',
-        ];
-
+        
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = ["posts_id" => "required|numeric|exists:posts,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         // ? check if you added alredy 
         $checksaved = $this->checksaved($request->posts_id,auth()->user());
         if($checksaved == true){return $this->returnError("S001" , "It has already been added previously");}
@@ -65,7 +60,11 @@ class SavedPostsController extends Controller
      */
     public function destroy(Request $request)
     {
-        
+        // ! valditaion
+        $rules = ["postid" => "required|numeric|exists:posts,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $postsav = SavedPosts::find($request->postid);
         if(isset($postsav) && $postsav ->count() != 0 ){
         $postsav->delete();

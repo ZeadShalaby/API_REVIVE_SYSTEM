@@ -196,6 +196,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::POST('/users/follow',[FollowController::class, 'store']);
     Route::get('/users/following',[FollowController::class, 'showfollowing']);
     Route::get('/users/followers',[FollowController::class, 'showfollowers']);
+    Route::get('/follow/autocolmpletesearch',[FollowController::class, 'autocolmpletesearch']);
     Route::Delete('/users/follow',[FollowController::class, 'destroy']);
     // ? saved posts (favourite posts) //
     Route::POST('/saved/post',[SavedPostsController::class, 'store']);

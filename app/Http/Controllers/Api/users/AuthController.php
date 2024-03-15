@@ -17,6 +17,7 @@ use App\Traits\Requests\TestAuth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\validator\ValidatorTrait;
 use Symfony\Component\Console\Input\Input;
 use App\Http\Controllers\Api\EmailController;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
@@ -24,18 +25,16 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
-    use ResponseTrait,ImageTrait,MethodconTrait,TestAuth;
+    use ResponseTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait;
 
    // todo Register to api natural user
    public function register(Request $request){
 
-   $rules = $this->rulesRegist();    
     // ! valditaion
-    $validator = Validator::make($request->all(),$rules);
-    if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-    }
+    $rules = $this->rulesRegist();    
+    $validator = $this->validate($request,$rules);
+    if($validator !== true){return $validator;}
+
     $path = $this->checkuserpaths($request->gender);
     // todo Register New Account //    
     $customer = User::create([
@@ -63,13 +62,10 @@ class AuthController extends Controller
      // todo Login Users
      public function login(Request $request){
         try{
-        $rules = $this->rulesLogin();
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-            }
+        $rules = $this->rulesLogin();    
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
         // todo login
         $credentials = $request->only(['email','password']);
@@ -91,18 +87,15 @@ class AuthController extends Controller
 
 
  ////! ///////////////////////////////////////////////
- // todo change image of users 
-    public function changeimg(Request $request)
-   {
-       //
+    // todo change image of users 
+    public function changeimg(Request $request){
+       
        $users = user::find(auth()->user()->id);
-       $rules = [ "profile_photo" => "required|image|mimes:jpg,png,gif|max:2048"];
        // ! valditaion
-       $validator = Validator::make($request->all(),$rules);
-       if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-           }
+       $rules = [ "profile_photo" => "required|image|mimes:jpg,png,gif|max:2048"];
+       $validator = $this->validate($request,$rules);
+       if($validator !== true){return $validator;}
+       
        else{
            $folder = 'images/users';
            $path = 'reviveimageusers';
@@ -114,7 +107,7 @@ class AuthController extends Controller
        $msg = "users : ".$users->name." , Change Photo successfully .";
        return $this->returnSuccessMessage($msg);    
    
-   }
+    }
 
     /**
      * todo return info users .
@@ -140,12 +133,9 @@ class AuthController extends Controller
         // ? if users login with googel or github //
         else{ $rules = $this->rulesUpdateUsers();}
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
         if(isset($user->social_id ) && $user->social_id->count() != 0){
         $user->update([
                 'name' => $request->name,
@@ -173,7 +163,11 @@ class AuthController extends Controller
      */
     public function checkvalidatepass(Request $request)
     {
-        // ? 
+        // ! valditaion
+        $rules = [ "password" => "required"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
         if(Hash::check($request->password, auth()->user()->password)){
             return  $this->returnSuccessMessage(true);
         }
@@ -202,14 +196,11 @@ class AuthController extends Controller
         if($user->social_id){
             return $this->returnError("P403","Can Not do that Some thing Wrongs :( !.");
         }
-        $rules = ["password" => "required|min:8"];
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-    
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = ["password" => "required|min:8"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
         $user->update([
                 'password' => $request->password,
             ]);
@@ -243,13 +234,11 @@ class AuthController extends Controller
     // todo check code 
     public function checkcode(Request $request){
     
-        $rules = ["code" =>"required|integer|min:6"];
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
+        $rules = ["code" =>"required|integer|min:6"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
         else{
         $code = User::where("code",$request->code)->value('code');
         if($code)
@@ -263,13 +252,11 @@ class AuthController extends Controller
     // todo forget pass  
     public function forget(Request $request){
 
-        $rules = ["password" =>"required|min:8",'gmail'=>"required|exists:users,gmail"];
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code,$validator);
-        }
+        $rules = ["password" =>"required|min:8",'gmail'=>"required|exists:users,gmail"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
 
         $id = User::where("gmail",$request->gmail)->orwhere('email',$request->gmail)->value('id');
         $user = User::find($id);

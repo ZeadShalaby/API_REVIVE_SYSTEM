@@ -15,12 +15,13 @@ use App\Models\footprintfactory;
 use App\Http\Controllers\Controller;
 use App\Traits\MachineLearningTrait;
 use Symfony\Component\Process\Process;
+use App\Traits\validator\ValidatorTrait;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class MachineLearningController extends Controller
 {
-    //
-    use ResponseTrait , ExellTrait  , MachineLearningTrait , ReportTrait ;
+    
+    use ResponseTrait , ExellTrait  , MachineLearningTrait , ReportTrait , ValidatorTrait ;
 
     //! finally its work //
     public function sayhellow(Request $request)

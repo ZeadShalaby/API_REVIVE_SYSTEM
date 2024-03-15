@@ -161,24 +161,21 @@ trait TestAuth
     // todo rules of type for users todo send mail
     protected function rulesBarterstore(){
       return [
-        "machine_id" => "required|unique:machines,name",
-        "sellerid" => "required|unique:users,email",
-        "buyerid" => "required|unique:users,email",
-        "carbon_footprint" => "required|unique:users,gmail",
-        "expire" => 'required|min:8',       
-        "time" => 'required|min:8'       
+        "Nmachine_Seller" => "required|exists:machines,name",
+        "Nmachine_Buyer" => "required|exists:machines,name",
+        "carbon_footprint" => "required|integer|digits_between:2,3",
+        "expire" => 'required|digits_between:1,2',       
+        "time" => 'required|max:5|min:3'         
        ];
     }
 
     // todo rules of type for users todo send mail
     protected function rulesbarterupdate(){
       return [
-        "machine_id" => "required|unique:machines,name",
-        "sellerid" => "required|unique:users,email",
-        "buyerid" => "required|unique:users,email",
-        "carbon_footprint" => "required|unique:users,gmail",
-        "expire" => 'required|min:8',       
-        "time" => 'required|min:8'       
+        'id' => 'required|exists:purching_c_f_p_s,id',
+        "carbon_footprint" => "required|integer|digits_between:2,3",
+        "expire" => 'required|digits_between:1,2',       
+        "time" => 'required|max:5|min:3'       
        ];
 
     }
