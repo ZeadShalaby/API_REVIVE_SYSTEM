@@ -28,7 +28,7 @@ class Emailmailer extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Emailmailer',
+            subject: 'Revive Code',
         );
     }
 
@@ -38,7 +38,7 @@ class Emailmailer extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.testmail',
+            view: 'mail.test',
             with: ['code' => $this->code],
         );
     }
