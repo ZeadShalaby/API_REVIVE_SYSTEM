@@ -1,43 +1,33 @@
 <?php
 namespace App\Traits;
 
+use App\Models\Comment;
+use App\Models\Favourite;
 use App\Models\SavedPosts;
 
 trait CountTrait
 
 {  
     //todo count of Orders for users
-    protected function countposts($element){
-       $count =0;
-      foreach ($element as $element) {
+    protected function infoposts($posts){
+      foreach ($posts as $post) {
+        $favpost   = Favourite::where('user_id',auth()->user()->id)->where('posts_id',$post->id)->get();
+        $commpost  = Comment::where('user_id',auth()->user()->id)->where('posts_id',$post->id)->get();
+        $savedpost = $this->checksaved($post->id , auth()->user());
         
-        $count++;
+        // ? count comment & favourite //
+        $countcomm     =  $commpost->count();
+        $countfav      =  $favpost->count();
+        $post->fav     =  $countfav;
+        $post->comment =  $countcomm;
+        $post->saved   =  $savedpost;
       }
-      return $count;
+      return $posts;
 
     }
 
-    //todo count of Favouritess for users
-    protected function countfavourite($element){
-        $count =0;
-       foreach ($element as $element) {
-         
-        $count++;
-       }
-       return $count;
- 
-     }
 
-    //todo count of commit for users
-    protected function countcommit($element){
-        $count =0;
-      foreach ($element as $element) {
-        
-        $count++;
-      }
-      return $count;
-
-      }
+    
 
      //todo count of followers , follwing for users
      protected function follow($follwers,$following){

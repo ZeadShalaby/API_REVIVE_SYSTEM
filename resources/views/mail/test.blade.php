@@ -103,7 +103,7 @@
                         <tr>
                             <td
                                 style="
-                    padding: 80px 30px -10px 30px; /* Added top padding */
+                    padding: 80px 30px -20px 30px; /* Added top padding */
                     text-align: center;
                     font-size: 24px;
                     font-weight: bold;
@@ -124,16 +124,7 @@
                         <tr>
 
                             <td style="padding: 30px; background-color: #ffffff">
-                                <a href="http://www.example.com/" style="text-decoration: none"><img
-                                        src="https://imgur.com/3b1wXvY.png" width="500px" alt="Logo"
-                                        style="
-                    width: 500px;
-                    max-width: 200%;
-                    height: auto;
-                    border: none;
-                    text-decoration: none;
-                    color: #ffffff;
-                  " /></a>
+
                                 <h1
                                     style="
                       margin-bottom: 16px;
@@ -142,17 +133,19 @@
                       font-weight: bold;
                       letter-spacing: -0.02em;
                     ">
-                                    Welcome to our responsive email!
-                                </h1>
-                                <p style="margin: 0">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                                    tempus adipiscing felis, sit amet blandit ipsum volutpat
-                                    sed. Morbi porttitor,
-                                    <a href="http://www.example.com/"
-                                        style="color: #e50d70; text-decoration: underline">eget accumsan dictum</a>,
-                                    nisi libero ultricies ipsum, in posuere mauris neque at
-                                    erat.
-                                </p>
+                                    <h3>📫<h3>
+                                            <h1>
+                                                Welcome to our responsive email! , Sir : {{ $code['name'] }} 🍀
+                                            </h1>
+                                            <p style="margin: 0">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+                                                tempus adipiscing felis, sit amet blandit ipsum volutpat
+                                                sed. Morbi porttitor,
+                                                <a href = "#" style="color: #e50d70; text-decoration: underline">
+                                                    your code is : <span style="color: #00cfe6">{{ $code['code'] }}
+                                                        📝</span>
+                                                </a>
+                                            </p>,
                             </td>
                         </tr>
                         <tr>
