@@ -103,6 +103,14 @@ class TourismController extends Controller
        return $this->returnData("Data",$datamachines);
     }
 
-   
+    // ! all users can do this //
+    // todo return info of tourist areas 
+    public function touristareas(Request $request){
+
+        $machine = Machine::select('id','name','location','carbon_footprint','type')->where("type",Role::TOURISM)->orwhere("type",Role::COASTAL)->orwhere("type",Role::FCI)->get();
+        $data = $this->formatdata($machine);
+        return $this->returnData("Data",$data);
+        
+    }
 
 }

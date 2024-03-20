@@ -177,7 +177,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/posts',[PostController::class, 'index']);
     Route::POST('/posts',[PostController::class, 'store']);
     Route::get('/posts/show/{id}',[PostController::class, 'show']);
-    Route::get('/posts/show/myposts',[PostController::class, 'showmyposts']);
+    Route::get('/posts/showmyposts',[PostController::class, 'showmyposts']);
     Route::get('/posts/edit/{id}',[PostController::class, 'edit']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
@@ -292,7 +292,8 @@ Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 
 //? test code python //
 Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
-
+// ? all tourist area fci tourism coastal 
+Route::get('/tourist/areas',[TourismController::class,'touristareas']);
 });
 //?end//
 

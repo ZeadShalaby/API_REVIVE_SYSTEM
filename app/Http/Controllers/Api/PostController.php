@@ -7,6 +7,7 @@ use Exception;
 use Validator;
 use App\Models\Post;
 use App\Models\Follow;
+use App\Traits\CountTrait;
 use App\Traits\ImageTrait;
 use App\Events\PostsVieweer;
 use App\Traits\MachineTrait;
@@ -19,7 +20,7 @@ use App\Traits\validator\ValidatorTrait;
 
 class PostController extends Controller
 {
-    use ResponseTrait , MachineTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait;
+    use ResponseTrait , CountTrait , MachineTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait;
 
     //
      /**
@@ -31,7 +32,8 @@ class PostController extends Controller
         $posts = Post::get();
         $folowers = Follow::where('followers_id',auth()->user()->id)->get();
         $postfollow =  $this->postfollowers($posts , $folowers);
-        return $this->returnData("posts",$postfollow);
+        $infoposts = $this->infoposts( $postfollow);
+        return $this->returnData("posts",$infoposts);
     }
 
     //
@@ -42,7 +44,12 @@ class PostController extends Controller
     {
         // ? show all post of follwing //
         $posts = Post::where("user_id",auth()->user()->id)->get();
-        return $this->returnData("posts",$posts);
+        $infoposts = $this->infoposts( $posts);
+        return $this->returnData("posts", [
+            "posts" => $infoposts,
+            "numposts" => $posts->count()
+        ]);
+    
     }
 
     /**

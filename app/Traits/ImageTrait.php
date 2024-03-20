@@ -14,7 +14,7 @@ trait ImageTrait
       $images = $image->move(public_path($folder),$image_name) ;
       $destination_path = "/api/rev/images/$path/";
       $http_address = env('APP_URL');
-      $path = $http_address.$destination_path.$image_name;
+      $path = $destination_path.$image_name;
 
     return $path;
    }
