@@ -292,7 +292,8 @@ Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 
 //? test code python //
 Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
-
+// ? all tourist area fci tourism coastal 
+Route::get('/tourist/areas',[TourismController::class,'touristareas']);
 });
 //?end//
 
