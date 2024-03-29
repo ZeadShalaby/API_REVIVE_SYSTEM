@@ -40,7 +40,7 @@ class MachineLearningController extends Controller
     //! dioxide ratio (Co2) footprint for person //
     public function dioxide_ratio(Request $request)
     {
-        
+        // todo validate footprint peerson //
         $data = [
             'foodprint' => "yes",
             'co2' => 22 ,
@@ -57,9 +57,10 @@ class MachineLearningController extends Controller
     }
 
      //?.///
-     //! training carbon footprint for ( factory ) in years or weeak  (tcfpf) => (training carbon footprint factory ) //
+     //! training carbon footprint for ( person ) in years or weeak  (tcfpf) => (training carbon footprint person ) //
      public function tcfpperson_years(Request $request)
      {
+        // todo validate date //
        $user_footprint = footprintperson::where("user_id",auth()->user()->id)->get(); 
        $output = $this->sendDataPy($user_footprint , Role::TRAININGFOOTPRINTPERSON); 
        return $this-> returnData("Python Output" , $output);
@@ -70,7 +71,7 @@ class MachineLearningController extends Controller
     //! Training Data classfication , model //
     public function tranining(Request $request)
     {
-    
+        // todo validate date //
         $data = [
             'co2' => 22 ,
             'co' => 12,
@@ -86,7 +87,7 @@ class MachineLearningController extends Controller
      //! Training Data Weather classfication , model //
      public function weather(Request $request)
      {
-     
+        
         $data = [
             'storm' => "yes",
             'rain' => "no",
@@ -101,7 +102,7 @@ class MachineLearningController extends Controller
     //! dioxide ratio (Co2) footprint for ( factory ) regression , model //
     public function carbon_footprint(Request $request)
     {
-        
+        // todo validate footprint factory //
         $machineids = Machine::where("owner_id",auth()->user()->id)->where("id",$request->maachineid)->value("id");
         $machine = Machine::find($machineids);
         $users = $machine->user;
@@ -121,6 +122,7 @@ class MachineLearningController extends Controller
     //! training carbon footprint for ( factory ) in years or weeak  (tcfpf) => (training carbon footprint factory ) //
     public function tcfpfactory_years(Request $request)
     {
+        // todo validate training footprint factory date //
         // ! validation remmember ziad its important 
         if(auth()->user()->role == Role::ADMIN){
            
@@ -138,7 +140,7 @@ class MachineLearningController extends Controller
     //! Chat auto and learning from question , libarry //
     public function chat(Request $request)
     {
-
+        // todo validate request question  //
         $data = [
             'question' => "weather is good !?",
             'answer'  => "yes its good",

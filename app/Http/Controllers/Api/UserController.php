@@ -11,13 +11,14 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
+use App\Traits\Requests\TestMail;
 use App\Http\Controllers\Controller;
 use App\Traits\validator\ValidatorTrait;
 
 ////! only admin can do this method on this controller ////
 class UserController extends Controller
 {
-    use ResponseTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait; 
+    use ResponseTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait ,TestMail; 
 
     /** 
      * todo return users with type or deafult all users.
@@ -120,17 +121,20 @@ class UserController extends Controller
     {
         $user = User::find($request->id);
         // ! valditaion
-        $rules = ['role' => 'required|integer',];
+        $rules = ['role' => 'required|integer|exists:users,role',"id"=> "required|exists:users,id"];
         $validator = $this->validate($request,$rules);
         if($validator !== true){return $validator;}
-
+        // todo change Email depend on role user
+        $newEmail = $this->changemail($user , $request->role);
+        
         $user->update([
                 'role' => $request->role,
+                'email' => $newEmail
             ]);
-
+         
+        // ! send mail to this users and know it the role and mail changed
         $msg = $this->typerole($request->role ,$user->username); 
         return $this->returnSuccessMessage($msg); 
-
     }
     
     /**
@@ -174,8 +178,6 @@ class UserController extends Controller
         return $this->returnData("users",$filterResult);
     
     }
-
-
 
 
 }

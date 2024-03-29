@@ -35,24 +35,21 @@ class AuthController extends Controller
     $validator = $this->validate($request,$rules);
     if($validator !== true){return $validator;}
 
+    $email = $this->makeEmail($request->username);
     $path = $this->checkuserpaths($request->gender);
     // todo Register New Account //    
     $customer = User::create([
         'name' => $request->name,
         'username' => $request->username,
-        'email' => $request->email,
+        'email' => $email,
         'password'  => $request->password,
         'role' => Role::CUSTOMER,
-        'gmail'=> $request->gmail,
-        'password' => $request->password , //! password
-        'phone'=> $request->phone,
         'profile_photo'=>$path,
-        'Personal_card' => $request->Personal_card,
         'birthday' => $request->birthday,
         'gender' =>$request->gender,
         'email_verified_at' => Carbon::now() ,
      ]);
-     if($customer){return $this->returnSuccessMessage("Create Account Successfully .");}
+     if($customer){return $this->returnSuccessAccount("Create Account Successfully .",$email);}
      else{return $this->returnError('R001','Some Thing Wrong .');}
 
    }
@@ -149,6 +146,7 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'gender' => $request->gender,
                 'gmail' => $request->gmail,
+                'Personal_card' => $request->Personal_card,
                 'birthday' => $request->birthday
             ]);
         }

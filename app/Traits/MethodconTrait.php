@@ -178,5 +178,27 @@ trait MethodconTrait
       else{return FALSE;}
 
    }
+
+   // todo make mail with unique username
+   protected function makeEmail($username){
+      $word = $username;
+     //? Removing spaces using str_replace()
+      $cleanname = str_replace(" ", "", $word);
+      $email = $cleanname.'@customer.rev';
+      return $email;
+   }
+
+   // todo check role users to update email when changed users role
+   protected function checkroletype($role) {
+      $type = "";
+      if ($role == Role::ADMIN){
+          $type = "Admin";
+      }elseif ($role == Role::OWNER){
+            $type = "owner";
+      }else{
+         $type = "customer";
+      }
+      return $type;
+   }
 }
 
