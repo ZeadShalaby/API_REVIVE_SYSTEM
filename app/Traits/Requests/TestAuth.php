@@ -18,11 +18,7 @@ trait TestAuth
       return [
         "name" => "required|min:4|max:20",
         "username" => "required|unique:users,username",
-        "email" => "required|unique:users,email",
         "password" => "required|min:8",
-        "gmail"=> "required|unique:users,gmail",
-        "phone"=> "required|numeric|digits:10",
-        "Personal_card" => "required|integer",
         "birthday" => "required",
         "gender" => "required"
     ];
@@ -72,6 +68,7 @@ trait TestAuth
       'name' => 'required|min:4|max:20',
       "phone" => "required|numeric|digits:10",
       'birthday' => "required",
+      "Personal_card" => "integer",
       'gender' => "required",
       'gmail' => "required|email"
   ];
@@ -179,6 +176,69 @@ trait TestAuth
        ];
 
     }
+
+    // todo rules of calculate carbon footprint for factory
+    protected function rulesfactory(){
+      return [
+        'Country'          =>   'required|string',
+        'num_people'       =>   'required|integer|digits_between:2,3',
+        'electricity_cons' =>   'required|integer|digits_between:2,3',
+        'Clean_energy'     =>   'required|integer|digits_between:2,3',
+        'Num_cars'         =>   'required|integer|digits_between:2,3',
+        'Fact_size'        =>   'required|integer|digits_between:2,3',
+        'Local_product'    =>   'required|string',
+        'Buy_env_comp'     =>   'required|string',
+        'Handle_waste'     =>   'required|string',
+        'Heating'          =>   'required|string',
+        'Gasoline'         =>   'required|integer|digits_between:2,3',
+        'Natural_gas'      =>  'required|integer|digits_between:2,3',
+        'Water_cons'       =>  'required|integer|digits_between:2,3',
+        'Waste_quan'       =>  'required|integer|digits_between:2,3',
+      //  'Carbon_tones'     =>  'required|decimal:2,4',
+       ];
+
+    }
+
+    // todo rules of calculate carbon footprint for person
+    protected function rulesperson(){
+      return [
+        'Country'          =>  'required|string',
+        'num_people'       =>  'required|integer|digits_between:2,3',
+        'house_size'       =>  'required|integer|digits_between:2,3',
+        'house_type'       =>  'required|string',
+        'electricity_cons' =>  'required|integer|digits_between:2,3',
+        'Clean_energy'     =>  'required|integer|digits_between:2,3',
+        'Heating'          =>  'required|string',
+        'Train_hours'      =>  'required|integer|digits_between:2,3',
+        'Subway_hours'     =>  'required|integer|digits_between:2,3',
+        'Bus_hours'        =>  'required|integer|digits_between:2,3',
+        'Citybus_hours'    =>  'required|integer|digits_between:2,3',
+        'Tram_hours'       =>  'required|integer|digits_between:2,3',
+        'Walk_hours'       =>  'required|integer|digits_between:2,3',
+        'Plane_vlong'      =>  'required|integer|digits_between:2,3',
+        'Plane_long'       =>  'required|integer|digits_between:2,3',
+        'Plane_med'        =>  'required|integer|digits_between:2,3',
+        'Plane_short'      =>  'required|integer|digits_between:2,3',
+        'household_diet'   =>  'required|string',
+        'Local_product'    =>  'required|string',
+        'Buy_env_comp'     =>  'required|string',
+        'eat_out'          =>  'required|integer|digits_between:2,3',
+        'Handle_waste'     =>  'required|string',
+        'Gasoline'         =>  'required|integer|digits_between:2,3',
+        'Natural_gas'      =>  'required|integer|digits_between:2,3',
+        'Water_cons'       =>  'required|integer|digits_between:2,3',
+        'Waste_quan'       =>  'required|integer|digits_between:2,3',
+        'Ferun'            =>  'required|integer|digits_between:2,3',
+        'Fruit'            =>  'required|integer|digits_between:2,3',
+      //  'Carbon_tones'     =>  'required|decimal:2,4',
+       ];
+
+    }
+
+
+
+
+
     
    
 

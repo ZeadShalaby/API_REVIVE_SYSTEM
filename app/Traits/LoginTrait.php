@@ -10,6 +10,7 @@ use Auth,Validator,Exception;
 use App\Traits\Request\TestAuth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\validator\ValidatorTrait;
 use Illuminate\Support\Facades\Redirect;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -17,6 +18,7 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 trait LoginTrait
 
 {  
+
     //todo checklogin for users & sign if not found with service
     protected function CheckLogin($element , $type){
        // ? login service //
@@ -98,16 +100,10 @@ trait LoginTrait
 
      //todo add google email for users
      protected function addgoogle($user , $gmail){
-        $rules = [
-            "gmail" => "required|unique:users,gmail"
-        ];
         // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        $rules = ["gmail" => "required|unique:users,gmail"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
         $user->update([
             'gmail'=>$user->gmail,
@@ -119,16 +115,11 @@ trait LoginTrait
 
     //todo add github email for users
     protected function addphone($user , $phone){
-        $rules = [
-            "phone" => "required|numeric|digits:10"
-        ];
-        // ! valditaion
-        $validator = Validator::make($request->all(),$rules);
-
-        if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
-        }
+        //! validate
+        $rules = ["phone" => "required|numeric|digits:10"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        
 
         $user->update([
            'phone'=>$user->phone,

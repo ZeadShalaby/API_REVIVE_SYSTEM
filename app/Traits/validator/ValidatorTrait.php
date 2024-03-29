@@ -3,12 +3,13 @@ namespace App\Traits\validator;
 
 use Exception;
 use Validator;
+use App\Traits\ResponseTrait;
 
 trait ValidatorTrait
 
 {  
-
-    //todo check machine work or not 
+    
+    //todo check validate done or not
     public function validate($request, array $rules, array $messages = [], array $attributes = []){
 
         // ! valditaion
@@ -23,7 +24,7 @@ trait ValidatorTrait
 
     }
 
-    //todo check machine work or not 
+    //todo check validate service (google , github) done or not
     public function servicevalidate($request, array $rules, array $messages = [], array $attributes = []){
 
         // ! valditaion

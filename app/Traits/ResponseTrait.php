@@ -32,6 +32,18 @@ trait ResponseTrait
         ];
     }
 
+     // todo return success Account
+     public function returnSuccessAccount(  $msg  , $email ,$errNum = "S000" )
+     {
+         return [
+             'status' => true,
+             'errNum' => $errNum,
+             'msg' => $msg,
+             'email'=>$email
+         ];
+     }
+ 
+
     // todo return All Data I Want
     public function returnData($key , $value , $msg = "" )
     {
