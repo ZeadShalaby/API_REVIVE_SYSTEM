@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\ImageTrait;
+use App\Traits\LoginTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\MethodconTrait;
@@ -25,11 +26,10 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class AuthController extends Controller
 {
-    use ResponseTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait;
+    use ResponseTrait , ImageTrait , MethodconTrait , TestAuth , ValidatorTrait , LoginTrait;
 
    // todo Register to api natural user
    public function register(Request $request){
-
     // ! valditaion
     $rules = $this->rulesRegist();    
     $validator = $this->validate($request,$rules);
@@ -56,18 +56,18 @@ class AuthController extends Controller
 
    ////! ////////////////////////////////////////
 
-     // todo Login Users
-     public function login(Request $request){
+
+    // todo Login Users
+    public function login(Request $request){
         try{
         // ! valditaion
-        $rules = $this->rulesLogin();    
+        $infofield = $this->CheckField($request);
+        $rules = $this->rulesLogin($infofield['fields']);    
         $validator = $this->validate($request,$rules);
         if($validator !== true){return $validator;}
 
-        // todo login
-        $credentials = $request->only(['email','password']);
-        $token = Auth::guard('api')->attempt($credentials);
-      
+        // todo login  $credentials = $request->only(['email','password']);
+        $token = Auth::guard('api')->attempt($infofield['credentials']);
         if(!$token)
         return $this->returnError('E001','information not valid.');
 
@@ -101,7 +101,7 @@ class AuthController extends Controller
                'profile_photo'  => $path ,
            ]);
        }    
-       $msg = "users : ".$users->name." , Change Photo successfully .";
+       $msg = "users : ".$users->username." , Change Photo successfully .";
        return $this->returnSuccessMessage($msg);    
    
     }

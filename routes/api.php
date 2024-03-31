@@ -204,8 +204,6 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::Delete('/unsaved/posts',[SavedPostsController::class, 'destroy']);
     // ? report posts //
     Route::POST('/add/report/posts',[ReportsPostsController::class, 'store']);
-    // ? edit user image //
-    Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
     // ? user info 
     Route::get('/users/edits/myaccount',[AuthController::class, 'edit']);
     Route::PUT('/users/updates/myaccount',[AuthController::class, 'update']);
@@ -294,6 +292,9 @@ Route::POST('/python/chat',[MachineLearningController::class, 'chat']);
 Route::POST('/python/test',[MachineLearningController::class, 'sayhellow']);
 // ? all tourist area fci tourism coastal 
 Route::get('/tourist/areas',[TourismController::class,'touristareas']);
+// ? edit user image //
+Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
+
 });
 //?end//
 
