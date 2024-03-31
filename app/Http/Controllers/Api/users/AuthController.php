@@ -60,8 +60,8 @@ class AuthController extends Controller
     // todo Login Users
     public function login(Request $request){
         try{
-        // ! valditaion
         $infofield = $this->CheckField($request);
+        // ! valditaion
         $rules = $this->rulesLogin($infofield['fields']);    
         $validator = $this->validate($request,$rules);
         if($validator !== true){return $validator;}
