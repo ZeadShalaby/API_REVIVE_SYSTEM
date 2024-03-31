@@ -108,8 +108,8 @@
                     font-size: 24px;
                     font-weight: bold;
                   ">
-                                <a href="http://www.example.com/" style="text-decoration: none"><img
-                                        src="https://imgur.com/3b1wXvY.png" width="500px" alt="Logo"
+                                <a href="http://www.example.com/" style="text-decoration: none">
+                                    <img src="https://imgur.com/4oWTlb3.png" alt="tree" style="width: 45%"
                                         style="
                         width: 500px;
                         max-width: 200%;

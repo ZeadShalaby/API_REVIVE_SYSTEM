@@ -108,8 +108,8 @@
                     font-size: 24px;
                     font-weight: bold;
                   ">
-                                <a href="http://www.example.com/" style="text-decoration: none"><img
-                                        src="https://imgur.com/3b1wXvY.png" width="500px" alt="Logo"
+                                <a href="http://www.example.com/" style="text-decoration: none"> <img
+                                        src="https://imgur.com/4oWTlb3.png" alt="tree" style="width: 55%"
                                         style="
                         width: 500px;
                         max-width: 200%;
@@ -293,28 +293,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <!-------xxxxxxxxxxxxxxx-->
-                            <div class="blog-slider__img">
-                                <img src="https://imgur.com/x8jN7vZ.png" alt="" style="width: 40%" />
-                            </div>
-                            <span class="blog-slider__code"
-                                style="
-                          color: #7b7992;
-                          margin-bottom: 15px;
-                          display: block;
-                          font-weight: 500;
-                        ">
-                                <h3>📫</h3>{{ $report['date'] }}
-                            </span>
-                            <div class="blog-slider__title"
-                                style="
-                          font-size: 24px;
-                          font-weight: 700;
-                          color: #0d0925;
-                          margin-bottom: 20px;
-                        ">
-                                the machine {{ $report->name }}
-                            </div> <!-------xxxxxxxxxxxxxxx-->
                             <td
                                 style="
                     padding: 30px;

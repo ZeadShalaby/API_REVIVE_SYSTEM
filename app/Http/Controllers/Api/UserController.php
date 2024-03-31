@@ -6,6 +6,7 @@ use Exception;
 use Validator;
 use App\Models\Role;
 use App\Models\User;
+use App\Mail\RoleUser;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -13,6 +14,7 @@ use App\Traits\MethodconTrait;
 use App\Traits\Requests\TestAuth;
 use App\Traits\Requests\TestMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Traits\validator\ValidatorTrait;
 
 ////! only admin can do this method on this controller ////
@@ -131,8 +133,9 @@ class UserController extends Controller
                 'role' => $request->role,
                 'email' => $newEmail
             ]);
-         
+
         // ! send mail to this users and know it the role and mail changed
+        Mail::to($user->gmail)->send(new RoleUser (User::find($request->id)));
         $msg = $this->typerole($request->role ,$user->username); 
         return $this->returnSuccessMessage($msg); 
     }

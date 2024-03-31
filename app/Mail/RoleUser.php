@@ -9,15 +9,14 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Emailmailer extends Mailable
+class RoleUser extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $users;
     /**
      * Create a new message instance.
      */
-    public function __construct(private  $code)
+    public function __construct(private $user)
     {
         //
     }
@@ -28,7 +27,7 @@ class Emailmailer extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Revive Code',
+            subject: 'Role User',
         );
     }
 
@@ -38,8 +37,8 @@ class Emailmailer extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.testmail',
-            with: ['code' => $this->code],
+            view: 'mail.roleemail',
+            with: ['users' => $this->user]
         );
     }
 
@@ -47,7 +46,7 @@ class Emailmailer extends Mailable
      * Get the attachments for the message.
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */// todo send any files or pdf 
+     */
     public function attachments(): array
     {
         return [];

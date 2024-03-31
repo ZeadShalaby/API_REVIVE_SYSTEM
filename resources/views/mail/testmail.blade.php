@@ -36,7 +36,7 @@
         transition: all 0.3s;
       ">
         <div class="blog-slider__img">
-            <img src="https://imgur.com/DDA3AHE.png" alt="tree" style="width: 45%">
+            <img src="https://imgur.com/4oWTlb3.png" alt="tree" style="width: 45%">
         </div>
         <h3>📫<h3>
                 <span class="blog-slider__code"

@@ -159,31 +159,20 @@ trait LoginTrait
      }
      
      // todo check login with phone or email //
-     protected function Check($request)
+     protected function CheckField($request)
      {
      
          // ?login with phone number or email
-         $value = $request->input('email'); //! zead@admin.srnz or 215478963
-         $field = filter_var($value,FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
-         $this->validate($request, [
-             'email'=>'required',
-             'password' => 'required|alphaNum|min:3'
-         ]);
-     
-         $source = DB::table('users')->where($field, $request->email)
-         ->first();
-         $user_data = array(
-             $field => $request->get('email'),
-             'password' => $request->get('password')
-         ); 
-     
-     
-         $result = new User;
-         $result->user_data = $user_data; //! some variable
-         $result->source = $source; //! some variable
-     
-         return $result;
-         
+         $field = filter_var($request->input('field'),FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+         $credentials = array(
+            $field => $request->get('field'),
+            'password' => $request->get('password')
+        ); 
+        return array(
+            'credentials' => $credentials ,
+            'fields' => $field 
+        );
+                  
      }   
 
   
