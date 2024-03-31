@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/ZeadShalaby/API_REVIVE_SYSTEM">
-          <img src="https://i.imgur.com/rAwLRCT.png" alt="Logo" width="400" height="370">
+          <img src="https://i.imgur.com/rAwLRCT.png" alt="Logo" width="400" height="300">
   </a>
     
 <h3 align="center">API REVIVE SYSTEM</h3>
