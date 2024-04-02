@@ -43,16 +43,16 @@ Route::group(['middleware' => ['api']], function () {
 
     //?start//
     // todo group user to login & logout & register //
-    Route::group(['prefix' =>'users','namespace' => 'users'], function () {
+    Route::group(['middleware' => ['checksecurity'],'prefix' =>'users','namespace' => 'users'], function () {
     Route::POST('/login', [AuthController::class, 'login']);
     Route::POST('/regist',[AuthController::class, 'register']);
     /*
      todo Invalidate Token Security Site
      todo  Brocken Access Controller Users enumeration
     */
-    Route::POST('/logout',[AuthController::class, 'logout'])->middleware('auth.guard:api','checksecurity');
+    Route::POST('/logout',[AuthController::class, 'logout'])->middleware('auth.guard:api');
     //// ? return profile information ////
-    Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api','checksecurity');
+    Route::get('/profile',[AuthController::class, 'profile'])->middleware('auth.guard:api');
     });
     //?end//
 
@@ -238,8 +238,6 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.adm
     Route::get('/tourism/data/date/machines',[TourismController::class, 'show']);
     // ? training Data //
     Route::POST('/python/tranining',[MachineLearningController::class, 'tranining']);
-    // ? training Data weather //
-    Route::POST('/python/weather',[MachineLearningController::class, 'weather']);
     // ? training Data footprint product //
     Route::POST('/python/trainng/footprint/product',[MachineLearningController::class, 'tcfpfactory_years']);
 //?start//

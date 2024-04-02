@@ -1,3 +1,4 @@
+import pandas as pd
 import json
 import os
 
@@ -13,7 +14,10 @@ with open(path, 'r') as file:
     # Read the JSON data from the file
     json_data = json.load(file)
 
+# todo Use pd.json_normalize to convert the JSON to a DataFrame
+df = pd.json_normalize(json_data)
+
 #! Process the data
 print("Trainng carbon_footprint for factory Ratio With Laravel")
 # todo Do something with the data
-print(json_data)
+print(df)

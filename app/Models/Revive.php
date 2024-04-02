@@ -22,7 +22,7 @@ class Revive extends Model
     ];
 
     protected $hidden = [
-        // 'updated_at',
+        'updated_at',
         'deleted_at'
      ];
 

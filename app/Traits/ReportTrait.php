@@ -13,13 +13,17 @@ use App\Events\WarningMachine;
 use App\Mail\CarbonFootprintFactory;
 use App\Traits\MachineLearningTrait;
 use Illuminate\Support\Facades\Mail;
+use App\Traits\weather\WeatherpyTrait;
 
 trait ReportTrait 
 
 {  
+  use WeatherpyTrait;
+
     // todo check if data less then last data // (warning must co2 less then last co2 data)//
     protected function checkreadings($request,$model){
-      if($model == Role::REVIVE){
+      $machine = Machine::find($request->machineids);
+      if($machine->type == Role::REVIVE){
       $checkgreen = $this->checkGreenTree($request->machineids,$request);   
       if($checkgreen == true){return $checkgreen;}  
       $machine_readings =  Revive::where("machine_id",$request->machineids)->latest()->first();
@@ -27,6 +31,7 @@ trait ReportTrait
       return $warning; 
     }
     else{
+      if($machine->type == Role::WEATHER){return true;}
       $machine_readings =  Tourism::where("machine_id",$request->machineids)->latest()->first();
       $warning = $this->calculatewarning($request , $machine_readings);
       return $warning; 

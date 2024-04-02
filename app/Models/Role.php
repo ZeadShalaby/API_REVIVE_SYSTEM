@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {
     use HasFactory;
+    const SECRET = "EI8m2bl8TFVjbwYmuopsNPd1"; 
+    const SECRETMACHINE = "NPd1nyozbX9qGyfAqKkCDlDY5Fn8CGr";
     const ADMINNAME = 'Admin Revive';
     const ADMIN = 1 ;
     const OWNER = 2 ; 
@@ -33,4 +36,5 @@ class Role extends Model
     const TRAININGFOOTPRINTFACTORY = 8;
     const MailRevive = 'revivecarbon@gmail.com'; 
     const co2limit = 100;
+
 }

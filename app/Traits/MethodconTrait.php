@@ -200,5 +200,17 @@ trait MethodconTrait
       }
       return $type;
    }
+
+   // todo check Role of machine (tcr) //
+   public function checkRoleMachine($type){
+      if($type == Role::REVIVE){
+         return "Revive";
+      }
+      elseif ($type == Role::TOURISM) {
+         return "Tourism";
+      }
+      else{return null;}
+
+   }
 }
 

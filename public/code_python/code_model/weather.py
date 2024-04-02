@@ -13,6 +13,7 @@ with open(path, 'r') as file:
     # Read the JSON data from the file
     json_data = json.load(file)
 
+
 #! Process the data
 print('Test weather its good or not')
 # todo Do something with the data

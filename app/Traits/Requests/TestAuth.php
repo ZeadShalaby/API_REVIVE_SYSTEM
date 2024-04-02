@@ -201,7 +201,7 @@ trait TestAuth
         'Natural_gas'      =>  'required|integer|digits_between:2,3',
         'Water_cons'       =>  'required|integer|digits_between:2,3',
         'Waste_quan'       =>  'required|integer|digits_between:2,3',
-      //  'Carbon_tones'     =>  'required|decimal:2,4',
+      //'Carbon_tones'     =>  'required|decimal:2,4',
        ];
 
     }
