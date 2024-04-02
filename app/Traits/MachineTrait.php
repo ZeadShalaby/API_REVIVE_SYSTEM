@@ -1,8 +1,11 @@
 <?php
 namespace App\Traits;
 
+use App\Models\Role;
+use App\Mail\Weather;
 use App\Models\Machine;
 use App\Models\Tourism;
+use Illuminate\Support\Facades\Mail;
 
 trait MachineTrait
 
@@ -25,7 +28,7 @@ trait MachineTrait
       if($typemachine->type == $type){
         return true;
       }
-      return false;
+       return false;
     }
 
     // todo recevied name machine and return id of this machine //

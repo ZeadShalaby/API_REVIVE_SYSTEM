@@ -3,6 +3,9 @@ namespace App\Traits;
 
 use Exception;
 use Validator;
+use Carbon\Carbon;
+use App\Models\Machine;
+use App\Traits\MethodconTrait;
 use App\Models\footprintperson;
 use App\Models\footprintfactory;
 use App\Traits\Requests\TestAuth;
@@ -13,7 +16,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 trait MachineLearningTrait
 
 {  
-  use TestAuth;
+  use TestAuth , MethodconTrait;
     //todo count of Orders for users
     protected function sendDataPy( $data , $path ){
   
@@ -108,5 +111,44 @@ trait MachineLearningTrait
            "carbon_footprint" => $ratio,
        ]);
     } }
+
+       
+    // todo format date to Know what i search it year or month or weak 
+    protected function formatdate($date)
+    {
+        $searchTerm = $date;
+        //? Extract numeric value and string part from the search term
+        preg_match('/(\d+)(\D+)/', $searchTerm, $matches);
+
+        if (!empty($matches)) {
+            $numericValue = $matches[1]; //? Extract numeric value
+            $query = $this->QuerySearch($matches[2]); //? Extract string part
+            
+            return array('num' => "$numericValue",'where' => $query);
+
+        } else {
+            //! Invalid search term provided
+            return response()->json(['error' => 'Invalid search term'], 400);
+        }
+    }
+
+    // todo check query where year or month or weak 
+    protected function QuerySearch($string) {
+      if(strtolower($string) == "y"){
+         return "whereYear";
+      }elseif(strtolower($string) == "m"){
+         return "whereMonth";
+      }else{return null;}
+      
+    }
+
+    // todo check Regality and type of this machine 
+    protected function CheckRegality($machineids) {
+      $machine = Machine::find($machineids);
+      $typemachine = $this->checkRoleMachine($machine->type);
+      if($machine->owner_id == auth()->user()->id){
+        return array("bool"=>true , "table"=>$typemachine);
+      }else{return array("bool"=>false , "table"=>$typemachine);}
+    }
 
 }    

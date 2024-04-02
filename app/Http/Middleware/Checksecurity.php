@@ -3,13 +3,15 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Role;
+use App\Traits\Crypt\CryptTrait;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 class Checksecurity
 {
-    use ResponseTrait;
+    use ResponseTrait , CryptTrait;
     /**
      * Handle an incoming request.
      *
@@ -17,7 +19,8 @@ class Checksecurity
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->checksecurity != env("API_VALIDATION",'EI8m2bl8TFVjbwYmuopsNPd1')){
+        $decryptKey = $this->SecurityDecrypt($this->SecurityEncrypt(Role::SECRET)); 
+        if($request->checksecurity != env("API_VALIDATION",$decryptKey)){
             return $this->returnError('U100','Unauthenticated OOPS :( ..!'); 
         }
         return $next($request);

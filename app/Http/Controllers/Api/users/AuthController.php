@@ -277,8 +277,8 @@ class AuthController extends Controller
     {
         // ? delete users //
         $user = auth()->user();
-        $user ->delete();
         $msg = " delete Your Account Sir : " .$user->username . "  " ."successfully .";
+        $user ->delete();
         return $this->returnSuccessMessage($msg);
     }
 
@@ -295,7 +295,7 @@ class AuthController extends Controller
             // todo logout
             JWTAuth::setToken($token)->invalidate();
             }catch(TokenInvalidException $e){
-                return $this->returnError("T002","Some Thing Went Wrongs");
+                return $this->returnError("T003","Some Thing Went Wrongs");
             }
             catch(TokenExpiredException $e){
                 return $this->returnError("T002","Some Thing Went Wrongs");

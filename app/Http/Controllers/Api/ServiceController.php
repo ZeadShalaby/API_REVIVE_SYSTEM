@@ -32,7 +32,7 @@ class ServiceController extends Controller
         if($token == TRUE){ $userinfo =  Auth::guard('api')->user(); $userinfo -> api_token = $token; return $this->returnData("users",$userinfo);}
         // ! valditaion
         $rules = $this->rulesservice();
-        $validator = $this->servicevalidate($request,$rules);
+        $validator = $this->servicevalidate($users,$rules);
         if($validator !== true){return $validator;}
 
         $checkuser = $this->CheckLogin($user,Role::GITHUB);

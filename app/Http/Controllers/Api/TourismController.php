@@ -7,6 +7,7 @@ use Auth;
 use Exception;
 use Validator;
 use App\Models\Role;
+use App\Mail\Weather;
 use App\Models\Machine;
 use App\Models\Tourism;
 use App\Traits\ErrorTrait;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Traits\Requests\TestAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Traits\validator\ValidatorTrait;
 
 class TourismController extends Controller
@@ -64,10 +66,10 @@ class TourismController extends Controller
         $checkreadings = $this->checkreadings($request,Role::REVIVE);
         $checktype = $this->checktype($request->machineids,Role::REVIVE);
         if($checktype == true){return $this->returnError("EM403","Machine type not :");}
-           
+            
         // ? calculate o2 ratio //
         $o2 = (100 - ($request->co + $request->co2 ));
-    
+        
         $posts = Tourism::create([
             "machine_id" => $request->machineids,
             "co2" => $request->co2,
@@ -75,8 +77,7 @@ class TourismController extends Controller
             "o2" => $o2,
             "degree" => $request->degree,
             "humidity" => $request->humidity
-        ]);
-
+        ]); $weather = $this->weather($request->machineids); 
         $msg = " insert successfully :)...!";
         return $this->returnSuccessMessage($msg);
     

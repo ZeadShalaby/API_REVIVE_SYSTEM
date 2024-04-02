@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Role;
+use App\Models\Revive;
 use App\Models\Machine;
+use App\Models\Tourism;
 use App\Traits\ExellTrait;
 use App\Traits\ReportTrait;
 use Illuminate\Http\Request;
@@ -41,17 +44,18 @@ class MachineLearningController extends Controller
     public function dioxide_ratio(Request $request)
     {
         // todo validate footprint peerson //
-        $data = [
-            'foodprint' => "yes",
-            'co2' => 22 ,
-            'co' => 12,
-            'o2' => 19,
-            'degree' => 32,
-        ];
+        // ! valditaion
+        $rules = $this->rulesperson();    
+        $validator = $this->validatepy($request['question'],$rules);
+        if($validator !== true){return $validator;}
+
+        $data = $request->question;
+
         $output = $this->sendDataPy($data , Role::DIOXIDEPY);
         $report = $this->check_rcp_person(auth()->user() , 47); /*$output*/;
         $user = auth()->user(); $user->ratio = 47; // ? ratio in output return code machine //
         $person_footprint = event(new FootprintPeople($user));
+
         return $this-> returnData("Python Output" , $output ,$report);
 
     }
@@ -60,79 +64,106 @@ class MachineLearningController extends Controller
      //! training carbon footprint for ( person ) in years or weeak  (tcfpf) => (training carbon footprint person ) //
      public function tcfpperson_years(Request $request)
      {
-        // todo validate date //
-       $user_footprint = footprintperson::where("user_id",auth()->user()->id)->get(); 
-       $output = $this->sendDataPy($user_footprint , Role::TRAININGFOOTPRINTPERSON); 
-       return $this-> returnData("Python Output" , $output);
+        //! Validation
+        $rules = ["date" => "required|string|regex:/^\d{1,4}[yma]$/"];    
+        $validator = $this->validate($request, $rules);
+        if($validator !== true) {return $validator;}
+
+        if($request->date == "1a"){$user_footprint = footprintperson::where("user_id", auth()->user()->id)->whereDate('created_at','<=',Carbon::now()->format('Y-m-d'))->get();}
+        else{$date = $this->formatdate($request->date);
+        //? Determine the method to use based on the condition stored in the $date array
+        $method = $date["where"];
+        //? Search for the training carbon footprint based on the specified condition
+        $user_footprint = footprintperson::where("user_id", auth()->user()->id)->$method("created_at", $date["num"])->get();}
+        //?Send data to Python
+        $output = $this->sendDataPy($user_footprint , Role::TRAININGFOOTPRINTPERSON); 
+        
+        return $this->returnData("Python Output" , $output);
        
+        
      }
 
     //?.///
     //! Training Data classfication , model //
     public function tranining(Request $request)
     {
-        // todo validate date //
-        $data = [
-            'co2' => 22 ,
-            'co' => 12,
-            'o2' => 19,
-            'degree' => 32,
-        ];
-        $output = $this->sendDataPy($data , Role::TRAINGPY);
-        return $this-> returnData("Python Output" , $output);
+        // ! valditaion
+        $rules = ["date" => "required|string|regex:/^\d{1,4}[yma]$/","machineids" => "required|integer"];    
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
 
-    }
-
-     //?.///
-     //! Training Data Weather classfication , model //
-     public function weather(Request $request)
-     {
+        // todo check regality of this machine or not
+        $infomachine = $this->CheckRegality($request->machineids);
+        if(auth()->user()->role != Role::ADMIN){
+        if($infomachine['bool']!= true ){return $this->returnError("M403" , "OOPS Some thing Wrongs :( ...!");}
+        }
         
-        $data = [
-            'storm' => "yes",
-            'rain' => "no",
-            'sunny' => "no",
-        ];
-        $output = $this->sendDataPy($data , Role::WEATHERPY);
-        return $this-> returnData("Python Output" , $output);
- 
-     }
+        // ! owner regality | Admin
+        if($request->date == "1a"){if($infomachine['table'] == "Revive"){$factory_footprint = Revive::where("machine_id",$request->machineids )->whereDate('created_at','<=',Carbon::now()->format('Y-m-d'))->get();}
+        else{$factory_footprint = Tourism::where("machine_id",$request->machineids )->whereDate('created_at','<=',Carbon::now()->format('Y-m-d'))->get();}}
+        else{$date = $this->formatdate($request->date);
+        //? Determine the method to use based on the condition stored in the $date array
+        $method = $date["where"];
+        //? Search for the training carbon footprint based on the specified condition
+        if($infomachine['table'] == "Revive"){$factory_footprint = $table::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}else{$factory_footprint = $table::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}}
 
+        $output = $this->sendDataPy($factory_footprint , Role::TRAINGPY);
+        return $this-> returnData("Python Output" , $output);
+
+        
+    }
 
     //! dioxide ratio (Co2) footprint for ( factory ) regression , model //
     public function carbon_footprint(Request $request)
     {
-        // todo validate footprint factory //
+        // ! valditaion
+        $rules = $this->rulesfactory();    
+        $validator = $this->validatepy($request['question'],$rules);
+        if($validator !== true){return $validator;}
+
+        try {
+        
         $machineids = Machine::where("owner_id",auth()->user()->id)->where("id",$request->maachineid)->value("id");
         $machine = Machine::find($machineids);
         $users = $machine->user;
-        $data = [
-                'transport' => "yes",
-                'oil' => "yes",
-                'day' => "30",
-            ];
+
+        $data = $request->question;
         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY); 
         $report = $this->check_rcf_factory($machine , 37); /*$output*/;
         $machine ->ratio = $report ;    /*$output*/;
         $carbon_footprint = event(new CarbonFootprint($machine));
+
         return $this-> returnData("Python Output" , $output);
+    } catch (\Throwable $th) {
+        return $this->returnError("M404","OOPS Apply for the first machine , or contact the officials to find out your problem and help you :)... !");
+    }
     
     }
 
     //! training carbon footprint for ( factory ) in years or weeak  (tcfpf) => (training carbon footprint factory ) //
     public function tcfpfactory_years(Request $request)
     {
-        // todo validate training footprint factory date //
-        // ! validation remmember ziad its important 
+        // ! valditaion
+        $rules = ["date" => "required|string|regex:/^\d{1,4}[yma]$/","machineids" => "required|integer"];    
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
+        // ! Admin
         if(auth()->user()->role == Role::ADMIN){
            
         }
 
-        $machineids = Machine::where("owner_id",auth()->user()->id)->value("id");
-        $footprintfactory = footprintfactory::find($machineids);
-        $machines = $footprintfactory->machine;
-        $output = $this->sendDataPy($footprintfactory , Role::TRAININGFOOTPRINTFACTORY); 
-        return $this-> returnData("Python Output" , $output);
+        // !owner
+        if($request->date == "1a"){$factory_footprint = footprintfactory::where("machine_id",$request->machineids )->whereDate('created_at','<=',Carbon::now()->format('Y-m-d'))->get();}
+        else{$date = $this->formatdate($request->date);
+        //? Determine the method to use based on the condition stored in the $date array
+        $method = $date["where"];
+        //? Search for the training carbon footprint based on the specified condition
+        $factory_footprint = footprintfactory::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}
+        //?Send data to Python
+        $output = $this->sendDataPy($factory_footprint , Role::TRAININGFOOTPRINTFACTORY); 
+        
+        return $this->returnData("Python Output" , $output);
 
     }
  
@@ -140,9 +171,13 @@ class MachineLearningController extends Controller
     //! Chat auto and learning from question , libarry //
     public function chat(Request $request)
     {
-        // todo validate request question  //
+        // ! valditaion
+        $rules = ["question" => "required|string"];    
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
         $data = [
-            'question' => "weather is good !?",
+            'question' => $request->question,
             'answer'  => "yes its good",
         ];
         
