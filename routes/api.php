@@ -41,7 +41,7 @@ use App\Http\Controllers\Api\MachineLearningController;
 Route::group(['middleware' => ['api']], function () {
 
 
-    //?start//
+    ///?start///
     // todo group user to login & logout & register //
     Route::group(['middleware' => ['checksecurity'],'prefix' =>'users','namespace' => 'users'], function () {
     Route::POST('/login', [AuthController::class, 'logins']);
