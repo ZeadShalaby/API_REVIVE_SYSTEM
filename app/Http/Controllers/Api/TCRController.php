@@ -20,8 +20,6 @@ class TCRController extends Controller
     use MethodconTrait , ResponseTrait , TestAuth , ValidatorTrait;
 
 
-
-    
      /** 
      * todo Show the form for creating a new resource.
      * ! only admin can add a new revive | tourism hardware

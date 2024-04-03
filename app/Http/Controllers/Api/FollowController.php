@@ -79,10 +79,8 @@ class FollowController extends Controller
     public function showfollowing(Request $request)
     {
 
-        $following = Follow::Where('followers_id',auth()->user()->id)->get('following_id');
-        foreach ($following as $belong) {
-        $followinfo = $belong->userfollowing;
-        }
+        $following = Follow::Where('followers_id',auth()->user()->id)->with('userfollowing')->get('following_id');
+
         return $this->returnData("following" , $following);
     }
 
@@ -92,10 +90,8 @@ class FollowController extends Controller
     public function showfollowers(Request $request)
     {
         //
-        $followers = Follow::Where('following_id',auth()->user()->id)->get('followers_id');
-        foreach ($followers as $belong) {
-        $followinfo = $belong->userfollowers;
-        }
+        $followers = Follow::Where('following_id',auth()->user()->id)->with('userfollowers')->get('followers_id');
+        
         return $this->returnData("followers" , $followers);
     }
 
@@ -155,8 +151,7 @@ class FollowController extends Controller
         $userIds = User::where('name', 'LIKE', '%'. $query. '%')
                        ->orWhere('username', 'LIKE', '%'. $query. '%')
                        ->pluck('id')->toArray();
-        $filterResult = Follow::whereIn(strtolower($type)."_id", $userIds)->get();
-        foreach ($filterResult as $belong) {$followinfo = $belong->$funmodel;}
+        $filterResult = Follow::whereIn(strtolower($type)."_id", $userIds)->with($funmodel)->get();
         return $this->returnData("filterResult", $filterResult);
     }
     

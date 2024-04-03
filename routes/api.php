@@ -110,7 +110,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::PUT('/users/updatepass/{user}',[UserController::class, 'updatepass']);
     Route::PUT('/users/modifyrole/{user}',[UserController::class, 'modifyrole']);
     Route::Delete('/users/destroy/{user}',[UserController::class, 'destroy']);
-    // todo autocomplete search  //
+    // todo autocomplete search for users //
     Route::get('/users/autocolmpletesearch',[UserController::class, 'autocolmpletesearch']);
     // todo report posts //
     Route::get('/reports/posts',[ReportsPostsController::class, 'reportposts']);

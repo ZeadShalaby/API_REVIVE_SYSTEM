@@ -38,8 +38,7 @@ trait ErrorTrait
     protected function machineInfo($machineid){
         $machineinfo = [];
         foreach ($machineid as $id) {
-            $machine = Machine::find($id);
-            $machines = $machine->user;
+            $machine = Machine::find($id)->with("user");
             array_push($machineinfo,$machine);
         }  
         return $machineinfo;
