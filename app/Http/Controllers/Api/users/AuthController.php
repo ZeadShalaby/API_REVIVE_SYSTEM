@@ -56,7 +56,6 @@ class AuthController extends Controller
 
    ////! ////////////////////////////////////////
 
-
     // todo Login Users
     public function logins(Request $request){
         try{
