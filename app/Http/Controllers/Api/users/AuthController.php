@@ -56,9 +56,8 @@ class AuthController extends Controller
 
    ////! ////////////////////////////////////////
 
-
     // todo Login Users
-    public function login(Request $request){
+    public function logins(Request $request){
         try{
         $infofield = $this->CheckField($request);
         // ! valditaion

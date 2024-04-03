@@ -44,7 +44,7 @@ Route::group(['middleware' => ['api']], function () {
     //?start//
     // todo group user to login & logout & register //
     Route::group(['middleware' => ['checksecurity'],'prefix' =>'users','namespace' => 'users'], function () {
-    Route::POST('/login', [AuthController::class, 'login']);
+    Route::POST('/login', [AuthController::class, 'logins']);
     Route::POST('/regist',[AuthController::class, 'register']);
     /*
      todo Invalidate Token Security Site
