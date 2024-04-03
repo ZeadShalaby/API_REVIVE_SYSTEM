@@ -133,9 +133,9 @@ class UserController extends Controller
                 'role' => $request->role,
                 'email' => $newEmail
             ]);
-
+        if(isset($user->gmail)){
         // ! send mail to this users and know it the role and mail changed
-        Mail::to($user->gmail)->send(new RoleUser (User::find($request->id)));
+        Mail::to($user->gmail)->send(new RoleUser (User::find($request->id)));}
         $msg = $this->typerole($request->role ,$user->username); 
         return $this->returnSuccessMessage($msg); 
     }
