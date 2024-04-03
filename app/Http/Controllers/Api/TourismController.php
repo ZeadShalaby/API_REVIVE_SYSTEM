@@ -32,21 +32,13 @@ class TourismController extends Controller
         // todo search by 
         
         if(auth()->user()->role !=Role::ADMIN){
-            $filterResult = Tourism::where('machine_id', $request->machineid)->where('expire','!=',Role::EXPIRE)->get();
-            foreach ($filterResult as $belong) {
-                $machine = $belong->machine; 
-                $machines = $machine->user; 
-            }    
-            
+            $filterResult = Tourism::where('machine_id', $request->machineid)->where('expire','!=',Role::EXPIRE)->with("machine","user")->get(); 
         if(isset($filterResult)&& $filterResult->count() != 0){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
         return $this->returnData("data",$filterResult);
         }
         $query = $request->get('query');
-        $filterResult = Tourism::where('machine_id', $request->machineid)->get();
-        foreach ($filterResult as $belong) {
-            $machine = $belong->machine; 
-            $machines = $machine->user; 
-        }
+        $filterResult = Tourism::where('machine_id', $request->machineid)->with("machine","user")->get();
+       
         return $this->returnData("data",$filterResult);
 
     }
@@ -95,11 +87,8 @@ class TourismController extends Controller
        if($validator !== true){return $validator;}
 
        // ? show data revive by date //
-       $datamachines = Tourism::where('machine_id',$request->machineid)->whereDate("created_at",$request->created_at)->get();
-       foreach ($datamachines as $belong) {
-           $machine = $belong->machine; 
-           $machines = $machine->user; 
-       }
+       $datamachines = Tourism::where('machine_id',$request->machineid)->whereDate("created_at",$request->created_at)->with("machine","user")->get();
+    
        if(isset($datamachines) && $datamachines->count() != 0){if($machine->user->id != auth()->user()->id){return $this->returnError("403" , "Something Wrong Try again latter");}}
        return $this->returnData("Data",$datamachines);
     }

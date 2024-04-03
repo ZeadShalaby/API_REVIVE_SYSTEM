@@ -78,10 +78,8 @@ class FavouriteController extends Controller
         $validator = $this->validate($request,$rules);
         if($validator !== true){return $validator;}
 
-        $favourite = Favourite::select('user_id')->where('posts_id',$request->posts_id)->get();
-        foreach($favourite as $belong){
-          $user = $belong->user; 
-        }
+        $favourite = Favourite::select('user_id')->where('posts_id',$request->posts_id)->with('user')->get();
+        
         return $this->returnData('PersonFav',$favourite);
     }
 
