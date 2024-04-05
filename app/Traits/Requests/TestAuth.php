@@ -18,7 +18,7 @@ trait TestAuth
         "password" => "required"
     ];
     }
-    }
+    }"sfsdf"
   
     // todo rules of users registers
     protected function rulesRegist(){
