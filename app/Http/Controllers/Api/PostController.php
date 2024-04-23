@@ -153,12 +153,12 @@ class PostController extends Controller
     public function destroy(Request $request , $post)
     {
         // ! valditaion
-        $rules = ['id' => 'required|exists:posts,id',];
+        $rules = ['postid' => 'required|exists:posts,id',];
         $validator = $this->validate($request,$rules);
         if($validator !== true){return $validator;}
 
         // ? delete posts //
-        $posts = Post::find($request->id) ;
+        $posts = Post::find($request->postid) ;
         if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
         $posts->delete();
         return $this->returnSuccessMessage("Delete Posts Successfully .");
