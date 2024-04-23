@@ -22,7 +22,7 @@ class ReportsPostsController extends Controller
     public function reportposts(Request $request)
     {
        // ? return all posts have a report
-       $posts = Post::where("report" , '>' , 0 )->get();
+       $posts = Post::where("report" , '>' , 0 )->with(['user' => function ($query) {$query->withTrashed(); }])->get();
        return $this->returnData("reportposts",$posts);
     }
     

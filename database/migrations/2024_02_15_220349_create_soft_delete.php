@@ -31,9 +31,9 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-       /* Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->softDeletes();
-        });*/
+        });
     }
 
     /**

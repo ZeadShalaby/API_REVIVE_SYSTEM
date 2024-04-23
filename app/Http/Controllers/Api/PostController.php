@@ -29,7 +29,7 @@ class PostController extends Controller
     public function index()
     {
         // ? show all post of follwing //
-        $posts = Post::get();
+        $posts = Post::with(['user' => function ($query) {$query->withTrashed(); }])->get();
         $folowers = Follow::where('followers_id',auth()->user()->id)->get();
         $postfollow =  $this->postfollowers($posts , $folowers);
         $infoposts = $this->infoposts( $postfollow);
@@ -170,7 +170,7 @@ class PostController extends Controller
      */
     public function restoreindex()
     {
-       $post = Post::where('user_id',auth()->user()->id)->onlyTrashed()->get();
+       $post = Post::where('user_id',auth()->user()->id)->onlyTrashed()->with('user')->get();
        return $this->returnData("posts",$post);
     }
 
@@ -186,7 +186,7 @@ class PostController extends Controller
 
        $post = Post::withTrashed()->find($request->id);
        if(!$post->id){return $this->returnError('P404','Error Some Thing Wrong .');}
-       if($posts->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
+       if($post->user_id != auth()->user()->id){return $this->returnError('U303','Error Some Thing Wrong .');} 
        Post::withTrashed()->find($request->id)->restore();
        return $this->returnSuccessMessage("Restore Posts Successfully .");
     }

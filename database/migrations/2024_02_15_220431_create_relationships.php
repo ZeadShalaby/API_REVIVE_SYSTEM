@@ -14,84 +14,83 @@ return new class extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');            
+            $table->foreign('user_id')->references('id')->on('users');            
 
         });
 
         Schema::table('favourites', function (Blueprint $table) {
 
-            $table->foreign('posts_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('posts_id')->references('id')->on('posts');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
 
         Schema::table('saved_posts', function (Blueprint $table) {
 
-            $table->foreign('posts_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('posts_id')->references('id')->on('posts');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
 
         Schema::table('comments', function (Blueprint $table) {
 
-            $table->foreign('posts_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('posts_id')->references('id')->on('posts');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
 
         Schema::table('follows', function (Blueprint $table) {
 
-            $table->foreign('following_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->foreign('followers_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('following_id')->references('id')->on('users');
+            $table->foreign('followers_id')->references('id')->on('users');
 
         });
 
         Schema::table('machines', function (Blueprint $table) {
 
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users');
 
         });
 
         Schema::table('revives', function (Blueprint $table) {
 
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->foreign('machine_id')->references('id')->on('machines');
 
         });
 
         Schema::table('tourisms', function (Blueprint $table) {
 
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->foreign('machine_id')->references('id')->on('machines');
 
         });
 
         Schema::table('filemachines', function (Blueprint $table) {
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
 
         Schema::table('footprintpeople', function (Blueprint $table) {
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
 
         Schema::table('footprintfactories', function (Blueprint $table) {
 
-            $table->foreign('machine_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->foreign('machine_id')->references('id')->on('machines');
 
         });
 
         Schema::table('purching_c_f_p_s', function (Blueprint $table) {
 
 
-            $table->foreign('machine_seller_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->foreign('machine_seller_id')->references('id')->on('machines');
             
-            $table->foreign('machine_buyer_id')->references('id')->on('machines')->onDelete('cascade');
+            $table->foreign('machine_buyer_id')->references('id')->on('machines');
 
         });
 

@@ -116,6 +116,9 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::get('/reports/posts',[ReportsPostsController::class, 'reportposts']);
     Route::PUT('/skip/report/posts',[ReportsPostsController::class, 'skipreport']);
     Route::Delete('/posts/destroy',[ReportsPostsController::class, 'destroy']);
+    Route::get('/users/restore/index',[UserController::class, 'restoreindex']);
+    Route::POST('/users/restore',[UserController::class, 'restore']);
+
 //?start//
     // todo Barter process CarbonFootprint //
     // todo prefix in all routes *BarterProcess* //
@@ -181,6 +184,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/posts/edit/{id}',[PostController::class, 'edit']);
     Route::PUT('/posts/update/{id}',[PostController::class, 'update']);
     Route::Delete('/posts/destroy/{id}',[PostController::class, 'destroy']);
+    Route::get('/posts/restore/index',[PostController::class, 'restoreindex']);
+    Route::POST('/posts/restore',[PostController::class, 'restore']);
 
     //? Favourite & Comment & Follow & saved & report routes //
     Route::POST('/posts/favourite',[FavouriteController::class, 'store']);
