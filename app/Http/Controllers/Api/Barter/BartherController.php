@@ -26,13 +26,13 @@ class BartherController extends Controller
     */
     public function index(Request $request){
 
-        $barter = PurchingCFP::get();
-        foreach ($barter as $belong) {
+        $barter = PurchingCFP::get()->with('machineseller','machinebuyer','user');
+        /*foreach ($barter as $belong) {
             $seller = $belong -> machineseller;
             $buyer  = $belong -> machinebuyer;
             $users  = $seller -> user;
             $userb  = $buyer  -> user;
-        }
+        }*/
         return $this->returnData("Barter",$barter);
 
     } 

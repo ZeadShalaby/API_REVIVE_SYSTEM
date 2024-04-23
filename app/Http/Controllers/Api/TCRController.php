@@ -22,7 +22,7 @@ class TCRController extends Controller
 
      /** 
      * todo Show the form for creating a new resource.
-     * ! only admin can add a new revive | tourism hardware
+     * ! only admin can add a new revive | tourism  | other hardware
      */// ? tcr mening : Tourism & Revive & Coastal  //
      public function newtcr(Request $request)
      {

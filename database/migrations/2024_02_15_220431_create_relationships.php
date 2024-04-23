@@ -45,7 +45,6 @@ return new class extends Migration
         Schema::table('follows', function (Blueprint $table) {
 
             $table->foreign('following_id')->references('id')->on('users');
-
             $table->foreign('followers_id')->references('id')->on('users');
 
         });

@@ -22,7 +22,7 @@ class AssignGuard extends BaseMiddleware
     public function handle(Request $request, Closure $next,$guard = null): Response
     {
         if($guard != null){
-            auth()->shouldUse($guard); //shoud you user guard / table
+            auth()->shouldUse($guard); //?shoud you user guard / table
             $token = $request->auth_token;
            // $token = $request->header('auth-token');
             $request->headers->set('auth_token', (string) $token, true);

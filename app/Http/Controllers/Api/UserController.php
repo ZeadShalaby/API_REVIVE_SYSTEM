@@ -182,5 +182,30 @@ class UserController extends Controller
     
     }
 
+    /**
+     * todo restore index the specified resource from storage.
+     */
+    public function restoreindex()
+    {
+       $user = User::onlyTrashed()->get();
+       return $this->returnData("users",$user);
+    }
+
+     /**
+     * todo  restore the specified resource from storage.
+     */
+    public function restore(Request $request)
+    {
+       // ! valditaion
+       $rules = ['id' => 'required|exists:users,id',];
+       $validator = $this->validate($request,$rules);
+       if($validator !== true){return $validator;}
+
+       $user = User::onlyTrashed()->find($request->id);
+       if(!isset($user->id)){return $this->returnError('P404','Error Some Thing Wrong .');}
+       User::onlyTrashed()->find($request->id)->restore();
+       return $this->returnSuccessMessage("Restore User Successfully .");
+    }
+
 
 }

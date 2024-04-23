@@ -32,10 +32,10 @@ class ReviveController extends Controller
      {
          // ? choise machine of owner to sho it and then show data // 
          if(auth()->user()->role !=Role::ADMIN ){
-             $machineid = Machine::where('owner_id',auth()->user()->id)->with("user")->get();             
+             $machineid = Machine::where('owner_id',auth()->user()->id)->with(['user' => function ($query) {$query->withTrashed(); }])->get();             
              return $this->returnData("data",$machineid);
          }
-         $machines = Machine::with("user")->get();
+         $machines = Machine::with(['user' => function ($query) {$query->withTrashed(); }])->get();
          return $this->returnData("data",$machines);
      }
 

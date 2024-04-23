@@ -47,8 +47,9 @@ class SavedPostsController extends Controller
     public function showsaved(Request $request)
     {
 
-        $saved = SavedPosts::where('user_id',auth()->user()->id)->with("user","post")->get();
-
+        $saved = SavedPosts::where('user_id',auth()->user()->id)
+        ->with(['user' => function ($query) {$query->withTrashed(); }],['post' => function ($query) {$query->withTrashed(); }])
+        ->get();
         return $this->returnData('PersonFav',$saved);
     }
 

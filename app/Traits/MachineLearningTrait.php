@@ -23,12 +23,12 @@ trait MachineLearningTrait
     $path = $this->codePath($path);    
     $pythonScriptPath = base_path($path[1]);
     
-        // Check if the script file exists
+    //? Check if the script file exists //
     if (file_exists($pythonScriptPath)) {
         
         $jsonData = json_encode($data);
         Storage::disk('json')->put('data.json', $jsonData);
-        // Execute the Python script
+        //? Execute the Python script //
         exec('python ' . escapeshellarg($pythonScriptPath), $output, $returnCode);
         return $output;
         }

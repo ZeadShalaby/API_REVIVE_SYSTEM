@@ -78,7 +78,7 @@ class CommentController extends Controller
         if($validator !== true){return $validator;}
         
         // ? show all coment for posts //
-        $comment = Comment::Where('posts_id',$request->posts_id)->select('id','posts_id','user_id','comment')->with('user')->get();
+        $comment = Comment::Where('posts_id',$request->posts_id)->select('id','posts_id','user_id','comment')->with(['user' => function ($query) {$query->withTrashed(); }])->get();
         
         return $this->returnData("comments" , $comment);
     }

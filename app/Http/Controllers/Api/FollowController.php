@@ -41,16 +41,12 @@ class FollowController extends Controller
     public function store(Request $request)
     {
         //! rules
-        $rules = [
-            'following_id' => 'required|exists:users,id',
-        ];
-        
+        $rules = ['following_id' => 'required|exists:users,id',];    
         // ! valditaion
         $validator = Validator::make($request->all(),$rules);
-    
         if($validator->fails()){
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code,$validator);
+            $code = $this->returnCodeAccordingToInput($validator);
+            return $this->returnValidationError($code,$validator);
         }
         
         $checkfollow = $this->checkfollow($request->following_id , auth()->user()->id);
@@ -79,7 +75,7 @@ class FollowController extends Controller
     public function showfollowing(Request $request)
     {
 
-        $following = Follow::Where('followers_id',auth()->user()->id)->with('userfollowing')->get('following_id');
+        $following = Follow::Where('followers_id',auth()->user()->id)->with(['userfollowing' => function ($query) {$query->withTrashed(); }])->get('following_id');
 
         return $this->returnData("following" , $following);
     }
@@ -90,7 +86,7 @@ class FollowController extends Controller
     public function showfollowers(Request $request)
     {
         //
-        $followers = Follow::Where('following_id',auth()->user()->id)->with('userfollowers')->get('followers_id');
+        $followers = Follow::Where('following_id',auth()->user()->id)->with(['userfollowers' => function ($query) {$query->withTrashed(); }])->get('followers_id');
         
         return $this->returnData("followers" , $followers);
     }
