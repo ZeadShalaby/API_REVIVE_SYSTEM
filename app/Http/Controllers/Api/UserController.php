@@ -153,7 +153,7 @@ class UserController extends Controller
 
         // ? delete users //
         $user = User::find($request->id);
-        $msg = " delete users : " .$request->name . "  " ."successfully .";
+        $msg = " delete users : " .$user->name . "  " ."successfully .";
         if($user){
             $user ->delete();    
             return $this->returnSuccessMessage($msg);
