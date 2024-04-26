@@ -71,7 +71,7 @@ class TourismController extends Controller
             "humidity" => $request->humidity
         ]); $weather = $this->weather($request->machineids); 
         $msg = " insert successfully :)...!";
-        return $this->returnSuccessMessage($msg);
+        return $this->returnSuccessMessage($weather);
     
     }
 
