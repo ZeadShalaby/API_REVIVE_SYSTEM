@@ -104,7 +104,7 @@ class MachineLearningController extends Controller
         //? Determine the method to use based on the condition stored in the $date array
         $method = $date["where"];
         //? Search for the training carbon footprint based on the specified condition
-        if($infomachine['table'] == "Revive"){$factory_footprint = $table::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}else{$factory_footprint = $table::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}}
+        if($infomachine['table'] == "Revive"){$factory_footprint = $method::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}else{$factory_footprint = $method::where("machine_id",$request->machineids )->$method("created_at", $date["num"])->get();}}
 
         $output = $this->sendDataPy($factory_footprint , Role::TRAINGPY);
         return $this-> returnData("Python Output" , $output);
