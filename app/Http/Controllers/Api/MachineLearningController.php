@@ -48,15 +48,14 @@ class MachineLearningController extends Controller
         $rules = $this->rulesperson();    
         $validator = $this->validatepy($request['question'],$rules);
         if($validator !== true){return $validator;}
-
+   
         $data = $request->question;
-
-        $output = $this->sendDataPy($data , Role::DIOXIDEPY);
-        $report = $this->check_rcp_person(auth()->user() , 47); /*$output*/;
-        $user = auth()->user(); $user->ratio = 47; // ? ratio in output return code machine //
+        $output = $this->sendDataPy($data , Role::DIOXIDEPY);     
+        $report = $this->check_rcp_person(auth()->user() ,$output[0] ); /*$output*/;
+        $user = auth()->user(); $user->ratio = $output[0]; // ? ratio in output return code machine //
         $person_footprint = event(new FootprintPeople($user));
 
-        return $this-> returnData("Python Output" , $output ,$report);
+        return $this-> returnData("Python Output" , $output[0] ,$report);
 
     }
 
@@ -129,12 +128,12 @@ class MachineLearningController extends Controller
 
         $data = $request->question;
         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY); 
-        $report = $this->check_rcf_factory($machine , 37); /*$output*/;
+        $report = $this->check_rcf_factory($machine , $output[0]); /*$output*/;
         $machine ->ratio = $report ;    /*$output*/;
         $carbon_footprint = event(new CarbonFootprint($machine));
 
-        return $this-> returnData("Python Output" , $output);
-    } catch (\Throwable $th) {
+        return $this-> returnData("Python Output" , $output[0]);
+    } catch (Throwable $th) {
         return $this->returnError("M404","OOPS Apply for the first machine , or contact the officials to find out your problem and help you :)... !");
     }
     
@@ -185,7 +184,6 @@ class MachineLearningController extends Controller
         return $this-> returnData("Python Output" , $output);
 
     }
-
 
     // todo return machine image
     public function imagesmachine(Request $request,$machine){
