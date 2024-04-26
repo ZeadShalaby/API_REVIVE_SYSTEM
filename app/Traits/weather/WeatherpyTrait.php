@@ -30,9 +30,8 @@ trait WeatherpyTrait
         unset($readingsmachine['machine_id'],$readingsmachine['id'],$readingsmachine['expire'],$readingsmachine['created_at']);
         
         $output = $this->sendDataPy($readingsmachine , Role::WEATHERPY);
-        strtolower($output[0]);
+       // strtolower($output[0]);
         $machine->condation = $output[0];//$output;
-        return $output;
         event(new WeatherConditions($machine));
         $machine->date = Carbon::now()->format('Y,M,D');
         // todo send mail to owner of machine weather 

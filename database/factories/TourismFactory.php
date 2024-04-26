@@ -25,8 +25,8 @@ class TourismFactory extends Factory
         return [
             //
             'machine_id' => $this->faker->randomElement($machineids),
-            'co2'=>fake()->numberBetween($min = 20, $max = 30),
-            'co'=>fake()->numberBetween($min = 20, $max = 30),
+            'co2'=>fake()->numberBetween($min = 0.0001, $max = 0.9),
+            'co'=>fake()->numberBetween($min = 0.0001, $max = 0.9),
             'o2'=>fake()->numberBetween($min = 15, $max = 25),
             'degree'=>fake()->numberBetween($min = 20, $max = 60),
             'humidity'=>fake()->numberBetween($min = 20, $max = 60),

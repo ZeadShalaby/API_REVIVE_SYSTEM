@@ -60,7 +60,7 @@ class TourismController extends Controller
         if($checktype == true){return $this->returnError("EM403","Machine type not :");}
             
         // ? calculate o2 ratio //
-        $o2 = (100 - ($request->co + $request->co2 ));
+        $o2 = (25 - ($request->co + $request->co2 ));
         
         $posts = Tourism::create([
             "machine_id" => $request->machineids,
@@ -71,7 +71,7 @@ class TourismController extends Controller
             "humidity" => $request->humidity
         ]); $weather = $this->weather($request->machineids); 
         $msg = " insert successfully :)...!";
-        return $this->returnSuccessMessage($weather);
+        return $this->returnSuccessMessage($msg);
     
     }
 

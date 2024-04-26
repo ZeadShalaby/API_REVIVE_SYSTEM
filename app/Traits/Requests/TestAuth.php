@@ -42,10 +42,10 @@ trait TestAuth
      protected function rulesRevive(){
       return [
         "machineids" => 'required|integer|exists:machines,id',
-        "co2" => 'required|integer',
-        "co" => 'required|integer',
+        "co2" => 'required|decimal:1,5',
+        "co" => 'required|decimal:1,5',
         "degree" => 'required|integer',
-        "humidity" => 'required|integer'
+        "humidity" => 'required|integer',
     ];
     }
 
@@ -63,9 +63,10 @@ trait TestAuth
    protected function rulesTourism(){
     return  [
       "machineids" => 'required|integer|exists:machines,id',
-      "co2" => 'required|integer',
-      "co" => 'required|integer',
+      "co2" => 'required|decimal:1,5',
+      "co" => 'required|decimal:1,5',
       "degree" => 'required|integer',
+      "humidity" => 'required|integer',
   ];
   }
    
@@ -245,8 +246,5 @@ trait TestAuth
 
 
 
-
-    
-   
 
 }
