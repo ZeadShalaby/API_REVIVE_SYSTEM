@@ -7,6 +7,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 # !Get the base path by going up one directory
 base_path = os.path.dirname(current_directory)
 path = base_path+"\\json\\data.json"
+datapase = base_path+"\\dataset\\final_factory.xlsx"
 
 #! Open the file for reading
 with open(path, 'r') as file:
