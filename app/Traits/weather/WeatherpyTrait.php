@@ -27,14 +27,15 @@ trait WeatherpyTrait
         $machine->user;
         
         $readingsmachine = Tourism::where('machine_id',$machine->id)->latest()->first();
+        unset($readingsmachine['machine_id'],$readingsmachine['id'],$readingsmachine['expire'],$readingsmachine['created_at']);
+        
         $output = $this->sendDataPy($readingsmachine , Role::WEATHERPY);
         //strtolower($output);
-        $machine->condation = "sunny";//$output;
+        $machine->condation = $output[0];//$output;
         event(new WeatherConditions($machine));
         $machine->date = Carbon::now()->format('Y,M,D');
-        $test = "runny";
         // todo send mail to owner of machine weather 
-        if($machine->type == Role::WEATHER && $test /*$output*/!= $machine->weather){ Mail::to("zeadshalaby1@gmail.com")->send(new WeatherCondition($machine));}
+        if($machine->type == Role::WEATHER && $output[0] != $machine->weather){ Mail::to($machine->user->gmail)->send(new WeatherCondition($machine));}
         return true;
      }
     }
