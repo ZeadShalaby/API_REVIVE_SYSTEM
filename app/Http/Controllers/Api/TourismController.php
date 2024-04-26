@@ -104,3 +104,4 @@ class TourismController extends Controller
     }
 
 }
+
