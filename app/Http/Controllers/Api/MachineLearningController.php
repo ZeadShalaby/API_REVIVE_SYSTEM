@@ -50,12 +50,13 @@ class MachineLearningController extends Controller
         if($validator !== true){return $validator;}
    
         $data = $request->question;
-        $output = $this->sendDataPy($data , Role::DIOXIDEPY);     
-        $report = $this->check_rcp_person(auth()->user() ,$output[0] ); /*$output*/;
-        $user = auth()->user(); $user->ratio = $output[0]; // ? ratio in output return code machine //
+        $output = $this->sendDataPy($data , Role::DIOXIDEPY);   
+        $lastElement = end($output);  
+        $report = $this->check_rcp_person(auth()->user() ,$lastElement ); /*$output*/;
+        $user = auth()->user(); $user->ratio = $lastElement; // ? ratio in output return code machine //
         $person_footprint = event(new FootprintPeople($user));
 
-        return $this-> returnData("Python Output" , $output[0] ,$report);
+        return $this-> returnData("Python Output" , $output ,$report);
 
     }
 
@@ -128,11 +129,12 @@ class MachineLearningController extends Controller
 
         $data = $request->question;
         $output = $this->sendDataPy($data , Role::FOOTPRINTFACTORY); 
-        $report = $this->check_rcf_factory($machine , $output[0]); /*$output*/;
+        $lastElement = end($output);
+        $report = $this->check_rcf_factory($machine , $lastElement); /*$output*/;
         $machine ->ratio = $report ;    /*$output*/;
         $carbon_footprint = event(new CarbonFootprint($machine));
 
-        return $this-> returnData("Python Output" , $output[0]);
+        return $this-> returnData("Python Output" , $output);
     } catch (Throwable $th) {
         return $this->returnError("M404","OOPS Apply for the first machine , or contact the officials to find out your problem and help you :)... !");
     }
@@ -186,11 +188,23 @@ class MachineLearningController extends Controller
     }
 
     // todo return machine image
-    public function imagesmachine(Request $request,$machine){
+    public function imagesmachineD(Request $request,$machine){
         if(isset($machine)){
-        return $this->returnimagemachine($machine,$machine);}
+        return $this->returnimagemachineD($machine,$machine);}
         else {return 'null';}
+    }
 
+    // todo return machine image
+    public function imagesmachineF(Request $request,$machine){
+        if(isset($machine)){ 
+        return $this->returnimagemachineF($machine,$machine);}
+        else {return 'null';}
+    }
+    // todo return machine image
+    public function imagesmachineP(Request $request,$machine){
+        if(isset($machine)){
+        return $this->returnimagemachineP($machine,$machine);}
+        else {return 'null';}
     }
 
 }

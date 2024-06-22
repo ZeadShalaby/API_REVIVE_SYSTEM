@@ -20,6 +20,15 @@ with open(path, 'r') as file:
 # todo Use pd.json_normalize to convert the JSON to a DataFrame
 df = pd.json_normalize(json_data)
 
+
+# ! Corrected conditional checks
+if df['HANDLE WASTE?'][0] in ['Food', 'Glass', 'Plastic']:
+    print('For Reducing your carbon footprint the handle_waste should be in these choices [Paper, Tin cans, cartoon]')
+
+if df['Heating energy'][0] in ['Wood', 'Coal', 'Natural Gas']:
+    print('For Reducing your carbon footprint Heating energy should be in these choices [Electricity, solar energy, Hydroelectric energy, Electromagnetic energy]')
+
+
 # Load the trained model
 loaded_model = joblib.load(modelpath)
 

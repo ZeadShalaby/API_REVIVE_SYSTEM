@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();// ! to start in value ->startingValue(1755) //
             $table->bigInteger('machine_id')->unsigned();
             $table->index('machine_id');
-            $table->bigInteger('co')->unsigned();
+            $table->decimal('co', 20, 9)->unsigned();  // ? decimal num 
             $table->index('co');
-            $table->bigInteger('co2')->unsigned();
+            $table->decimal('co2', 20, 9)->unsigned();  // ? decimal num 
             $table->index('co2');
             $table->bigInteger('o2')->unsigned();
             $table->index('o2');

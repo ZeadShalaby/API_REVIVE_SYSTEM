@@ -25,10 +25,22 @@ trait ImageTrait
       return response()->download(public_path('images/users/'.$value));
    }
 
-   // todo return image filemachine I Want it
-   public function returnimagemachine($key , $value , $msg = "" )
+   // todo return image filemachine data training I Want it
+   public function returnimagemachineD($key , $value , $msg = "")
    {
-      return response()->download(public_path('images/machine/'.$value),$key);
+      return response()->download(public_path('images/machine/data/'.$value),$key);
+   }
+
+   // todo return image filemachine factory training I Want it
+   public function returnimagemachineF($key , $value , $msg = "")
+   {
+      return response()->download(public_path('images/machine/factory/'.$value),$key);
+   }
+
+   // todo return image filemachine person training  I Want it
+   public function returnimagemachineP($key , $value , $msg = "")
+   {
+      return response()->download(public_path('images/machine/person/'.$value),$key);
    }
 
    // todo return image filemachine I Want it

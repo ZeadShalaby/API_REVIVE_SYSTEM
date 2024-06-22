@@ -81,7 +81,10 @@ Route::group(['middleware' => ['api']], function () {
     // todo return image post | users | machine //
     Route::get('/reviveimageusers/{service}',[AuthController::class, 'imagesuser']);
     Route::get('/reviveimageposts/{service}',[PostController::class, 'imagesposts']);
-    Route::get('/reviveimagemachine/{service}',[MachineLearningController::class, 'imagesmachine']);
+    Route::get('/reviveimagemachine/data/{service}',[MachineLearningController::class, 'imagesmachineD']);
+    Route::get('/reviveimagemachine/factory/{service}',[MachineLearningController::class, 'imagesmachineF']);
+    Route::get('/reviveimagemachine/person/{service}',[MachineLearningController::class, 'imagesmachineP']);
+
     // todo change photo for users  //
     Route::PUT('/revive/imgusers',[AuthController::class, 'changeimg']);
 
@@ -98,7 +101,7 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
     Route::POST('/tcr/new_machine',[TCRController::class, 'newtcr']);
     Route::get('/tcr/edit/{machineid}',[TCRController::class, 'edit']);
     Route::PUT('/tcr/update/{machineid}',[TCRController::class, 'update']);
-    Route::Delete('/tcr/{machineid}',[TCRController::class, 'destroy']);
+    Route::Delete('/tcr',[TCRController::class, 'destroy']);
     // todo autocomplete search & restore machine //
     Route::get('/tcr/autocolmpletesearch',[TCRController::class, 'autocolmpletesearch']);
     Route::get('/tcr/restoreindex',[TCRController::class, 'restoreindex']);

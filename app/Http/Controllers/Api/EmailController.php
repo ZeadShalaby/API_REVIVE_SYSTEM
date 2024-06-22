@@ -44,7 +44,6 @@ class EmailController extends Controller
 
     // todo Send Mail For all users or only Owner or Admin or customer in App //
     public function SendAll(Request $request){
-      
         // ! valditaion
         $rules = $this->rulestype();
         $validator = $this->validate($request,$rules);
@@ -55,10 +54,10 @@ class EmailController extends Controller
         foreach ($users as $info) {
         $date = Carbon::now();
         $info->date = $date;
+        $info->message = $request->message;
         Mail::to($info->gmail)->send(new ReviveMail($info));
         }
         return $this->returnSuccessMessage("Send Successfully sir : Admin Revive ");
-
     }
 
 }

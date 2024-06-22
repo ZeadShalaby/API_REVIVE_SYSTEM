@@ -160,6 +160,7 @@ trait TestAuth
     protected function rulestype(){
       return [
         "type" => "required|max:12",
+        "message" => "required|min:12"
         ];
     }
 

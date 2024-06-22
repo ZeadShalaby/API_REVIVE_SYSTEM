@@ -70,13 +70,13 @@ class BartherController extends Controller
         $validator = $this->validate($request,$rules);
         if($validator !== true){return $validator;}
 
-        $barter = PurchingCFP::Where('id',$request->barterid)->get();
-        foreach ($barter as $belong) {
-            $seller = $belong -> machineseller;
-            $buyer  = $belong -> machinebuyer;
-            $users  = $seller -> user;
-            $userb  = $buyer  -> user;
-        }
+        $barter = PurchingCFP::Where('id',$request->barterid)->get()->with('machineseller','machinebuyer','user');
+        // foreach ($barter as $belong) {
+        //     $seller = $belong -> machineseller;
+        //     $buyer  = $belong -> machinebuyer;
+        //     $users  = $seller -> user;
+        //     $userb  = $buyer  -> user;
+        // }
         return $this->returnData("Barter" , $barter);
 
     } 
