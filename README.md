@@ -246,7 +246,6 @@ Any contributions you make are **greatly appreciated**.
    
 ## project
 
-<img src="https://i.imgur.com/bfGGH7U.png" alt="project(Coise-User)" width="1000" height="450">
 
 
 ## graduation
