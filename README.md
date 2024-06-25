@@ -28,8 +28,8 @@
     * [Via Container](#running-via-container)  
 * [Contributingس](#contributing)
 * [Authors](#authors)
-* [َََQRCode](#project)
-* [QrCode](#graduation)
+* [َََQRCode project](#project)
+* [QrCode Graduation](#graduation)
 <!--* [Screenshots](#Screenshots)-->
 
 <!--
