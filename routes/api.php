@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\TourismController;
 use App\Http\Controllers\Api\FavouriteController;
 use App\Http\Controllers\Api\SavedPostsController;
 use App\Http\Controllers\Api\users\AuthController;
+use App\Http\Controllers\Api\Chat\ChatGptController;
 use App\Http\Controllers\Api\ReportsPostsController;
 use App\Http\Controllers\Api\Barter\BartherController;
 use App\Http\Controllers\Api\MachineLearningController;
@@ -301,10 +302,14 @@ Route::get('/tourist/areas',[TourismController::class,'touristareas']);
 // ? edit user image //
 Route::POST('/revive/usersimage',[AuthController::class, 'changeimg']);
 
+// ? use ChatGpt in project revive 
+Route::get('/chat-gpt', [ChatGptController::class, 'chat']);
+
 });
 //?end//
 
 });
+
 //?end//
 
 Route::get('/send/sms',[SmsController::class ,'sendsms'] );
