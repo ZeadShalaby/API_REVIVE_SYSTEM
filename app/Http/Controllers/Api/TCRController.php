@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Exception;
 use Validator;
+use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\Revive;
 use App\Models\Machine;
@@ -111,6 +112,29 @@ class TCRController extends Controller
 
     }
 
+     /**
+     * todo calculate FootPrint percentage of this machine .
+     * ! only owner can do this
+     */
+    public function foot_print_percentage(Request $request)
+    {
+        // ! valditaion
+        $rules = ["machineid" => "required|exists:machines,id"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+        $machine = Machine::with('user')->find($request->machineid);
+        if(Auth()->user()->id != $machine->owner_id){return $this->returnError("A403","oops some thing wrong sir : ".$machine->user->username." :( ..!");}
+        $percentage = (Role::free_dioxide - $machine->total_CF)/100;
+        $result = [
+            'total_CF'=> $machine->total_CF,
+            'MCF_actually' => $machine->carbon_footprint,
+            'percentage_consumption' => $percentage,
+            'remaining_percentage' => 100 - $percentage ,
+            'machine have' => "2000 kg free of carbon",
+        ];      
+        return $this->returnData("percentage",$result);
+    }
+
 
      /**
      * todo Autocomplete Search the specified resource from storage.
@@ -129,7 +153,7 @@ class TCRController extends Controller
         if($request->type != NULL){
             $type = $this->checkTypeMachine($request->type);
             $filterResult = Machine::where('type',$type)
-            ->whereAny('name', 'LIKE', '%'. $query. '%')
+            ->where('name', 'LIKE', '%'. $query. '%')
             ->orwhere( 'type',$type and 'location', 'LIKE', '%'. $query. '%')
             ->get();
              return $this->returnData("machine",$filterResult);

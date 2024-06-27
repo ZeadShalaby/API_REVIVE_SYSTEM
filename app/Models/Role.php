@@ -36,5 +36,5 @@ class Role extends Model
     const TRAININGFOOTPRINTFACTORY = 8;
     const MailRevive = 'revivecarbon@gmail.com'; 
     const co2limit = 100;
-
+    const free_dioxide = 2000; // ? its two tan 2t  = 2000 kg
 }

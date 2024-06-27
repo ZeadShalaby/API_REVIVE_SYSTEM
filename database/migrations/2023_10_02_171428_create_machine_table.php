@@ -23,6 +23,8 @@ return new class extends Migration
             $table->index('warning');
             $table->bigInteger('carbon_footprint')->unsigned()->nullable();
             $table->index('carbon_footprint');
+            $table->bigInteger('total_CF')->unsigned()->nullable(); // ? total of carbon fotprint
+            $table->index('total_CF');
             $table->string("weather")->nullable();
             $table->timestamps();
         });

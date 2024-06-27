@@ -281,6 +281,30 @@ class AuthController extends Controller
         return $this->returnSuccessMessage($msg);
     }
 
+    
+    /**
+     * todo Autocomplete Search the specified resource from storage.
+     */
+    public function autocolmpletesearch(Request $request)
+    {
+        // ! valditaion
+        $rules = ["query" => "required"];
+        $validator = $this->validate($request,$rules);
+        if($validator !== true){return $validator;}
+
+        // ? Search by name or username and exclude role 1
+        $query = $request->get('query');
+        $filterResult = User::where('role', '!=', 1)
+            ->where(function($q) use ($query) {
+                $q->where('name', 'LIKE', '%' . $query . '%')
+                ->orWhere('username', 'LIKE', '%' . $query . '%');
+            })
+            ->get(['name', 'username', 'profile_photo']);
+
+        return $this->returnData("users", $filterResult);
+    
+    }
+
 //! ////////////////////////////////////////
 
     // todo Logout Users

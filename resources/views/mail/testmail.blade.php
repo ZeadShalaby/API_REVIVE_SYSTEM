@@ -1,90 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
     <title>Send Code</title>
+
+    <style>
+        table,
+        td,
+        div,
+        h1,
+        p {
+            font-family: Arial, sans-serif;
+        }
+
+        @media screen and (max-width: 530px) {
+            .unsub {
+                display: block;
+                padding: 8px;
+                margin-top: 14px;
+                border-radius: 6px;
+                background-color: #555555;
+                text-decoration: none !important;
+                font-weight: bold;
+            }
+
+            .col-lge {
+                max-width: 100% !important;
+            }
+        }
+
+        @media screen and (min-width: 531px) {
+            .col-sml {
+                max-width: 27% !important;
+            }
+
+            .col-lge {
+                max-width: 73% !important;
+            }
+        }
+    </style>
 </head>
-
-</body>
-
-</html>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Send Code </title>
-</head>
-
 
 <body style="
-      
+      margin: 0;
+      padding: 0;
+      word-spacing: normal;
+      background-color: #939297;
     ">
-    <div class="blog-slider"
+    <div role="article" aria-roledescription="email" lang="en"
         style="
-        width: 85%;
-        max-width: 700px;
-        background: #ffff;
-        box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-        border-radius: 25px;
-        height: 700px;
-        transition: all 0.3s;
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        background-color: #000000;
       ">
-        <div class="blog-slider__img">
-            <img src="https://imgur.com/4oWTlb3.png" alt="tree" style="width: 45%">
-        </div>
-        <h3>📫<h3>
-                <span class="blog-slider__code"
-                    style="
-          color: #7b7992;
-          margin-bottom: 15px;
-          display: block;
-          font-weight: 500;
-        ">
-                    {{ $code['date'] }}
-                </span>
-                <div class="blog-slider__title"
-                    style="
-          font-size: 24px;
-          font-weight: 700;
-          color: #0d0925;
-          margin-bottom: 20px;
-        ">
-                    <h3> Hey sir :<span
-                            style="color: rgb(0, 0, 0);font-weight: bold;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
-                            {{ $code['name'] }}</span>
-                </div>
-                <div class="blog-slider__text" style="color: #4e4a67; margin-bottom: 30px; line-height: 1.5em">
+        <table role="presentation" style="width: 100%; border: none; border-spacing: 0">
+            <tr>
+                <td align="center" style="padding: 0">
 
-                    <h3>Welcome in revive app 🍀
-                    </h3>
-                    <h3>your code is : <span style="color: red">{{ $code['code'] }} 📝</span></h3>
-                    <h3>Have a nice day 😊</h3>
-                </div>
-
-                <div style="margin-top: -30px">
-                    <span class="blog-slider__code"
-                        style="             
-          color: #7b7992;
-          display: block;
-          font-weight: 500;
-        ">
-                        © 2024 Revive.com
-                    </span>
-                    <span class="blog-slider__code"
+                    <table role="presentation"
                         style="
-          color: #7b7992;
-          display: block;
-          font-weight: 500;
-        ">
-                        Manage notifications
-                    </span>
-                </div>
+                width: 94%;
+                max-width: 800px;
+                border: none;
+                border-spacing: 0;
+                text-align: left;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 22px;
+                color: #363636;
+              ">
+                        <tr>
+                            <td
+                                style="
+                    padding: 80px 30px -20px 30px; /* Added top padding */
+                    text-align: center;
+                    font-size: 24px;
+                    font-weight: bold;
+                  ">
+                                <a href="http://www.example.com/" style="text-decoration: none"><img
+                                        src="https://imgur.com/XPZB51t.png" width="500px" alt="Logo"
+                                        style="
+                        width: 500px;
+                        max-width: 200%;
+                        height: auto;
+                        border: none;
+                        text-decoration: none;
+                        color: #ffffff;
+                      " /></a>
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td style="padding: 30px; background-color: #ffffff">
+
+                                <h1
+                                    style="
+                      margin-bottom: 16px;
+                      font-size: 26px;
+                      line-height: 32px;
+                      font-weight: bold;
+                      letter-spacing: -0.02em;
+                    ">
+                                    <h3>📫 {{ $code['date'] }}
+                                        <h3>
+                                            <h1>
+                                                Welcome to our Revive App Sir :{{ $code['username'] }} 🍀
+                                            </h1>
+                                            <p style="margin: 0">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+                                                tempus adipiscing felis, sit amet blandit ipsum volutpat
+                                                sed. Morbi porttitor,
+                                                <a href = "#" style="color: #e50d70; text-decoration: underline">
+                                                    your code is : <span style="color: #00cfe6"><!--users-->
+                                                        {{ $code['code'] }} 📝</span>
+                                                </a>
+                                            </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td
+                                style="
+                    padding: 0;
+                    font-size: 24px;
+                    line-height: 28px;
+                    font-weight: bold;
+                  ">
+                                <a href="http://www.example.com/" style="text-decoration: none"><img
+                                        src="https://assets.codepen.io/210284/1200x800-2.png" width="600"
+                                        alt=""
+                                        style="
+                        width: 100%;
+                        height: auto;
+                        display: block;
+                        border: none;
+                        text-decoration: none;
+                        color: #363636;
+                      " /></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td
+                                style="
+                    padding: 35px 30px 11px 30px;
+                    font-size: 0;
+                    background-color: #ffffff;
+                    border-bottom: 1px solid #f0f0f5;
+                    border-color: rgba(201, 201, 207, 0.35);
+                  ">
+                                <!--[if mso]>
+                <table role="presentation" width="100%">
+                <tr>
+                <td style="width:145px;" align="left" valign="top">
+                <![endif]-->
+                                <div class="col-sml"
+                                    style="
+                      display: inline-block;
+                      width: 100%;
+                      max-width: 145px;
+                      vertical-align: top;
+                      text-align: left;
+                      font-family: Arial, sans-serif;
+                      font-size: 14px;
+                      color: #363636;
+                    ">
+                                    <img src="https://assets.codepen.io/210284/icon.png" width="115" alt=""
+                                        style="width: 115px; max-width: 80%; margin-bottom: 20px" />
+                                </div>
+                                <!--[if mso]>
+                </td>
+                <td style="width:395px;padding-bottom:20px;" valign="top">
+                <![endif]-->
+                                <div class="col-lge"
+                                    style="
+                      display: inline-block;
+                      width: 100%;
+                      max-width: 395px;
+                      vertical-align: top;
+                      padding-bottom: 20px;
+                      font-family: Arial, sans-serif;
+                      font-size: 16px;
+                      line-height: 22px;
+                      color: #363636;
+                    ">
+                                    <p style="margin-top: 0; margin-bottom: 12px">
+                                        Nullam mollis sapien vel cursus fermentum. Integer
+                                        porttitor augue id ligula facilisis pharetra. In eu ex et
+                                        elit ultricies ornare nec ac ex. Mauris sapien massa,
+                                        placerat non venenatis et, tincidunt eget leo.
+                                    </p>
+                                    <p style="margin-top: 0; margin-bottom: 18px">
+                                        Nam non ante risus. Vestibulum vitae eleifend nisl, quis
+                                        vehicula justo. Integer viverra efficitur pharetra. Nullam
+                                        eget erat nibh.
+                                    </p>
+                                    <p style="margin: 0">
+                                        <a href="https://example.com/"
+                                            style="
+                          background: #ff3884;
+                          text-decoration: none;
+                          padding: 10px 25px;
+                          color: #ffffff;
+                          border-radius: 4px;
+                          display: inline-block;
+                          mso-padding-alt: 0;
+                          text-underline-color: #ff3884;
+                        "><!--[if mso
+                          ]><i
+                            style="
+                              letter-spacing: 25px;
+                              mso-font-width: -100%;
+                              mso-text-raise: 20pt;
+                            "
+                            >&nbsp;</i
+                          ><!
+                        [endif]--><span style="mso-text-raise: 10pt; font-weight: bold">Claim yours now</span><!--[if mso
+                          ]><i
+                            style="letter-spacing: 25px; mso-font-width: -100%"
+                            >&nbsp;</i
+                          ><!
+                        [endif]--></a>
+                                    </p>
+                                </div>
+                                <!--[if mso]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td
+                                style="
+                    padding: 30px;
+                    font-size: 24px;
+                    line-height: 28px;
+                    font-weight: bold;
+                    background-color: #ffffff;
+                    border-bottom: 1px solid #f0f0f5;
+                    border-color: rgba(201, 201, 207, 0.35);
+                  ">
+                                <a href="http://www.example.com/" style="text-decoration: none"><img
+                                        src="https://assets.codepen.io/210284/1200x800-1.png" width="540"
+                                        alt=""
+                                        style="
+                        width: 100%;
+                        height: auto;
+                        border: none;
+                        text-decoration: none;
+                        color: #363636;
+                      " /></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 30px; background-color: #ffffff">
+                                <p style="margin: 0">
+                                    Duis sit amet accumsan nibh, varius tincidunt lectus.
+                                    Quisque commodo, nulla ac feugiat cursus, arcu orci
+                                    condimentum tellus, vel placerat libero sapien et libero.
+                                    Suspendisse auctor vel orci nec finibus.
+                                </p>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 

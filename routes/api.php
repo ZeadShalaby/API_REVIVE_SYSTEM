@@ -100,8 +100,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.admin-rol
 
     // todo for all things of new & old machine //
     Route::POST('/tcr/new_machine',[TCRController::class, 'newtcr']);
-    Route::get('/tcr/edit/{machineid}',[TCRController::class, 'edit']);
-    Route::PUT('/tcr/update/{machineid}',[TCRController::class, 'update']);
+    Route::get('/tcr/edit',[TCRController::class, 'edit']);
+    Route::PUT('/tcr/update',[TCRController::class, 'update']);
     Route::Delete('/tcr',[TCRController::class, 'destroy']);
     // todo autocomplete search & restore machine //
     Route::get('/tcr/autocolmpletesearch',[TCRController::class, 'autocolmpletesearch']);
@@ -147,6 +147,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner-rol
 
     // ? training Data carbon footprint for factory //
     Route::POST('/python/carbon/footprint/factory',[MachineLearningController::class, 'carbon_footprint']);
+    Route::get('/calculate/percentage/footprint',[TCRController::class, 'foot_print_percentage']);
+
 //?start//
     // todo Barter process CarbonFootprint //
     // todo prefix in all routes *BarterProcess* //
@@ -207,6 +209,8 @@ Route::group(['middleware' => ['checksecurity','auth.guard:api','check.owner.cus
     Route::get('/users/followers',[FollowController::class, 'showfollowers']);
     Route::get('/follow/autocolmpletesearch',[FollowController::class, 'autocolmpletesearch']);
     Route::Delete('/users/follow',[FollowController::class, 'destroy']);
+    // ? autocomplete search for users //
+    Route::get('/users/follow/autocolmpletesearch',[AuthController::class, 'autocolmpletesearch']);
     // ? saved posts (favourite posts) //
     Route::POST('/saved/post',[SavedPostsController::class, 'store']);
     Route::get('/show/posts/saved',[SavedPostsController::class, 'showsaved']);

@@ -19,6 +19,9 @@ class Machine extends Model
         'type',
         'warning',
         'carbon_footprint',
+        'total_CF',
+        'weather'
+
     ];
 
     /**

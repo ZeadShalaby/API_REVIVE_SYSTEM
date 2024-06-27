@@ -44,6 +44,7 @@ class CarbonFootprint
      public function postratio($ratio){
         
         $ratio -> carbon_footprint = $ratio ->ratio;
+        $ratio ->total_CF = $ratio ->total_CF += $ratio ->ratio;
         unset($ratio['ratio'],$ratio['date']);
         $ratio -> save();
     }

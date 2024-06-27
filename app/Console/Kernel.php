@@ -29,6 +29,11 @@ class Kernel extends ConsoleKernel
         //! check Barter its End or not after daily
         //todo call the name of command to run code every day , hourly//
         $schedule->command('app:check-barter')->everyTenSeconds();
+
+        //! clear column of total carbonfotprint from table machine ,to restart again from begineing
+        //todo call the name of command to run code every month//
+        // ? if i want at year from now : ->yearlyOn(now()->month, now()->day, now()->hour, now()->minute);
+        $schedule->command('machine:percentage')->monthlyOn(now()->day, now()->hour . ':' . now()->minute);
     }
 
     /**

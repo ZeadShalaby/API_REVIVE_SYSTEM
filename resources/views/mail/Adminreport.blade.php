@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="x-apple-disable-message-reformatting" />
-    <title></title>
+    <title>Admin report</title>
     <!--[if mso]>
       <style>
         table {
