@@ -299,7 +299,7 @@ class AuthController extends Controller
                 $q->where('name', 'LIKE', '%' . $query . '%')
                 ->orWhere('username', 'LIKE', '%' . $query . '%');
             })
-            ->get(['name', 'username', 'profile_photo']);
+            ->get(['name', 'username','email', 'profile_photo']);
 
         return $this->returnData("users", $filterResult);
     
